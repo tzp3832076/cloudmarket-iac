@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>mkt-iac-common</module>
+    </modules>
+
+    <parent>
+        <groupId>com.baidu.bce</groupId>
+        <artifactId>mkt-framework-parent</artifactId>
+        <version>1.0.1.1</version>
+    </parent>
+
+    <groupId>com.baidu.bce</groupId>
+    <artifactId>mkt-iac-root</artifactId>
+    <packaging>pom</packaging>
+    <version>${mkt-iac-version}</version>
+
+    <properties>
+        <mkt-iac-version>version</mkt-iac-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>baidu-nexus</id>
+            <url>http://maven.scm.baidu.com:8081/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

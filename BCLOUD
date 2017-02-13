@@ -1,0 +1,1 @@
+BUILD_SUBMITTER -x -u . -m baidu/bce-cloudmarket/cloudmarket-iac -c "export JAVA_HOME=\$BUILD_KIT_PATH/java/jdk-1.8-8u20 && export MAVEN_3_0_4=/usr/maven/apache-maven-3.0.4/bin && export PATH=\$BUILD_KIT_PATH/nodejs/nodejs-0.10.24/bin/:${JAVA_HOME}/bin:/usr/maven/apache-maven-3.0.4/bin:\$PATH && cd baidu/bce-cloudmarket/cloudmarket-iac && sh build.sh -q"
