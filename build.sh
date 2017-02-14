@@ -18,4 +18,3 @@ fi
 rm -rf output
 mkdir output
 
-chmod +x output/bin/*
