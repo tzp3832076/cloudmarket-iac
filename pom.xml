@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
+  ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
+        <module>mkt-iac-common-test</module>
         <module>mkt-iac-common</module>
+        <module>mkt-iac-api</module>
     </modules>
 
     <parent>
         <groupId>com.baidu.bce</groupId>
         <artifactId>mkt-framework-parent</artifactId>
-        <version>1.0.1.1</version>
+        <version>1.0.2.1</version>
     </parent>
 
     <groupId>com.baidu.bce</groupId>
@@ -27,7 +29,17 @@
 
     <dependencyManagement>
         <dependencies>
-            
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>mkt-iac-common</artifactId>
+                <version>${mkt-iac-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>mkt-iac-common-test</artifactId>
+                <version>${mkt-iac-version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
