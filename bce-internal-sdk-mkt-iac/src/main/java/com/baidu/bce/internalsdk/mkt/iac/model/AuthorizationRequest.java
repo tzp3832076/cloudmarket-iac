@@ -25,7 +25,7 @@ public class AuthorizationRequest {
     private BceToken bceToken;
     private HeaderUser headerUser;
     @NotBlank
-    private String action;
+    private String operation;
     @NotBlank
     private String resource;
     private List<String> instances;
