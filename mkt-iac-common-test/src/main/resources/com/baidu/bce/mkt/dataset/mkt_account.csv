@@ -1,0 +1,2 @@
+id, account_id, account_type, role, vendor_id, create_time, update_time
+1, abc123, BCE, VENDOR, vendor111, 2017-02-18 00:00:00, 2017-02-18 00:00:00

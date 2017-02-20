@@ -7,6 +7,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
+        <module>bce-internal-sdk-mkt-iac</module>
         <module>mkt-iac-common-test</module>
         <module>mkt-iac-common</module>
         <module>mkt-iac-api</module>
@@ -29,6 +30,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>mkt-iac-api</artifactId>
+                <version>${mkt-iac-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>bce-internal-sdk-mkt-iac</artifactId>
+                <version>${mkt-iac-version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.baidu.bce</groupId>
                 <artifactId>mkt-iac-common</artifactId>

@@ -1,0 +1,12 @@
+SET MODE MySQL;
+CREATE TABLE mkt_account (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    account_id VARCHAR(64) NOT NULL COMMENT '账号id，bce user id或者uuap name',
+    account_type VARCHAR(16) NOT NULL COMMENT 'BCE 或 UUAP',
+    role VARCHAR(32) NOT NULL COMMENT '角色',
+    vendor_id VARCHAR(64) NOT NULL COMMENT '服务商id，冗余字段',
+    create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+    update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_account_id (account_id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '账号信息表';

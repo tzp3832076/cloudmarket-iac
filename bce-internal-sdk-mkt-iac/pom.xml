@@ -12,20 +12,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mkt-iac-api</artifactId>
+    <artifactId>bce-internal-sdk-mkt-iac</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-iac-common</artifactId>
+            <artifactId>bce-internal-sdk-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.baidu.bce</groupId>
-            <artifactId>bce-internal-sdk-mkt-iac</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
-            <artifactId>bce-plat-web-framework-iam</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
@@ -33,16 +30,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
 </project>
