@@ -8,6 +8,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 
 /**
+ * mkt iac client
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacClient extends BceClient {
