@@ -8,7 +8,7 @@ import com.baidu.bce.plat.webframework.exception.BceException;
  * exception collection for mkt iac
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
-public class MktExceptions {
+public class MktIacExceptions {
     public static BceException noPermission() {
         return new BceException("No Permission", 403, "NoPermission");
     }

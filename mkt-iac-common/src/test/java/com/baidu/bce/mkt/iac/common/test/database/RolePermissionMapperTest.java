@@ -12,6 +12,7 @@ import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
 import com.baidu.bce.mkt.iac.common.model.db.RolePermission;
 
 /**
+ * role permission mapper test
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @InitDatabase(tables = "mkt_role_permission")
