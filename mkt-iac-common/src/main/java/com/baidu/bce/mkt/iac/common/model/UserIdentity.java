@@ -9,6 +9,7 @@ import com.baidu.bce.mkt.iac.common.model.db.Account;
 import lombok.Getter;
 
 /**
+ * user identity model for authorized user info
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class UserIdentity {

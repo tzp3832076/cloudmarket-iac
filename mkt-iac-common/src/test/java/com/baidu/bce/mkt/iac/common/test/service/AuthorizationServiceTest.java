@@ -20,6 +20,7 @@ import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 import com.baidu.bce.plat.webframework.exception.BceException;
 
 /**
+ * authorization service test
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class AuthorizationServiceTest extends BaseCommonServiceTest {

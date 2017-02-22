@@ -2,14 +2,13 @@
 
 package com.baidu.bce.mkt.iac.common.client;
 
-import java.util.List;
-
 import com.baidu.bce.internalsdk.core.BceClient;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerRequest;
 import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerResponse;
 
 /**
+ * auth client
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class AuthClient extends BceClient {

@@ -12,6 +12,7 @@ import com.baidu.bce.mkt.framework.test.database.initialize.BaseDBInitializer;
 import com.baidu.bce.plat.webframework.system.UTCTimeZoneConfiguration;
 
 /**
+ * db initializer for resource system table
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class DBInitializer extends BaseDBInitializer {
