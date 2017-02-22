@@ -49,5 +49,5 @@ CREATE TABLE mkt_resource_system (
     resource VARCHAR(32) NOT NULL COMMENT '资源类型名称',
     system VARCHAR(32) NOT NULL COMMENT '系统名称，MKT-IAC | MKT-AUDIT | MKT-OSS',
     PRIMARY KEY (id),
-    UNIQUE KEY uk_system (system)
+    UNIQUE KEY uk_resource (resource)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '资源所在系统关系表';

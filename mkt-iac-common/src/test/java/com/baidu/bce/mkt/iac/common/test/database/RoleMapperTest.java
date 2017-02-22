@@ -31,7 +31,7 @@ public class RoleMapperTest extends BaseMapperTest {
 
     @Test
     public void testGet() {
-        Role role = roleMapper.getByRole("op");
+        Role role = roleMapper.getByRole("OP");
         Assert.assertEquals("运营", role.getDescription());
     }
 }

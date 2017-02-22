@@ -34,7 +34,7 @@ public class RolePermissionMapperTest extends BaseMapperTest {
     @Test
     public void testGet() {
         RolePermission rolePermission =
-                rolePermissionMapper.getByRoleResourceOperation("op", "audit", "audit");
+                rolePermissionMapper.getByRoleResourceOperation("OP", "audit", "audit");
         Assert.assertEquals(1, rolePermission.getId());
         Assert.assertEquals(PermissionAction.ALLOW, rolePermission.getAction());
     }
