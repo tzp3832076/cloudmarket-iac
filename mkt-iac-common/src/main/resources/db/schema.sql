@@ -31,7 +31,7 @@ CREATE TABLE mkt_role_permission (
     create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id),
-    KEY idx_role_resource_operation (role, resource, operation)
+    UNIQUE KEY uk_role_resource_operation (role, resource, operation)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '角色权限关系表';
 
 CREATE TABLE mkt_role (
@@ -43,3 +43,11 @@ CREATE TABLE mkt_role (
     PRIMARY KEY (id),
     UNIQUE KEY uk_role (role)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '角色表';
+
+CREATE TABLE mkt_resource_system (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    resource VARCHAR(32) NOT NULL COMMENT '资源类型名称',
+    system VARCHAR(32) NOT NULL COMMENT '系统名称，MKT-IAC | MKT-AUDIT | MKT-OSS',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_system (system)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '资源所在系统关系表';

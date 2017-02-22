@@ -37,7 +37,7 @@ public class AuthorizationRequest {
         private String username;
         private String userId;
         private String mainUserId;
-        private List<String> bceRoles;
+        private boolean serviceAccount;
     }
 
     @Data
