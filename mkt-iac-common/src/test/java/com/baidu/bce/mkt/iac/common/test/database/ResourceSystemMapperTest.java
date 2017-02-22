@@ -23,7 +23,7 @@ public class ResourceSystemMapperTest extends BaseMapperTest {
     @Test
     public void testSave() {
         ResourceSystem resourceSystem = new ResourceSystem();
-        resourceSystem.setResource("product");
+        resourceSystem.setResource("activity");
         resourceSystem.setSystem("MKT-PRODUCT");
         int ret = resourceSystemMapper.save(resourceSystem);
         Assert.assertEquals(1, ret);
