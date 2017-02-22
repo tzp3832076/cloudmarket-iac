@@ -13,6 +13,7 @@ import com.baidu.bce.mkt.iac.common.model.db.ResourceSystem;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 
 /**
+ * resource system cache test
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class ResourceSystemCacheTest extends BaseCommonServiceTest {
