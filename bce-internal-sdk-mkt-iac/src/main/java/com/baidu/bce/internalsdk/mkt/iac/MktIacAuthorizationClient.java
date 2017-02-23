@@ -10,6 +10,9 @@ import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 import endpoint.EndpointManager;
 
 /**
+ * authorization client
+ * without sign
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacAuthorizationClient extends BceClient {
