@@ -23,7 +23,7 @@ public class AccountMapperTest extends BaseMapperTest {
 
     @Test
     public void testGetAccountByAccountId() {
-        Account account = accountMapper.getByAccountId("normal_user_1");
+        Account account = accountMapper.getByAccountId("normal_vendor_1");
         Assert.assertNotNull(account);
         Assert.assertEquals(AccountType.BCE, account.getAccountType());
         Assert.assertEquals("VENDOR", account.getRole());

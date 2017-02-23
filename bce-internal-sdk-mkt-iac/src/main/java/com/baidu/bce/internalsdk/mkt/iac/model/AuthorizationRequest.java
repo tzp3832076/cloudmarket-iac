@@ -4,6 +4,7 @@ package com.baidu.bce.internalsdk.mkt.iac.model;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -22,6 +23,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorizationRequest {
     @NotNull
+    @Valid
     private BceToken bceToken;
     private HeaderUser headerUser;
     @NotBlank
@@ -35,6 +37,7 @@ public class AuthorizationRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class BceToken {
         private String username;
+        @NotBlank
         private String userId;
         private String mainUserId;
         private boolean serviceAccount;

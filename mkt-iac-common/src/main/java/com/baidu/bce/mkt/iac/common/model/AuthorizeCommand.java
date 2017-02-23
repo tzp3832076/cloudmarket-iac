@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthorizeCommand {
+    private String bceUsername;
     private String bceUserId;
     private String bceMainUserId;
     private boolean serviceAccount;

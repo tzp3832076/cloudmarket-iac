@@ -13,6 +13,7 @@ import lombok.Getter;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class UserIdentity {
+    public static final String DEFAULT_ACCOUNT_TYPE = "BCE";
     public static final String DEFAULT_ROLE = "USER";
     public static final String ROLE_OP = "OP";
 
@@ -40,5 +41,14 @@ public class UserIdentity {
 
     public boolean isOp() {
         return ROLE_OP.equals(role);
+    }
+
+    public String getAccountType() {
+        return account == null ? DEFAULT_ACCOUNT_TYPE : account.getAccountType().name();
+    }
+
+    public String getMainUserId() {
+        // 临时使用uerid， 后续再改
+        return getUserId();
     }
 }

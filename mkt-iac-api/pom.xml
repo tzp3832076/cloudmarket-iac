@@ -17,6 +17,10 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu.bce</groupId>
+            <artifactId>bce-plat-web-framework-iam</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-iac-common</artifactId>
         </dependency>
         <dependency>
@@ -25,11 +29,12 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>bce-plat-web-framework-iam</artifactId>
+            <artifactId>mkt-framework-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-framework-test</artifactId>
+            <artifactId>mkt-iac-common-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

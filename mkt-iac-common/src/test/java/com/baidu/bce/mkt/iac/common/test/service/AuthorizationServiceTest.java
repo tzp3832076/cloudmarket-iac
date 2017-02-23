@@ -29,18 +29,18 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void testAuthorizeNormalUserSuccess() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("normal_user_1",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
                 null, false, null, "audit",
                 "read", null);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
-        Assert.assertEquals("normal_user_1", userIdentity.getUserId());
+        Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
         Assert.assertEquals("vendor111", userIdentity.getVendorId());
         Assert.assertEquals("VENDOR", userIdentity.getRole());
     }
 
     @Test
     public void testAuthorizeOpUserSuccess() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
                 null, true, "op_user_1", "audit",
                 "read", null);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
@@ -51,20 +51,20 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void testAuthorizeNormalUserWithResourceSuccess() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("normal_user_1",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
                 null, false, null, "audit",
                 "read", Arrays.asList("audit_id_1"));
         when(authClient.checkInstanceOwner(any(CheckInstanceOwnerRequest.class)))
                 .thenReturn(new CheckInstanceOwnerResponse(true));
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
-        Assert.assertEquals("normal_user_1", userIdentity.getUserId());
+        Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
         Assert.assertEquals("vendor111", userIdentity.getVendorId());
         Assert.assertEquals("VENDOR", userIdentity.getRole());
     }
 
     @Test
     public void testAuthorizeOpUserWithResourceSuccess() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
                 null, true, "op_user_1", "audit",
                 "read", Arrays.asList("audit_id_1"));
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
@@ -77,7 +77,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void testAuthorizeNormalUserFailed() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("normal_user_not_exists",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_user_not_exists",
                 null, false, null, "audit",
                 "read", null);
         try {
@@ -92,7 +92,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void testAuthorizeNormalUserWithResourceFailed() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("normal_user_1",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
                 null, false, null, "audit",
                 "read", Arrays.asList("audit_id_1"));
         when(authClient.checkInstanceOwner(any(CheckInstanceOwnerRequest.class)))
@@ -109,7 +109,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void testAuthorizeOpUserFailed() {
-        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test",
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
                 null, true, "op_user_1", "order",
                 "create", null);
         try {
