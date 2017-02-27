@@ -2,9 +2,11 @@
  * Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
  */
 
-package com.baidu.bce.mkt.iac.common.model.db;
+package com.baidu.bce.mkt.iac.common.model;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.baidu.bce.mkt.iac.common.model.db.Account;
 
 import lombok.Getter;
 

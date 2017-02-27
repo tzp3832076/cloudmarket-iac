@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
-import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.AccountType;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;

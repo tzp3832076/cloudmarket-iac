@@ -14,7 +14,7 @@ import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.RolePermissionMapper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.CurrentForAuthUser;
-import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
 import com.baidu.bce.mkt.iac.common.model.db.RolePermission;
