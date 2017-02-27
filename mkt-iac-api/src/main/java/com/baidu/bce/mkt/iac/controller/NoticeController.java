@@ -36,7 +36,7 @@ public class NoticeController {
     private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
 
     @ApiOperation(value = "入驻审核信息通过的通知接收")
-    @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "application")
+    @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
     public void auditNotice(@RequestParam("id") String id,
                             @RequestParam("status") String status,
                             @RequestBody(required = false) AuditNoticeRequest request) {

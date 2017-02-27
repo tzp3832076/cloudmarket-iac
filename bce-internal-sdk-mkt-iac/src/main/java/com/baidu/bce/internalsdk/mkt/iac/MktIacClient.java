@@ -34,7 +34,7 @@ public class MktIacClient extends BceClient {
         if (TYPE_APPLICATION.equals(type)) {
             createMktRequest()
                     .path("/v1/notice/audit")
-                    .keyOnlyQueryParam("application")
+                    .queryParam("type", "application")
                     .queryParam("id", id)
                     .queryParam("status", status)
                     .post(Entity.json(request));
@@ -42,7 +42,7 @@ public class MktIacClient extends BceClient {
         if (TYPE_VENDOR_SHOP.equals(type)) {
             createMktRequest()
                     .path("/v1/notice/audit")
-                    .keyOnlyQueryParam("vendorShop")
+                    .queryParam("type", "vendorShop")
                     .queryParam("id", id)
                     .queryParam("status", status)
                     .put();
