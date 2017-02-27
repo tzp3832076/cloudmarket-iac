@@ -3,9 +3,9 @@
 package com.baidu.bce.internalsdk.mkt.iac;
 
 import com.baidu.bce.internalsdk.core.BceClient;
+import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
-import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
-import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 
 import endpoint.EndpointManager;
 
@@ -20,5 +20,17 @@ public class MktIacClient extends BceClient {
 
     public MktIacClient(String endpoint, String accessKey, String secretKey) {
         super(endpoint, accessKey, secretKey);
+    }
+
+    private BceInternalRequest createMktRequest() {
+        return createAuthorizedRequest();
+    }
+
+    public void noticeAudit(String type, String id, String status, AuditNoticeRequest request) {
+        createMktRequest()
+                .path("/v1/notice/audit/")
+                .path(type).path("/").path(id)
+                .queryParam("status", status)
+                .post(Entity.json(request));
     }
 }
