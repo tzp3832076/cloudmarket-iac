@@ -65,7 +65,7 @@ CREATE TABLE mkt_vendor_info (
     service_category VARCHAR(256) NOT NULL COMMENT '服务类别 一级-二级 ',
     hotline VARCHAR(256) NOT NULL COMMENT '热线电话',
     other_market VARCHAR(256) NOT NULL COMMENT '已加入提前的云市场',
-    cantact_info VARCHAR(512) NOT NULL COMMENT '服务商联系人信息 json',
+    contact_info VARCHAR(512) NOT NULL COMMENT '服务商联系人信息 json',
     wallet_id VARCHAR(64) NOT NULL COMMENT '百度钱包ID',
     create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
