@@ -35,19 +35,13 @@ public class NoticeController {
     private static String TYPE_APPLICATION = "APPLICATION";
     private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
 
-    @ApiOperation(value = "审核信息通过的通知接收")
-    @RequestMapping(method = RequestMethod.POST, value = "/audit")
-    public void auditNotice(@RequestParam("type") String type,
-                            @RequestParam("id") String id,
+    @ApiOperation(value = "入驻审核信息通过的通知接收")
+    @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "application")
+    public void auditNotice(@RequestParam("id") String id,
                             @RequestParam("status") String status,
                             @RequestBody(required = false) AuditNoticeRequest request) {
-        if (TYPE_APPLICATION.equals(type)) {
-            VendorInfo vendorInfo = helper.toVendorInfo(id, request.getContent());
-            noticeService.auditNoticeApplication(status, vendorInfo);
-        }
-        if (TYPE_VENDOR_SHOP.equals(type)) {
-            log.info("todo");
-        }
+        VendorInfo vendorInfo = helper.toVendorInfo(id, request.getContent());
+        noticeService.auditNoticeApplication(status, vendorInfo);
     }
 
 }

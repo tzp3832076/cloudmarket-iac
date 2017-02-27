@@ -14,6 +14,9 @@ import endpoint.EndpointManager;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacClient extends BceClient {
+    private static String TYPE_APPLICATION = "APPLICATION";
+    private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
+
     public MktIacClient(String accessKey, String secretKey) {
         super(EndpointManager.getEndpoint("MKT-IAC"), accessKey, secretKey);
     }
@@ -27,11 +30,22 @@ public class MktIacClient extends BceClient {
     }
 
     public void noticeAudit(String type, String id, String status, AuditNoticeRequest request) {
-        createMktRequest()
-                .path("/v1/notice/audit")
-                .queryParam("type", type)
-                .queryParam("id", id)
-                .queryParam("status", status)
-                .post(Entity.json(request));
+
+        if (TYPE_APPLICATION.equals(type)) {
+            createMktRequest()
+                    .path("/v1/notice/audit")
+                    .keyOnlyQueryParam("application")
+                    .queryParam("id", id)
+                    .queryParam("status", status)
+                    .post(Entity.json(request));
+        }
+        if (TYPE_VENDOR_SHOP.equals(type)) {
+            createMktRequest()
+                    .path("/v1/notice/audit")
+                    .keyOnlyQueryParam("vendorShop")
+                    .queryParam("id", id)
+                    .queryParam("status", status)
+                    .put();
+        }
     }
 }
