@@ -7,7 +7,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
-import com.baidu.bce.mkt.iac.common.model.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
 
 /**
  * authorization controller helper

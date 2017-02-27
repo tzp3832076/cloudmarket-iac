@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
-import com.baidu.bce.mkt.iac.common.model.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
 import com.baidu.bce.mkt.iac.helper.AuthorizationControllerHelper;
 

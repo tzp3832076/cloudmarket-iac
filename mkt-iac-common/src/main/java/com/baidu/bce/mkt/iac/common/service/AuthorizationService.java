@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.RemoteInstanceCheckHandler;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.RolePermissionMapper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.CurrentForAuthUser;
-import com.baidu.bce.mkt.iac.common.model.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
 import com.baidu.bce.mkt.iac.common.model.db.RolePermission;

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerRequest;
 import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerResponse;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
-import com.baidu.bce.mkt.iac.common.model.UserIdentity;
+import com.baidu.bce.mkt.iac.common.model.db.UserIdentity;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 import com.baidu.bce.plat.webframework.exception.BceException;

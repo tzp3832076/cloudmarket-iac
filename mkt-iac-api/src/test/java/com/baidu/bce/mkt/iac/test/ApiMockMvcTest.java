@@ -12,7 +12,7 @@ import com.baidu.bce.mkt.framework.test.iam.IamRule;
 import com.baidu.bce.mkt.framework.test.mvc.BaseMockMvcTest;
 import com.baidu.bce.mkt.framework.test.mvc.MockEndpoint;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
-import com.baidu.bce.mkt.iac.common.service.notice.NoticeService;
+import com.baidu.bce.mkt.iac.common.service.NoticeService;
 import com.baidu.bce.plat.webframework.iam.service.IAMService;
 
 /**

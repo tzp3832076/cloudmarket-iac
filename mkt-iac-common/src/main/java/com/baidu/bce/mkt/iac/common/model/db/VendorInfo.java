@@ -6,8 +6,6 @@ package com.baidu.bce.mkt.iac.common.model.db;
 
 import java.sql.Timestamp;
 
-import com.baidu.bce.mkt.iac.common.model.VendorStatus;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

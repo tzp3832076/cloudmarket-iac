@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
-import com.baidu.bce.mkt.iac.common.model.VendorStatus;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
-import com.baidu.bce.mkt.iac.common.test.database.BaseMapperTest;
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .

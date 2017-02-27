@@ -2,7 +2,7 @@
  * Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
  */
 
-package com.baidu.bce.mkt.iac.common.service.notice.model;
+package com.baidu.bce.internalsdk.mkt.iac.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

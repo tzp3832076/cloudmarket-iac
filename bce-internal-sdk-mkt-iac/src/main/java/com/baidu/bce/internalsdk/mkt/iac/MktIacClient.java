@@ -28,8 +28,9 @@ public class MktIacClient extends BceClient {
 
     public void noticeAudit(String type, String id, String status, AuditNoticeRequest request) {
         createMktRequest()
-                .path("/v1/notice/audit/")
-                .path(type).path("/").path(id)
+                .path("/v1/notice/audit")
+                .queryParam("type", type)
+                .queryParam("id", id)
                 .queryParam("status", status)
                 .post(Entity.json(request));
     }
