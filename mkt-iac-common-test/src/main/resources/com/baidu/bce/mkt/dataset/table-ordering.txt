@@ -4,3 +4,5 @@ mkt_role
 mkt_role_permission
 mkt_vendor_info
 mkt_vendor_shop_draft
+mkt_vendor_margin
+mkt_vendor_contract
