@@ -120,7 +120,6 @@ CREATE TABLE mkt_vendor_contract (
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     is_delete TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除 1删除 0未删除',
     PRIMARY KEY (id),
-    INDEX idx_vendor_contarct_vendor_id (vendor_id),
     UNIQUE KEY uk_vendor_contarct_vendor_id (vendor_id, contract_num)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '服务商协议号表';
 
