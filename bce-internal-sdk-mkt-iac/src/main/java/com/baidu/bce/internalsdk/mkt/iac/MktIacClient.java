@@ -53,15 +53,17 @@ public class MktIacClient extends BceClient {
 
     public void saveVendorShopDraft(String vendorId, ShopDraftSaveRequest request) {
         createMktRequest()
-                .path("/v1/vendor/shopDraft/")
+                .path("/v1/vendor/")
                 .path(vendorId)
+                .path("/shopDraft")
                 .post(Entity.json(request));
     }
 
     public ShopDraftDetailResponse getShopDraftDetail(String vendorId) {
         return createMktRequest()
-                       .path("/v1/vendor/shopDraft/")
+                       .path("/v1/vendor/")
                        .path(vendorId)
+                       .path("/shopDraft")
                        .get(ShopDraftDetailResponse.class);
     }
 }

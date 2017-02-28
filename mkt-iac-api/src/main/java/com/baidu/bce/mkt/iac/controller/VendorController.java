@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
-import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
+import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorControllerHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -33,17 +34,18 @@ public class VendorController {
     private final VendorControllerHelper helper;
 
     @ApiOperation(value = "商铺信息保存接口")
-    @RequestMapping(method = RequestMethod.POST, value = "shopDraft/{vendorId}")
+    @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft")
     public void saveVendorShopDraft(@PathVariable("vendorId") String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
-        vendorService.saveShopDraft(vendorId, request.getContent());
+        VendorShopAuditContent content = helper.toShopAuditContent(request);
+        vendorService.saveShopDraft(vendorId, content);
     }
 
     @ApiOperation(value = "服务商-商铺信息获取接口")
-    @RequestMapping(method = RequestMethod.GET, value = "shopDraft/{vendorId}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopDraft")
     public ShopDraftDetailResponse getVendorShopDraft(@PathVariable("vendorId") String vendorId) {
-        VendorShopDraft vendorShopDraft = vendorService.getVendorShopDraft(vendorId);
-        return helper.toShopDraftDetailResponse(vendorShopDraft);
+        ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
+        return helper.toShopDraftDetailResponse(shopDraftContent);
     }
 
 }

@@ -4,19 +4,67 @@
 
 package com.baidu.bce.mkt.iac.helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
-import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
+import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
+import com.baidu.bce.mkt.iac.utils.CheckUtils;
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .
  */
 @ControllerHelper
 public class VendorControllerHelper {
-    public ShopDraftDetailResponse toShopDraftDetailResponse(VendorShopDraft vendorShopDraft) {
+
+    public VendorShopAuditContent  toShopAuditContent(ShopDraftSaveRequest request) {
+        checkShopDraftSaveRequest(request);
+        VendorShopAuditContent content = new VendorShopAuditContent();
+        content.setCellphone(request.getCellphone());
+        content.setEmail(request.getEmail());
+        content.setIntro(request.getIntro());
+        List<VendorShopAuditContent.CustomerService> customerServices = new ArrayList<>();
+        for (OnlineSupport onlineSupport : request.getOnlineSupports()) {
+            customerServices.add(new VendorShopAuditContent.CustomerService(
+                    onlineSupport.getTitle(), onlineSupport.getUrl()));
+        }
+        content.setCustomerServices(customerServices);
+        content.setServiceTime(request.getServiceTime());
+        content.setWalletId(request.getWalletId());
+        return content;
+    }
+
+    public ShopDraftDetailResponse toShopDraftDetailResponse(ShopDraftContentAndStatus
+                                                                     contentAndStatus) {
         ShopDraftDetailResponse response = new ShopDraftDetailResponse();
-        response.setContent(vendorShopDraft.getContent());
-        response.setStatus(vendorShopDraft.getStatus().name());
+        response.setStatus(contentAndStatus.getStatus().name());
+        VendorShopAuditContent content = contentAndStatus.getContent();
+        response.setCellphone(content.getCellphone());
+        response.setWalletId(content.getWalletId());
+        response.setEmail(content.getEmail());
+        response.setIntro(content.getIntro());
+        response.setName(content.getName());
+        response.setServiceTime(content.getServiceTime());
+        List<OnlineSupport> onlineSupports = new ArrayList<>();
+        for (VendorShopAuditContent.CustomerService customerService : content.getCustomerServices()) {
+            onlineSupports.add(new OnlineSupport(customerService.getTitle(),
+                                                        customerService.getUrl()));
+        }
+        response.setOnlineSupports(onlineSupports);
         return response;
+    }
+
+    private void checkShopDraftSaveRequest(ShopDraftSaveRequest request) {
+        if (!CheckUtils.checkEmail(request.getEmail())) {
+            throw MktIacExceptions.emailNotValid();
+        }
+        if (!CheckUtils.checkMobileNumber(request.getCellphone())) {
+            throw MktIacExceptions.cellphoneNotValid();
+        }
     }
 }
