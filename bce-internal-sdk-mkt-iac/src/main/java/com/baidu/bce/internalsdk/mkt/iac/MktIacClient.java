@@ -6,6 +6,8 @@ import com.baidu.bce.internalsdk.core.BceClient;
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 
 import endpoint.EndpointManager;
 
@@ -47,5 +49,19 @@ public class MktIacClient extends BceClient {
                     .queryParam("status", status)
                     .put();
         }
+    }
+
+    public void saveVendorShopDraft(String vendorId, ShopDraftSaveRequest request) {
+        createMktRequest()
+                .path("/v1/vendor/shopDraft/")
+                .path(vendorId)
+                .post(Entity.json(request));
+    }
+
+    public ShopDraftDetailResponse getShopDraftDetail(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/shopDraft/")
+                       .path(vendorId)
+                       .get(ShopDraftDetailResponse.class);
     }
 }
