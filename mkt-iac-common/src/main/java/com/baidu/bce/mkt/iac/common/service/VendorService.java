@@ -17,6 +17,7 @@ import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,11 +25,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VendorService {
-    @Autowired
-    private VendorShopDraftMapper shopDraftMapper;
-    @Autowired
-    private VendorInfoMapper vendorInfoMapper;
+    private final VendorShopDraftMapper shopDraftMapper;
+    private final VendorInfoMapper vendorInfoMapper;
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
@@ -61,5 +61,12 @@ public class VendorService {
         contentAndStatus.setContent(content);
         contentAndStatus.setStatus(shopDraft.getStatus());
         return contentAndStatus;
+    }
+
+    /**
+     * vendorInfo
+     */
+    public VendorInfo getVendorInfoByVendorId(String vendorId) {
+        return vendorInfoMapper.getVendorInfoByVendorId(vendorId);
     }
 }

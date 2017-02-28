@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorControllerHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -46,6 +48,13 @@ public class VendorController {
     public ShopDraftDetailResponse getVendorShopDraft(@PathVariable("vendorId") String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
         return helper.toShopDraftDetailResponse(shopDraftContent);
+    }
+
+    @ApiOperation(value = "服务商基本信息获取接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/vendorInfo")
+    public VendorInfoDetailResponse getVendorInfo(@PathVariable("vendorId") String vendorId) {
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        return helper.toVendorInfoDetailResponse(vendorInfo);
     }
 
 }

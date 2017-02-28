@@ -8,6 +8,7 @@ import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 
 import endpoint.EndpointManager;
 
@@ -65,5 +66,12 @@ public class MktIacClient extends BceClient {
                        .path(vendorId)
                        .path("/shopDraft")
                        .get(ShopDraftDetailResponse.class);
+    }
+
+    public VendorInfoDetailResponse getVendorInfoDetail(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/vendorInfo").get(VendorInfoDetailResponse.class);
     }
 }

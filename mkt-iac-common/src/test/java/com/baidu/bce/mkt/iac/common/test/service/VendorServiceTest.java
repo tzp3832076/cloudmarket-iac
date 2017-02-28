@@ -13,6 +13,7 @@ import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
@@ -60,7 +61,7 @@ public class VendorServiceTest extends BaseCommonServiceTest {
             vendorService.saveShopDraft("XXX", content);
             Assert.fail("no exception");
         } catch (BceException e) {
-            Assert.assertEquals(e.getCode(), "StatusInAudit");
+            Assert.assertEquals(e.getCode(), "NoVendorInfo");
         }
         // exception NoVendorInfo
         try {
@@ -98,6 +99,14 @@ public class VendorServiceTest extends BaseCommonServiceTest {
                 vendorId);
         Assert.assertEquals(contentAndStatus.getStatus(), InfoStatus.EDIT);
         Assert.assertEquals(contentAndStatus.getContent().getCellphone(), "test");
+    }
+
+    @Test
+    public void getVendorInfo() {
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId("vendor_1");
+        Assert.assertNotNull(vendorInfo);
+        vendorInfo = vendorService.getVendorInfoByVendorId("XXXXX");
+        Assert.assertNull(vendorInfo);
     }
 
 }

@@ -10,10 +10,12 @@ import java.util.List;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.utils.CheckUtils;
 
 /**
@@ -56,6 +58,22 @@ public class VendorControllerHelper {
                                                         customerService.getUrl()));
         }
         response.setOnlineSupports(onlineSupports);
+        return response;
+    }
+
+    public VendorInfoDetailResponse toVendorInfoDetailResponse(VendorInfo vendorInfo) {
+        VendorInfoDetailResponse response = new VendorInfoDetailResponse();
+        if (vendorInfo == null) {
+            return response;
+        }
+        response.setCompany(vendorInfo.getCompany());
+        response.setAddress(vendorInfo.getAddress());
+        response.setCapital(vendorInfo.getCapital());
+        response.setContactInfo(vendorInfo.getContactInfo());
+        response.setHotline(vendorInfo.getHotline());
+        response.setOtherMarket(vendorInfo.getOtherMarket());
+        response.setTelephone(vendorInfo.getTelephone());
+        response.setWebsite(vendorInfo.getWebsite());
         return response;
     }
 

@@ -22,6 +22,8 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -85,5 +87,14 @@ public class VendorControllerTest extends ApiMockMvcTest {
         shopDraft.setContent(content);
         when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraft);
         mktIacClient.getShopDraftDetail("test");
+    }
+
+    @Test
+    public void getVendorInfoDetail() throws Exception {
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
+                new VendorInfo("test", "test", VendorStatus.OFFLINE,
+                                      "test", "website", "1000", "address", "tel", "test-test",
+                                      "hotline", "othermarket", "contact_info"));
+        mktIacClient.getVendorInfoDetail("test");
     }
 }
