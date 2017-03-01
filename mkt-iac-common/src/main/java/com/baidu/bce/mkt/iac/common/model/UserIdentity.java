@@ -1,4 +1,6 @@
-// Copyright 2017 Baidu Inc. All rights reserved.
+/*
+ * Copyright (C) 2017 Baidu, Inc. All Rights Reserved.
+ */
 
 package com.baidu.bce.mkt.iac.common.model;
 

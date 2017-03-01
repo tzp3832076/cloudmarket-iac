@@ -3,9 +3,14 @@
 package com.baidu.bce.internalsdk.mkt.iac;
 
 import com.baidu.bce.internalsdk.core.BceClient;
+import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
-import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
-import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 
 import endpoint.EndpointManager;
 
@@ -14,11 +19,77 @@ import endpoint.EndpointManager;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacClient extends BceClient {
+    private static String TYPE_APPLICATION = "APPLICATION";
+    private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
+
     public MktIacClient(String accessKey, String secretKey) {
         super(EndpointManager.getEndpoint("MKT-IAC"), accessKey, secretKey);
     }
 
     public MktIacClient(String endpoint, String accessKey, String secretKey) {
         super(endpoint, accessKey, secretKey);
+    }
+
+    private BceInternalRequest createMktRequest() {
+        return createAuthorizedRequest();
+    }
+
+    public void noticeAudit(String type, String id, String status, AuditNoticeRequest request) {
+
+        if (TYPE_APPLICATION.equals(type)) {
+            createMktRequest()
+                    .path("/v1/notice/audit")
+                    .queryParam("type", "application")
+                    .queryParam("id", id)
+                    .queryParam("status", status)
+                    .post(Entity.json(request));
+        }
+        if (TYPE_VENDOR_SHOP.equals(type)) {
+            createMktRequest()
+                    .path("/v1/notice/audit")
+                    .queryParam("type", "vendorShop")
+                    .queryParam("id", id)
+                    .queryParam("status", status)
+                    .put();
+        }
+    }
+
+    public void saveVendorShopDraft(String vendorId, ShopDraftSaveRequest request) {
+        createMktRequest()
+                .path("/v1/vendor/")
+                .path(vendorId)
+                .path("/shopDraft")
+                .post(Entity.json(request));
+    }
+
+    public ShopDraftDetailResponse getShopDraftDetail(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/shopDraft")
+                       .get(ShopDraftDetailResponse.class);
+    }
+
+    public VendorInfoDetailResponse getVendorInfoDetail(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/vendorInfo").get(VendorInfoDetailResponse.class);
+    }
+
+    public void submitContractsAndDeposit(String vendorId, ContractAndDepositSubmitRequest request) {
+        createMktRequest()
+                .path("/v1/vendor/")
+                .path(vendorId)
+                .path("/contractAndDeposit")
+                .post(Entity.json(request));
+    }
+
+    public VendorOverviewResponse getVendorOverview(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/overview")
+                       .get(VendorOverviewResponse.class);
     }
 }

@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
@@ -17,7 +16,6 @@ import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.AccountType;
-import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 /**
@@ -25,8 +23,6 @@ import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class AuthorizationControllerTest extends ApiMockMvcTest {
-    @MockBean(name = "authorizationService")
-    private AuthorizationService authorizationService;
 
     @Test
     public void testNormalUserAuthorizeSuccess() {

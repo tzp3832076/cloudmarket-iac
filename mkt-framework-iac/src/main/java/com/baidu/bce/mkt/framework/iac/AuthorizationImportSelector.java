@@ -2,7 +2,6 @@
 
 package com.baidu.bce.mkt.framework.iac;
 
-import org.springframework.context.annotation.AnnotationConfigUtils;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 

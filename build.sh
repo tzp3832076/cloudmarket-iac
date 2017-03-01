@@ -18,3 +18,9 @@ fi
 rm -rf output
 mkdir output
 
+mkdir -p output/bin
+mkdir -p output/conf
+cp mkt-iac-api/target/mkt-iac-api-version.jar output/bin/mkt-iac-api.jar
+cp deploy/* output/bin
+
+chmod +x output/bin/*

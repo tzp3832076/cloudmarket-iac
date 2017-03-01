@@ -9,9 +9,10 @@ import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.baidu.bce.mkt.framework.iac.annotation.InstanceForCheck;
-import com.baidu.bce.mkt.framework.iac.aop.AopInstanceExtractor;
 
 /**
+ * common method for parse method
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public abstract class MethodParser<T> {

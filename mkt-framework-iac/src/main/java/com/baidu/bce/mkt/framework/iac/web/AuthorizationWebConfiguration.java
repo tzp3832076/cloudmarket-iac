@@ -105,8 +105,8 @@ public class AuthorizationWebConfiguration extends WebMvcConfigurerAdapter {
 
         String instanceParameterName = checkAuth.instanceParameterName();
         WebInstanceExtractor webInstanceExtractor = StringUtils.isNotEmpty(instanceParameterName)
-                ? webMethodParser.parseByInstanceParameterName(method, instanceParameterName)
-                : webMethodParser.parseInstanceForCheck(method);
+                ? webMethodParser.parseByInstanceParameterName(method, instanceParameterName) :
+                webMethodParser.parseInstanceForCheck(method);
         context.setInstanceExtractor(webInstanceExtractor);
         return context;
     }

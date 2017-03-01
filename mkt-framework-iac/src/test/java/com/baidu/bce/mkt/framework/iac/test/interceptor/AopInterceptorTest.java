@@ -39,6 +39,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * aop interceptor test
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @SpringBootTest(classes = {AopInterceptorTest.Config.class, AopInterceptorTest.Target.class},
@@ -65,8 +66,9 @@ public class AopInterceptorTest {
         when(authorizationService.checkAuth(anyString(), anyString(), anyList())).thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/v1/calculate/add")
-                .param("a", "1")
-                .param("b", "2")).andReturn().getResponse().getContentAsString();
+                        .param("a", "1")
+                        .param("b", "2"))
+                .andReturn().getResponse().getContentAsString();
         WebInterceptorTest.Result result = JsonUtils.fromJson(ret, WebInterceptorTest.Result.class);
         Assert.assertEquals(3, result.getResult());
     }

@@ -3,6 +3,8 @@
 package com.baidu.bce.mkt.framework.iac;
 
 /**
+ * header constants
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class HeaderConstants {

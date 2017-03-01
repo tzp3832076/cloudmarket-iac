@@ -31,7 +31,6 @@ import com.baidu.bce.mkt.framework.bootstrap.ServiceApp;
 import com.baidu.bce.mkt.framework.iac.EnableMktAuthorization;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.Subject;
-import com.baidu.bce.mkt.framework.iac.aop.AuthorizationAopConfiguration;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
 import com.baidu.bce.mkt.framework.iac.web.AuthorizationWebConfiguration;
@@ -44,6 +43,8 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * web interceptor test
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @SpringBootTest(classes = {WebInterceptorTest.Config.class, WebInterceptorTest.TargetController.class},

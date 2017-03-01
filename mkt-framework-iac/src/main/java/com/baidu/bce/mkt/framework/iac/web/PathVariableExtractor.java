@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
