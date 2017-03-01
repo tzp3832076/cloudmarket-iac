@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.handler.NoticeSenderHandler;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
-import com.baidu.bce.mkt.iac.common.mapper.VendorMarginMapper;
+import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
-import com.baidu.bce.mkt.iac.common.model.db.VendorMargin;
+import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,28 +27,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ContractAndMarginService {
+public class ContractAndDepositService {
     private final VendorContractMapper contractMapper;
-    private final VendorMarginMapper marginMapper;
+    private final VendorDepositMapper depositMapper;
     private final NoticeSenderHandler noticeSenderHandler;
 
     /**
-     * vendor Margin
+     * vendor Deposit
      */
     @Transactional
-    public void updateVendorMargin(String vendorId, BigDecimal payValue) {
-        VendorMargin vendorMargin = new VendorMargin(vendorId, IacConstants.DEFAULT_MARGIN,
+    public void updateVendorDeposit(String vendorId, BigDecimal payValue) {
+        VendorDeposit vendorDeposit = new VendorDeposit(vendorId, IacConstants.DEFAULT_MARGIN,
                                                             payValue);
-        if (getVendorMargin(vendorId) == null) {
-            marginMapper.add(vendorMargin);
+        if (getVendorDeposit(vendorId) == null) {
+            depositMapper.add(vendorDeposit);
         } else {
-            marginMapper.update(vendorMargin);
+            depositMapper.update(vendorDeposit);
         }
-        noticeSenderHandler.noticeAuditMarginPayOff(vendorId, vendorMargin.isPayOff());
+        noticeSenderHandler.noticeAuditDepositPayOff(vendorId, vendorDeposit.isPayOff());
     }
 
-    public VendorMargin getVendorMargin(String vendorId) {
-        return marginMapper.getVendorMargin(vendorId);
+    public VendorDeposit getVendorDeposit(String vendorId) {
+        return depositMapper.getVendorDeposit(vendorId);
     }
 
     @Transactional

@@ -100,7 +100,7 @@ CREATE TABLE mkt_vendor_shop_draft (
     UNIQUE KEY uk_vendor_shop_draft_vendor_id (vendor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '商品信息草稿表';
 
-CREATE TABLE mkt_vendor_margin (
+CREATE TABLE mkt_vendor_deposit (
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     vendor_id VARCHAR(36) NOT NULL COMMENT '服务商云市场ID',
     target_value DECIMAL(10,2) NOT NULL DEFAULT 10000.00 COMMENT '保证金的设定金额',
@@ -108,7 +108,7 @@ CREATE TABLE mkt_vendor_margin (
     create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id),
-    UNIQUE KEY uk_vendor_margin_vendor_id (vendor_id)
+    UNIQUE KEY uk_vendor_deposit_vendor_id (vendor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '服务商保证金表';
 
 CREATE TABLE mkt_vendor_contract (

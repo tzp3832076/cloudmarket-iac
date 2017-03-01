@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndMarginSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,27 +26,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class VendorExtraControllerTest extends ApiMockMvcTest {
     @Test
-    public void contractAndMarginSubmit() throws Exception {
+    public void contractAndDepositSubmit() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
                 log.info("updateVendorContentList success.");
                 return null;
             }
-        }).when(contractAndMarginService).updateVendorContentList(anyString(), any());
+        }).when(contractAndDepositService).updateVendorContentList(anyString(), any());
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                log.info("updateVendorMargin success.");
+                log.info("updateVendorDeposit success.");
                 return null;
             }
-        }).when(contractAndMarginService).updateVendorMargin(anyString(), any());
-        ContractAndMarginSubmitRequest request = new ContractAndMarginSubmitRequest();
-        List<ContractAndMarginSubmitRequest.Contract> contracts = new ArrayList<>();
-        contracts.add(new ContractAndMarginSubmitRequest.Contract("mum1", "test", true));
+        }).when(contractAndDepositService).updateVendorDeposit(anyString(), any());
+        ContractAndDepositSubmitRequest request = new ContractAndDepositSubmitRequest();
+        List<ContractAndDepositSubmitRequest.Contract> contracts = new ArrayList<>();
+        contracts.add(new ContractAndDepositSubmitRequest.Contract("mum1", "test", true));
         request.setContractList(contracts);
-        request.setMargin(new BigDecimal(10000));
-        mktIacClient.submitContractsAndMargin("test", request);
+        request.setDeposit(new BigDecimal(10000));
+        mktIacClient.submitContractsAndDeposit("test", request);
     }
 
 }

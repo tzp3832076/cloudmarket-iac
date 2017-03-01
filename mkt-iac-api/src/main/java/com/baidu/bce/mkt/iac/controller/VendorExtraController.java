@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndMarginSubmitRequest;
-import com.baidu.bce.mkt.iac.common.service.ContractAndMarginService;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.mkt.iac.common.service.ContractAndDepositService;
 import com.baidu.bce.mkt.iac.helper.VendorExtraHepler;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -27,14 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VendorExtraController {
-    private final ContractAndMarginService service;
+    private final ContractAndDepositService service;
     private final VendorExtraHepler hepler;
 
     @ApiOperation(value = "合同list和保证金更新接口")
     @RequestMapping(value = "/{vendorId}/allInfo", method = RequestMethod.POST)
-    public void contractAndMarginSubmit(@PathVariable("vendorId") String vendorId,
-                                        @RequestBody ContractAndMarginSubmitRequest request) {
-        service.updateVendorMargin(vendorId, request.getMargin());
+    public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
+                                        @RequestBody ContractAndDepositSubmitRequest request) {
+        service.updateVendorDeposit(vendorId, request.getDeposit());
         service.updateVendorContentList(vendorId,
                 hepler.toVendorContractList(vendorId, request.getContractList()));
     }

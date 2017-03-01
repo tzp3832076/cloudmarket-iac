@@ -12,7 +12,7 @@ import com.baidu.bce.mkt.framework.test.iam.IamRule;
 import com.baidu.bce.mkt.framework.test.mvc.BaseMockMvcTest;
 import com.baidu.bce.mkt.framework.test.mvc.MockEndpoint;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
-import com.baidu.bce.mkt.iac.common.service.ContractAndMarginService;
+import com.baidu.bce.mkt.iac.common.service.ContractAndDepositService;
 import com.baidu.bce.mkt.iac.common.service.NoticeService;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.plat.webframework.iam.service.IAMService;
@@ -30,8 +30,8 @@ public abstract class ApiMockMvcTest extends BaseMockMvcTest {
     protected NoticeService noticeService;
     @MockBean(name = "vendorService")
     protected VendorService vendorService;
-    @MockBean(name = "contractAndMarginService")
-    protected ContractAndMarginService contractAndMarginService;
+    @MockBean(name = "contractAndDepositService")
+    protected ContractAndDepositService contractAndDepositService;
 
     @Rule
     public IamRule iamRule = new IamRule();

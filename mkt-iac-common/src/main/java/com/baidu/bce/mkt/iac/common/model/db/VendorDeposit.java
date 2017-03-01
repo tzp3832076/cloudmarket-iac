@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class VendorMargin {
+public class VendorDeposit {
     private String vendorId;
     private BigDecimal targetValue;
     private BigDecimal payValue;
     private Timestamp createTime;
     private Timestamp updateTime;
 
-    public VendorMargin(String vendorId, BigDecimal targetValue, BigDecimal payValue) {
+    public VendorDeposit(String vendorId, BigDecimal targetValue, BigDecimal payValue) {
         this.vendorId = vendorId;
         this.targetValue = targetValue;
         this.payValue = payValue;

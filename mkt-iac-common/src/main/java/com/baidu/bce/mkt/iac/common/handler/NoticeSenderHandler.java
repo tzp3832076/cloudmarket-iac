@@ -20,8 +20,8 @@ public class NoticeSenderHandler {
     @Autowired
     private IacClientFactory clientFactory;
 
-    public void noticeAuditMarginPayOff(String vendorId, boolean isPayOff) {
-        // todo 修改审核模块的接口 可以状态TODO
+    public void noticeAuditDepositPayOff(String vendorId, boolean isPayOff) {
+        // todo 修改审核模块的接口 可以状态TODO -- 修改名字
         clientFactory.createAuditClient().confirmVendorMargin(vendorId);
     }
 

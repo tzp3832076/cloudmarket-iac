@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContractAndMarginSubmitRequest {
-    private BigDecimal margin;
+public class ContractAndDepositSubmitRequest {
+    private BigDecimal deposit;
     private List<Contract> contractList;
 
     @Data

@@ -7,7 +7,7 @@ package com.baidu.bce.mkt.iac.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndMarginSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 
@@ -17,10 +17,10 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 @ControllerHelper
 public class VendorExtraHepler {
     public List<VendorContract> toVendorContractList(String vendorId,
-                                                     List<ContractAndMarginSubmitRequest
+                                                     List<ContractAndDepositSubmitRequest
                                                                   .Contract> contractList) {
         List<VendorContract> vendorContractList = new ArrayList<>();
-        for (ContractAndMarginSubmitRequest.Contract contract : contractList) {
+        for (ContractAndDepositSubmitRequest.Contract contract : contractList) {
             vendorContractList.add(new VendorContract(vendorId, contract.getNumber(),
                                                              contract.getDigest(),
                                                              contract.isDelete()));
