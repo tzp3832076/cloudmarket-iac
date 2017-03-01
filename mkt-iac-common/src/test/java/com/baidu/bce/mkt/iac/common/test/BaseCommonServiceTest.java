@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.rule.OutputCapture;
 
+import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.framework.test.service.BaseServiceTest;
 import com.baidu.bce.mkt.iac.common.client.AuthClient;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
@@ -30,10 +31,13 @@ public abstract class BaseCommonServiceTest extends BaseServiceTest {
     protected IacClientFactory clientFactory;
 
     protected AuthClient authClient;
+    protected MktAuditClient auditClient;
 
     @Before
     public void initClient() {
         authClient = mock(AuthClient.class);
         when(clientFactory.createAuthClient(anyString())).thenReturn(authClient);
+        auditClient = mock(MktAuditClient.class);
+        when(clientFactory.createAuditClient()).thenReturn(auditClient);
     }
 }

@@ -26,6 +26,7 @@
 
     <properties>
         <mkt-iac-version>version</mkt-iac-version>
+        <bce-internal-sdk-mkt-audit>1.0.1.3</bce-internal-sdk-mkt-audit>
     </properties>
 
     <dependencyManagement>

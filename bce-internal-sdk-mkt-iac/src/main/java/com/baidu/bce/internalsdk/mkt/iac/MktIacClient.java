@@ -6,6 +6,7 @@ import com.baidu.bce.internalsdk.core.BceClient;
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndMarginSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
@@ -73,5 +74,13 @@ public class MktIacClient extends BceClient {
                        .path("/v1/vendor/")
                        .path(vendorId)
                        .path("/vendorInfo").get(VendorInfoDetailResponse.class);
+    }
+
+    public void submitContractsAndMargin(String vendorId, ContractAndMarginSubmitRequest request) {
+        createMktRequest()
+                .path("/v1/vendorExtra/")
+                .path(vendorId)
+                .path("/allInfo")
+                .post(Entity.json(request));
     }
 }

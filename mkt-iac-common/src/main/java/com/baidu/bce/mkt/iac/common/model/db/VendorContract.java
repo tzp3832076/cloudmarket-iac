@@ -24,8 +24,14 @@ public class VendorContract {
     private boolean isDelete;
 
     public VendorContract(String vendorId, String contractNum, String contractDigest) {
+        this(vendorId, contractNum, contractDigest, false);
+    }
+
+    public VendorContract(String vendorId, String contractNum, String contractDigest,
+                          boolean delete) {
         this.vendorId = vendorId;
         this.contractNum = contractNum;
         this.contractDigest = contractDigest;
+        this.isDelete = delete;
     }
 }
