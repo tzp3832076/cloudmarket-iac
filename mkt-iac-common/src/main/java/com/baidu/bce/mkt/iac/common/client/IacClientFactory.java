@@ -5,6 +5,7 @@ package com.baidu.bce.mkt.iac.common.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.baidu.bce.internalsdk.qualify.QualifyClient;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.iac.common.config.ConfigProperties;
 
@@ -19,6 +20,7 @@ public class IacClientFactory {
     @Autowired
     private ConfigProperties configProperties;
     private MktAuditClient mktAuditClient;
+    private QualifyClient qualifyClient;
 
     public AuthClient createAuthClient(String system) {
         return new AuthClient(EndpointManager.getEndpoint(system),
@@ -32,5 +34,13 @@ public class IacClientFactory {
                                                        configProperties.getMktServiceSk());
         }
         return mktAuditClient;
+    }
+
+    public QualifyClient createQualifyClient() {
+        if (qualifyClient == null) {
+            qualifyClient = new QualifyClient(configProperties.getMktServiceAk(),
+                                                     configProperties.getMktServiceSk());
+        }
+        return qualifyClient;
     }
 }

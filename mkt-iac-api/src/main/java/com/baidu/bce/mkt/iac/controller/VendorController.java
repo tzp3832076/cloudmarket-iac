@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
@@ -57,6 +59,12 @@ public class VendorController {
         return helper.toVendorInfoDetailResponse(vendorInfo);
     }
 
+    @ApiOperation(value = "服务商概览页面接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/overview")
+    public VendorOverviewResponse getVendorOverview(@PathVariable("vendorId") String vendorId) {
+        VendorOverview vendorOverview = vendorService.getVendorOverview(vendorId);
+        return helper.toVendorOverviewResponse(vendorOverview);
+    }
 }
 
 

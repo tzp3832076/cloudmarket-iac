@@ -20,7 +20,7 @@ public class NoticeHelper {
         ApplicationNoticeBody application = JsonUtils.fromJson(content, ApplicationNoticeBody
                                                                                 .class);
         return new VendorInfo(vendorId, application.getBceUserId(),
-                                                       VendorStatus.INIT,
+                                                       VendorStatus.PROCESSING,
                                                        application.getCompany(),
                                                        application.getWebsite(),
                                                        application.getCapital(),

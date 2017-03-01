@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
@@ -76,7 +77,7 @@ public class ContractAndDepositService {
         }
         if (needSyncStatus(vendorId)) {
             List<VendorContract> contractList = contractMapper.getVendorContractList(vendorId);
-            syncHandler.noticeAuditContractStatus(vendorId, contractList.isEmpty());
+            syncHandler.noticeAuditContractStatus(vendorId, CollectionUtils.isEmpty(contractList));
         }
     }
 
@@ -93,6 +94,6 @@ public class ContractAndDepositService {
         if (vendorInfo == null) {
             throw MktIacExceptions.noVendorInfo();
         }
-        return VendorStatus.INIT.equals(vendorInfo.getStatus());
+        return VendorStatus.PROCESSING.equals(vendorInfo.getStatus());
     }
 }

@@ -19,10 +19,14 @@ import org.mockito.stubbing.Answer;
 import com.baidu.bce.internalsdk.core.BceInternalResponseException;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
@@ -92,9 +96,25 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorInfoDetail() throws Exception {
         when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
-                new VendorInfo("test", "test", VendorStatus.OFFLINE,
+                new VendorInfo("test", "test", VendorStatus.FROZEN,
                                       "test", "website", "1000", "address", "tel", "test-test",
                                       "hotline", "othermarket", "contact_info"));
         mktIacClient.getVendorInfoDetail("test");
+    }
+
+    @Test
+    public void getVendorOverview() {
+        VendorOverview vendorOverview =  new VendorOverview();
+        vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                                            "test", "website", "1000", "address", "tel", "test-test",
+                                                            "hotline", "othermarket", "contact_info"));
+        vendorOverview.setVendorShop(new VendorShop());
+        vendorOverview.setVendorDeposit(null);
+        vendorOverview.setProductsOnSale(0);
+        vendorOverview.setProductsAuditing(0);
+        vendorOverview.setQualityStatus(AuditStatus.NONE);
+        when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
+        VendorOverviewResponse response = mktIacClient.getVendorOverview("test");
+        log.info("getVendorOverview {} ", response);
     }
 }

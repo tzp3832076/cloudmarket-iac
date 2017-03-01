@@ -17,16 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class SyncHandler {
+    private static String PROCESS_DONE = "DONE";
+    private static String PROCESS_TODO = "TODO";
+
     @Autowired
     private IacClientFactory clientFactory;
 
     public void noticeAuditDepositPayOff(String vendorId, boolean isPayOff) {
-        // todo 修改审核模块的接口 可以状态TODO -- 修改名字
-        clientFactory.createAuditClient().confirmVendorMargin(vendorId);
+        String status = isPayOff ? PROCESS_DONE : PROCESS_TODO;
+        clientFactory.createAuditClient().syncVendorDeposit(vendorId, status);
     }
 
     public void noticeAuditContractStatus(String vendorId, boolean isEmpty) {
-        // todo 修改审核模块的接口 可以进行协议的状态取消
-        clientFactory.createAuditClient().confirmVendorContract(vendorId);
+        String status = isEmpty ? PROCESS_TODO : PROCESS_DONE;
+        clientFactory.createAuditClient().syncVendorContract(vendorId, status);
     }
 }

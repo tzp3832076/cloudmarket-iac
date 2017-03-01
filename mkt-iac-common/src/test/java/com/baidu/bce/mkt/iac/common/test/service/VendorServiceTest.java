@@ -3,14 +3,22 @@
  */
 package com.baidu.bce.mkt.iac.common.test.service;
 
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.baidu.bce.internalsdk.qualify.model.EnterpriseInfoResponse;
+import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
+import com.baidu.bce.internalsdk.qualify.model.finance.RealNameTypeForFinance;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
@@ -107,6 +115,21 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(vendorInfo);
         vendorInfo = vendorService.getVendorInfoByVendorId("XXXXX");
         Assert.assertNull(vendorInfo);
+    }
+
+    @Test
+    public void getVendorOverview() {
+        EnterpriseInfoResponse response = new EnterpriseInfoResponse();
+        response.setStatus(AuditStatus.PASS);
+        response.setType(RealNameTypeForFinance.ENTERPRISE);
+        when(qualifyClient.getEnterpriseInfo(anyString(), anyBoolean())).thenReturn(response);
+        VendorOverview vendorOverview = vendorService.getVendorOverview("vendor_1");
+        log.info("getVendorOverview {}", vendorOverview);
+        Assert.assertNotNull(vendorOverview.getVendorInfo());
+        Assert.assertNotNull(vendorOverview.getVendorShop());
+        Assert.assertEquals(vendorOverview.getQualityStatus(), AuditStatus.PASS);
+        Assert.assertNotNull(vendorOverview.getVendorContractList());
+        Assert.assertNotNull(vendorOverview.getVendorDeposit());
     }
 
 }

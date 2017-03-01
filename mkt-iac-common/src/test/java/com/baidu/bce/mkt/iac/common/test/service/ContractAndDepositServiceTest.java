@@ -41,7 +41,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
                 log.info("confirmVendorDeposit success");
                 return null;
             }
-        }). when(auditClient).confirmVendorMargin(anyString());
+        }). when(auditClient).syncVendorContract(anyString(), anyString());
         service.updateVendorDeposit("vendor_1", new BigDecimal(300));
         VendorDeposit deposit = service.getVendorDeposit("vendor_1");
         Assert.assertFalse(deposit.isPayOff());
@@ -61,7 +61,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
                 log.info("confirmVendorContract success");
                 return null;
             }
-        }). when(auditClient).confirmVendorContract(anyString());
+        }). when(auditClient).syncVendorContract(anyString(), anyString());
         String vendorId = "vendor_2";
         List<VendorContract> vendorContractList = contractMapper.getVendorContractList(vendorId);
         Assert.assertEquals(vendorContractList.size(), 1);

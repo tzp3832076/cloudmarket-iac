@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
+            <artifactId>bce-internal-sdk-qualify</artifactId>
+            <version>${bce-internal-sdk-qualify}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-framework-test</artifactId>
             <scope>test</scope>
         </dependency>

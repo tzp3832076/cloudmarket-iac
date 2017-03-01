@@ -10,6 +10,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 
 import endpoint.EndpointManager;
 
@@ -82,5 +83,13 @@ public class MktIacClient extends BceClient {
                 .path(vendorId)
                 .path("/contractAndDeposit")
                 .post(Entity.json(request));
+    }
+
+    public VendorOverviewResponse getVendorOverview(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/overview")
+                       .get(VendorOverviewResponse.class);
     }
 }

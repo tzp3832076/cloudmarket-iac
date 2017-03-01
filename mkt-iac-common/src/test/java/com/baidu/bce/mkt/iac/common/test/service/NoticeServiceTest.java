@@ -24,7 +24,7 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void auditNotice() throws Exception {
-        VendorInfo vendorInfo = new VendorInfo("test", "test", VendorStatus.OFFLINE,
+        VendorInfo vendorInfo = new VendorInfo("test", "test", VendorStatus.FROZEN,
                                                       "test", "website", "1000", "address",
                                                       "tel", "test-test", "hotline", "othermarket",
                                                       "contact_info");

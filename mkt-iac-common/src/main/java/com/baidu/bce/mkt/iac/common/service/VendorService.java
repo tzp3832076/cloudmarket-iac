@@ -4,17 +4,29 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
+import com.baidu.bce.mkt.iac.common.handler.ProductHandler;
+import com.baidu.bce.mkt.iac.common.handler.QualityHandler;
+import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
+import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
+import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
+import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
+import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +41,11 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorService {
     private final VendorShopDraftMapper shopDraftMapper;
     private final VendorInfoMapper vendorInfoMapper;
+    private final VendorShopMapper vendorShopMapper;
+    private final VendorContractMapper contractMapper;
+    private final VendorDepositMapper depositMapper;
+    private final QualityHandler qualityHandler;
+    private final ProductHandler productHandler;
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
@@ -68,5 +85,24 @@ public class VendorService {
      */
     public VendorInfo getVendorInfoByVendorId(String vendorId) {
         return vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+    }
+
+    public VendorOverview getVendorOverview(String vendorId) {
+        VendorOverview vendorOverview = new VendorOverview();
+        VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
+        VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
+        List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
+        VendorDeposit deposit = depositMapper.getVendorDeposit(vendorId);
+        AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
+        int productsOnSaleCount = productHandler.getProductsOnSaleCount(vendorId);
+        int productsAuditingCount = productHandler.getProductsAuditingCount(vendorId);
+        vendorOverview.setVendorInfo(vendorInfo);
+        vendorOverview.setProductsAuditing(productsAuditingCount);
+        vendorOverview.setProductsOnSale(productsOnSaleCount);
+        vendorOverview.setQualityStatus(qualityStatus);
+        vendorOverview.setVendorContractList(contracts);
+        vendorOverview.setVendorDeposit(deposit);
+        vendorOverview.setVendorShop(vendorShop);
+        return vendorOverview;
     }
 }

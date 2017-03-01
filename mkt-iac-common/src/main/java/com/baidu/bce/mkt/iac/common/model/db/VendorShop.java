@@ -6,12 +6,16 @@ package com.baidu.bce.mkt.iac.common.model.db;
 
 import java.sql.Timestamp;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class VendorShop {
     private String vendorId;
     private String name;
