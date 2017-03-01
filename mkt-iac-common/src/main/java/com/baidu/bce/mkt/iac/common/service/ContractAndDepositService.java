@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
+import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractAndDepositService {
     private final VendorContractMapper contractMapper;
     private final VendorDepositMapper depositMapper;
+    private final VendorInfoMapper vendorInfoMapper;
     private final SyncHandler syncHandler;
 
     @Transactional
@@ -45,13 +50,15 @@ public class ContractAndDepositService {
     @Transactional
     public void updateVendorDeposit(String vendorId, BigDecimal payValue) {
         VendorDeposit vendorDeposit = new VendorDeposit(vendorId, IacConstants.DEFAULT_MARGIN,
-                                                            payValue);
+                                                               payValue);
         if (getVendorDeposit(vendorId) == null) {
             depositMapper.add(vendorDeposit);
         } else {
             depositMapper.update(vendorDeposit);
         }
-        syncHandler.noticeAuditDepositPayOff(vendorId, vendorDeposit.isPayOff());
+        if (needSyncStatus(vendorId)) {
+            syncHandler.noticeAuditDepositPayOff(vendorId, vendorDeposit.isPayOff());
+        }
     }
 
     public VendorDeposit getVendorDeposit(String vendorId) {
@@ -67,8 +74,10 @@ public class ContractAndDepositService {
                 addContract(contract);
             }
         }
-        List<VendorContract> contractList = contractMapper.getVendorContractList(vendorId);
-        syncHandler.noticeAuditContractStatus(vendorId, contractList.isEmpty());
+        if (needSyncStatus(vendorId)) {
+            List<VendorContract> contractList = contractMapper.getVendorContractList(vendorId);
+            syncHandler.noticeAuditContractStatus(vendorId, contractList.isEmpty());
+        }
     }
 
     public void addContract(VendorContract contract) {
@@ -77,5 +86,13 @@ public class ContractAndDepositService {
         if (vendorContract == null) {
             contractMapper.add(contract);
         }
+    }
+
+    private boolean needSyncStatus(String vendorId) {
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        if (vendorInfo == null) {
+            throw MktIacExceptions.noVendorInfo();
+        }
+        return VendorStatus.INIT.equals(vendorInfo.getStatus());
     }
 }

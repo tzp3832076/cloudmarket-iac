@@ -78,9 +78,9 @@ public class MktIacClient extends BceClient {
 
     public void submitContractsAndDeposit(String vendorId, ContractAndDepositSubmitRequest request) {
         createMktRequest()
-                .path("/v1/vendorExtra/")
+                .path("/v1/vendor/")
                 .path(vendorId)
-                .path("/allInfo")
+                .path("/contractAndDeposit")
                 .post(Entity.json(request));
     }
 }

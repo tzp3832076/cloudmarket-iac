@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created on 2017/3/1 by sunfangyuan@baidu.com .
  */
 @RestController
-@RequestMapping("/v1/vendorExtra")
+@RequestMapping("/v1/vendor")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VendorExtraController {
@@ -31,7 +31,7 @@ public class VendorExtraController {
     private final VendorExtraHepler hepler;
 
     @ApiOperation(value = "合同list和保证金更新接口")
-    @RequestMapping(value = "/{vendorId}/allInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                         @RequestBody ContractAndDepositSubmitRequest request) {
         service.updateDepositAndContractList(vendorId, request.getDeposit(),
