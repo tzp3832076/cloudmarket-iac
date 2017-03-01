@@ -5,7 +5,6 @@ package com.baidu.bce.mkt.iac.helper;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuthorizationResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
-import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
@@ -37,7 +36,7 @@ public class AuthorizationControllerHelper {
         mktToken.setMainUserId(userIdentity.getMainUserId());
         mktToken.setRole(userIdentity.getRole());
         mktToken.setVendorId(userIdentity.getVendorId());
-        response.setToken(mktToken);
+        response.setMktToken(mktToken);
         return response;
     }
 }
