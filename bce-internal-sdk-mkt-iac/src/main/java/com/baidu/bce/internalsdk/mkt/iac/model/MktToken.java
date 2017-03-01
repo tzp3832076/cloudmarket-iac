@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuthorizedToken {
+public class MktToken {
     // bce user id or uuap name
     private String userId;
     // BCE | UUAP

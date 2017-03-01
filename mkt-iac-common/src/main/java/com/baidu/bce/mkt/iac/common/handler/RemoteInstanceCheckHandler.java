@@ -7,10 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerRequest;
 import com.baidu.bce.mkt.iac.common.cache.ResourceSystemCache;
 import com.baidu.bce.mkt.iac.common.client.AuthClient;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
-import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerRequest;
 
 /**
  * send request to business module to check instance auth

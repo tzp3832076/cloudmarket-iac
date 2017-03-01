@@ -12,12 +12,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mkt-iac-common</artifactId>
+    <artifactId>mkt-framework-iac-client</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-framework</artifactId>
+            <artifactId>bce-internal-sdk-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -25,16 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-framework-iac-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-framework-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-iac-common-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -48,7 +48,7 @@ public class AuthorizationControllerTest extends ApiMockMvcTest {
         request.setOperation("read");
         request.setInstances(Arrays.asList("audit_1"));
         AuthorizationResponse response = mktIacAuthorizationClient.checkAuth(request);
-        Assert.assertEquals("normal_vendor_1", response.getToken().getUserId());
-        Assert.assertEquals("VENDOR", response.getToken().getRole());
+        Assert.assertEquals("normal_vendor_1", response.getMktToken().getUserId());
+        Assert.assertEquals("VENDOR", response.getMktToken().getRole());
     }
 }

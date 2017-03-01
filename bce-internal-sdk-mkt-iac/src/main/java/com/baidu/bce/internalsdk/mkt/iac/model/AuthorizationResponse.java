@@ -15,5 +15,5 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorizationResponse {
-    private AuthorizedToken token;
+    private MktToken mktToken;
 }

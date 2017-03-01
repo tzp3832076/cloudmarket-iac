@@ -8,10 +8,11 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.test.context.ContextConfiguration;
 
+import com.baidu.bce.mkt.framework.bootstrap.WorkerApp;
 import com.baidu.bce.mkt.framework.test.service.BaseServiceTest;
 import com.baidu.bce.mkt.iac.common.client.AuthClient;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
@@ -20,8 +21,7 @@ import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
  * base common service test with mocked client factory
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
-@SpringBootTest(classes = {DBInitializer.class, BaseServiceTest.ServiceTestConfig.class},
-        webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@ContextConfiguration(classes = {DBInitializer.class, BaseCommonServiceTest.ServiceConfig.class})
 public abstract class BaseCommonServiceTest extends BaseServiceTest {
     @Rule
     public OutputCapture outputCapture = new OutputCapture();
@@ -35,5 +35,10 @@ public abstract class BaseCommonServiceTest extends BaseServiceTest {
     public void initClient() {
         authClient = mock(AuthClient.class);
         when(clientFactory.createAuthClient(anyString())).thenReturn(authClient);
+    }
+
+    @WorkerApp(scanBasePackages = "com.baidu.bce.mkt.iac.common")
+    public static class ServiceConfig {
+
     }
 }

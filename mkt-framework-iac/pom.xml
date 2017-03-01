@@ -12,12 +12,33 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mkt-iac-common</artifactId>
+    <artifactId>mkt-framework-iac</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.baidu.bce</groupId>
+            <artifactId>mkt-framework-iac-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
+            <artifactId>bce-internal-sdk-mkt-iac</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-framework</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
+            <artifactId>bce-plat-web-framework-iam</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -25,16 +46,7 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-framework-iac-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-framework-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-iac-common-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

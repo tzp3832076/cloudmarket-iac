@@ -11,8 +11,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerRequest;
-import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerResponse;
+import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerRequest;
+import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerResponse;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;

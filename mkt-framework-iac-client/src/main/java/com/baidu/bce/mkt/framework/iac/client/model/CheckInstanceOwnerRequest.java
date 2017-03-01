@@ -1,6 +1,6 @@
 // Copyright 2017 Baidu Inc. All rights reserved.
 
-package com.baidu.bce.mkt.iac.common.client.model;
+package com.baidu.bce.mkt.framework.iac.client.model;
 
 import java.util.List;
 

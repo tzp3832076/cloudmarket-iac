@@ -4,8 +4,8 @@ package com.baidu.bce.mkt.iac.common.client;
 
 import com.baidu.bce.internalsdk.core.BceClient;
 import com.baidu.bce.internalsdk.core.Entity;
-import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerRequest;
-import com.baidu.bce.mkt.iac.common.client.model.CheckInstanceOwnerResponse;
+import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerRequest;
+import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerResponse;
 
 /**
  * auth client

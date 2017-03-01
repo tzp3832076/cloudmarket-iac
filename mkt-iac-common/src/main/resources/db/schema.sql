@@ -1,4 +1,3 @@
-SET MODE MySQL;
 CREATE TABLE mkt_account (
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     account_id VARCHAR(64) NOT NULL COMMENT '账号id，bce user id或者uuap name',

@@ -8,6 +8,8 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>bce-internal-sdk-mkt-iac</module>
+        <module>mkt-framework-iac</module>
+        <module>mkt-framework-iac-client</module>
         <module>mkt-iac-common-test</module>
         <module>mkt-iac-common</module>
         <module>mkt-iac-api</module>
@@ -16,7 +18,7 @@
     <parent>
         <groupId>com.baidu.bce</groupId>
         <artifactId>mkt-framework-parent</artifactId>
-        <version>1.0.11.1</version>
+        <version>1.0.13.1</version>
     </parent>
 
     <groupId>com.baidu.bce</groupId>
@@ -43,6 +45,16 @@
             <dependency>
                 <groupId>com.baidu.bce</groupId>
                 <artifactId>mkt-iac-common</artifactId>
+                <version>${mkt-iac-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>mkt-framework-iac</artifactId>
+                <version>${mkt-iac-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baidu.bce</groupId>
+                <artifactId>mkt-framework-iac-client</artifactId>
                 <version>${mkt-iac-version}</version>
             </dependency>
             <dependency>
