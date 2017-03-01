@@ -34,8 +34,7 @@ public class VendorExtraController {
     @RequestMapping(value = "/{vendorId}/allInfo", method = RequestMethod.POST)
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                         @RequestBody ContractAndDepositSubmitRequest request) {
-        service.updateVendorDeposit(vendorId, request.getDeposit());
-        service.updateVendorContentList(vendorId,
+        service.updateDepositAndContractList(vendorId, request.getDeposit(),
                 hepler.toVendorContractList(vendorId, request.getContractList()));
     }
 }

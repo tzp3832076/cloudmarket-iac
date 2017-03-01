@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
-import com.baidu.bce.mkt.iac.common.handler.NoticeSenderHandler;
+import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
@@ -30,7 +30,14 @@ import lombok.extern.slf4j.Slf4j;
 public class ContractAndDepositService {
     private final VendorContractMapper contractMapper;
     private final VendorDepositMapper depositMapper;
-    private final NoticeSenderHandler noticeSenderHandler;
+    private final SyncHandler syncHandler;
+
+    @Transactional
+    public void updateDepositAndContractList(String vendorId, BigDecimal payValue,
+                                             List<VendorContract> vendorContractList) {
+        updateVendorDeposit(vendorId, payValue);
+        updateVendorContentList(vendorId, vendorContractList);
+    }
 
     /**
      * vendor Deposit
@@ -44,7 +51,7 @@ public class ContractAndDepositService {
         } else {
             depositMapper.update(vendorDeposit);
         }
-        noticeSenderHandler.noticeAuditDepositPayOff(vendorId, vendorDeposit.isPayOff());
+        syncHandler.noticeAuditDepositPayOff(vendorId, vendorDeposit.isPayOff());
     }
 
     public VendorDeposit getVendorDeposit(String vendorId) {
@@ -61,7 +68,7 @@ public class ContractAndDepositService {
             }
         }
         List<VendorContract> contractList = contractMapper.getVendorContractList(vendorId);
-        noticeSenderHandler.noticeAuditContractStatus(vendorId, contractList.isEmpty());
+        syncHandler.noticeAuditContractStatus(vendorId, contractList.isEmpty());
     }
 
     public void addContract(VendorContract contract) {
