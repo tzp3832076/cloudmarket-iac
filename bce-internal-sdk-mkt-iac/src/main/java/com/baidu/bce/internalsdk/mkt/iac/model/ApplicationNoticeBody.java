@@ -19,7 +19,7 @@ public class ApplicationNoticeBody {
     private String bceUserId;
     private String company;
     private String website;
-    private String capital;
+    private int capital;
     private String sale;
     private String headcount;
     private String address;

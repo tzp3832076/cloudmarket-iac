@@ -19,11 +19,11 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShopDraftDetailResponse {
     private String status;
-    private String intro;
-    private String name;
-    private String walletId;
-    private String email;
-    private String cellphone;
-    private String serviceTime;
-    private List<OnlineSupport> onlineSupports;
+    private String companyName;
+    private String companyDescription;
+    private String baiduWalletAccount;
+    private String serviceEmail;
+    private String servicePhone;
+    private String serviceAvailTime;
+    private List<OnlineSupport> baiduQiaos;
 }

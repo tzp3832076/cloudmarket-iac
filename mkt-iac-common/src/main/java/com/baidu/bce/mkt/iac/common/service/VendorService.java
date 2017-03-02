@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
@@ -46,6 +47,13 @@ public class VendorService {
     private final VendorDepositMapper depositMapper;
     private final QualityHandler qualityHandler;
     private final ProductHandler productHandler;
+
+    @Transactional
+    public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
+        // todo precheck
+        saveShopDraft(vendorId, content);
+        // todo submit audit
+    }
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);

@@ -45,6 +45,14 @@ public class VendorController {
         vendorService.saveShopDraft(vendorId, content);
     }
 
+    @ApiOperation(value = "商铺信息提交接口")
+    @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft", params = "submit")
+    public void submitVendorShopDraft(@PathVariable("vendorId") String vendorId,
+                                    @RequestBody ShopDraftSaveRequest request) {
+        VendorShopAuditContent content = helper.toShopAuditContent(request);
+        vendorService.submitShopDraft(vendorId, content);
+    }
+
     @ApiOperation(value = "服务商-商铺信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopDraft")
     public ShopDraftDetailResponse getVendorShopDraft(@PathVariable("vendorId") String vendorId) {
