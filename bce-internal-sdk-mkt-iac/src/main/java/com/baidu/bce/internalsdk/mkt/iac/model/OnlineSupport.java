@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OnlineSupport {
-    private String title;
-    private String url;
+    private String name;
+    private String link;
 }

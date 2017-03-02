@@ -25,6 +25,10 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
+            <artifactId>mkt-framework-iac</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
             <artifactId>bce-internal-sdk-mkt-iac</artifactId>
         </dependency>
         <dependency>

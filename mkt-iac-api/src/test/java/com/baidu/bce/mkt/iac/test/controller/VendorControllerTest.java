@@ -19,9 +19,12 @@ import org.mockito.stubbing.Answer;
 import com.baidu.bce.internalsdk.core.BceInternalResponseException;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
+import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
@@ -42,12 +45,12 @@ public class VendorControllerTest extends ApiMockMvcTest {
         ShopDraftSaveRequest request = new ShopDraftSaveRequest();
         List<OnlineSupport> onlineSupports = new ArrayList<>();
         onlineSupports.add(new OnlineSupport("test", "test"));
-        request.setOnlineSupports(onlineSupports);
-        request.setServiceTime("test");
-        request.setIntro("test");
-        request.setCellphone("12345678901");
-        request.setEmail("sfy@baidu.com");
-        request.setWalletId("test");
+        request.setBaiduQiaos(onlineSupports);
+        request.setServiceAvailTime("test");
+        request.setCompanyDescription("test");
+        request.setServicePhone("12345678901");
+        request.setServiceEmail("sfy@baidu.com");
+        request.setBaiduWalletAccount("test");
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -62,7 +65,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
             Assert.assertEquals(e.getCode(), "CellphoneNotValid");
         }
 
-        request.setCellphone("17710655544");
+        request.setServicePhone("17710655544");
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -95,18 +98,28 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     public void getVendorInfoDetail() throws Exception {
+        VendorInfoContacts contacts = new VendorInfoContacts();
+        List<VendorInfoContacts.ContactWay> contactWays = new ArrayList<>();
+        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Business,
+                                                                 "name", "1111"));
+        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Emergency,
+                                                                 "name", "1111"));
+        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Technical,
+                                                                 "name", "1111"));
+        contacts.setContractList(contactWays);
         when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
                 new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                      "test", "website", "1000", "address", "tel", "test-test",
-                                      "hotline", "othermarket", "contact_info"));
-        mktIacClient.getVendorInfoDetail("test");
+                                      "test", "companySite", 1000, "address", "tel", "test-test",
+                                      "hotline", "othermarket", JsonUtils.toJson(contacts)));
+        VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail("test");
+        log.info("getVendorInfoDetail {}", detailResponse);
     }
 
     @Test
     public void getVendorOverview() {
         VendorOverview vendorOverview =  new VendorOverview();
         vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                            "test", "website", "1000", "address", "tel", "test-test",
+                                                            "test", "companySite", 1000, "address", "tel", "test-test",
                                                             "hotline", "othermarket", "contact_info"));
         vendorOverview.setVendorShop(new VendorShop());
         vendorOverview.setVendorDeposit(null);

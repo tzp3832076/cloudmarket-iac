@@ -20,7 +20,7 @@ public class VendorInfo {
     private VendorStatus status;
     private String company;
     private String website;
-    private String capital;
+    private int capital;
     private String address;
     private String telephone;
     private String serviceCategory;
@@ -32,7 +32,7 @@ public class VendorInfo {
     private Timestamp updateTime;
 
     public VendorInfo(String vendorId, String bceUserId, VendorStatus status, String company,
-                      String website, String capital, String address, String telephone,
+                      String website, int capital, String address, String telephone,
                       String serviceCategory,
                       String hotline, String otherMarket, String contactInfo) {
         this.vendorId = vendorId;

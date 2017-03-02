@@ -18,11 +18,11 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShopDraftSaveRequest {
-    private String intro;
-    private String walletId;
-    private String email;
-    private String cellphone;
+    private String companyDescription;
+    private String baiduWalletAccount;
+    private String serviceEmail;
+    private String servicePhone;
 
-    private String serviceTime;
-    private List<OnlineSupport> onlineSupports;
+    private String serviceAvailTime;
+    private List<OnlineSupport> baiduQiaos;
 }
