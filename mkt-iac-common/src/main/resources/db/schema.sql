@@ -58,7 +58,7 @@ CREATE TABLE mkt_vendor_info (
     status VARCHAR(32) NOT NULL COMMENT '总控状态 INIT | ONLINE | OFFLINE',
     company VARCHAR(256) NOT NULL COMMENT '公司名称',
     website VARCHAR(256) NOT NULL COMMENT '公司网站',
-    capital BIGINT(8) NOT NULL COMMENT '注册资本',
+    capital BIGINT(20) NOT NULL COMMENT '注册资本',
     address VARCHAR(256) NOT NULL COMMENT '公司地址',
     telephone VARCHAR(32) NOT NULL COMMENT '公司状态',
     service_category VARCHAR(256) NOT NULL COMMENT '服务类别 一级-二级 ',
