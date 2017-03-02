@@ -2,6 +2,7 @@
 
 package com.baidu.bce.mkt.framework.iac.test.interceptor;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -32,7 +33,9 @@ import com.baidu.bce.mkt.framework.iac.EnableMktAuthorization;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.Subject;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
-import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
+import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
+import com.baidu.bce.mkt.framework.iac.service.RemoteCheckAuthService;
 import com.baidu.bce.mkt.framework.iac.web.AuthorizationWebConfiguration;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
@@ -52,8 +55,8 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringRunner.class)
 @Slf4j
 public class WebInterceptorTest {
-    @MockBean(name = AuthorizationWebConfiguration.BEAN_NAME_AUTHORIZATION_SERVICE)
-    private AuthorizationService authorizationService;
+    @MockBean(name = CheckAuthService.BEAN_NAME)
+    private CheckAuthService checkAuthService;
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -68,8 +71,8 @@ public class WebInterceptorTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
-        AuthorizedToken authorizedToken = new AuthorizedToken(new Token(), mktToken);
-        when(authorizationService.checkAuth(anyString(), anyString(), anyList())).thenReturn(authorizedToken);
+        AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
+        when(checkAuthService.checkAuth(any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/v1/calculate/add/1/2"))
                 .andReturn().getResponse().getContentAsString();

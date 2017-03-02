@@ -12,6 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.mkt.framework.iac.annotation.Subject;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
+import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.TokenHolder;
 import com.baidu.bce.plat.webframework.iam.service.UserService;
 
@@ -35,7 +36,7 @@ public class SubjectMethodArgumentResolver implements HandlerMethodArgumentResol
         if (authorizedToken == null) {
             Token token = UserService.getSubjectToken();
             if (token != null) {
-                authorizedToken = new AuthorizedToken(token, null);
+                authorizedToken = new ReceivedAuthorizedToken(token, null);
             }
         }
         for (SupportedParameter supportedParameter : SupportedParameter.values()) {
@@ -70,7 +71,14 @@ public class SubjectMethodArgumentResolver implements HandlerMethodArgumentResol
 
             @Override
             protected Object resolveArgument(MethodParameter parameter, AuthorizedToken authorizedToken) {
-                return authorizedToken == null ? null : authorizedToken.getToken();
+                if (authorizedToken == null) {
+                    return null;
+                }
+                if (authorizedToken instanceof  ReceivedAuthorizedToken) {
+                    return ((ReceivedAuthorizedToken) authorizedToken).getToken();
+                } else {
+                    return null;
+                }
             }
         },
         SUBJECT_USER_ID {

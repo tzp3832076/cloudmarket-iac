@@ -17,10 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>bce-plat-web-framework-iam</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-iac-common</artifactId>
         </dependency>
         <dependency>

@@ -19,8 +19,10 @@ import com.baidu.bce.mkt.framework.iac.instance.MethodParser;
 import com.baidu.bce.mkt.framework.iac.instance.Resolver;
 import com.baidu.bce.mkt.framework.iac.instance.StringResolver;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
+import com.baidu.bce.mkt.framework.iac.model.ModelUtils;
 import com.baidu.bce.mkt.framework.iac.model.TokenHolder;
-import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
+import com.baidu.bce.plat.webframework.iam.service.UserService;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class CheckAuthAopInterceptor extends MethodParser<AopInstanceExtractor> implements MethodInterceptor {
-    private final AuthorizationService authorizationService;
+    private final CheckAuthService checkAuthService;
 
     private Map<Method, Context> methodCache = new ConcurrentHashMap<>();
 
@@ -49,25 +51,16 @@ public class CheckAuthAopInterceptor extends MethodParser<AopInstanceExtractor> 
         } else {
             log.debug("found method context in cache");
         }
-        AuthorizedToken authorizedToken = authorizationService.checkAuth(context.getResource(),
-                context.getOperation(), context.getInstanceExtractor().extract(methodInvocation));
+        AuthorizedToken authorizedToken = checkAuthService.checkAuth(ModelUtils.createCurrentBceAuthContextWrapper(),
+                ModelUtils.createHeaderUser(), context.getResource(), context.getOperation(),
+                context.getInstanceExtractor().extract(methodInvocation));
         TokenHolder.setAuthorizedToken(authorizedToken);
         try {
-            return method.invoke(methodInvocation.getThis(),
-                    resolveArguments(methodInvocation.getArguments(), authorizedToken, context));
+            return methodInvocation.proceed();
         } finally {
             TokenHolder.removeAuthorizedToken();
             log.debug("[CHECK AUTH AOP] end");
         }
-    }
-
-    private Object[] resolveArguments(Object[] args, AuthorizedToken authorizedToken, Context context) {
-        if (context == null || context.getAuthorizedTokenIndex() == null) {
-            return args;
-        }
-        int index = context.getAuthorizedTokenIndex();
-        args[index] = authorizedToken;
-        return args;
     }
 
     private Context parseMethod(Method method) {

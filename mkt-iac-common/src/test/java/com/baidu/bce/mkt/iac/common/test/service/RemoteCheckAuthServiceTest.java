@@ -23,7 +23,7 @@ import com.baidu.bce.plat.webframework.exception.BceException;
  * authorization service test
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
-public class AuthorizationServiceTest extends BaseCommonServiceTest {
+public class RemoteCheckAuthServiceTest extends BaseCommonServiceTest {
     @Autowired
     private AuthorizationService authorizationService;
 

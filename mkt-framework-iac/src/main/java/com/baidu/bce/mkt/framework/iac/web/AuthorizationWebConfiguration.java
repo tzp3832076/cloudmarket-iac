@@ -11,7 +11,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +29,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.instance.MethodParser;
-import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
+import com.baidu.bce.mkt.framework.iac.service.RemoteCheckAuthService;
 import com.baidu.bce.plat.webframework.iam.config.access.service.BceSignatureValidateConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,16 +44,18 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigureAfter(BceSignatureValidateConfiguration.class)
 @Slf4j
 public class AuthorizationWebConfiguration extends WebMvcConfigurerAdapter {
-    public static final String BEAN_NAME_AUTHORIZATION_SERVICE = "authorizationService";
+    @Value("${mkt.iac.check.auth.exclude.paths:${iam.signature.exclude.paths:}}")
+    private String excludePaths;
 
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired
-    private AuthorizationService authorizationService;
+    private CheckAuthService checkAuthService;
 
-    @Bean(name = BEAN_NAME_AUTHORIZATION_SERVICE)
-    public AuthorizationService authorizationService() {
-        return new AuthorizationService();
+    @Bean(name = CheckAuthService.BEAN_NAME)
+    @ConditionalOnMissingBean(CheckAuthService.class)
+    public CheckAuthService authorizationService() {
+        return new RemoteCheckAuthService();
     }
 
     @Override
@@ -58,8 +63,9 @@ public class AuthorizationWebConfiguration extends WebMvcConfigurerAdapter {
         Map<String, Object> beanMap = applicationContext.getBeansWithAnnotation(Controller.class);
         if (!CollectionUtils.isEmpty(beanMap)) {
             Map<Method, Context> methodCache = parseToMethodCache(beanMap);
-            registry.addInterceptor(new CheckAuthWebInterceptor(methodCache, authorizationService))
-                    .addPathPatterns("/**");
+            registry.addInterceptor(new CheckAuthWebInterceptor(methodCache, checkAuthService))
+                    .addPathPatterns("/**")
+                    .excludePathPatterns(excludePaths.split(";"));
             log.info("check auth web interceptor enabled");
         } else {
             log.info("check auth web interceptor not enable");

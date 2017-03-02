@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
+import com.baidu.bce.mkt.framework.iac.model.ModelUtils;
 import com.baidu.bce.mkt.framework.iac.model.TokenHolder;
-import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
+import com.baidu.bce.plat.webframework.iam.service.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckAuthWebInterceptor extends HandlerInterceptorAdapter {
     private Map<Method, Context> methodCache;
-    private AuthorizationService authorizationService;
+    private CheckAuthService checkAuthService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -39,8 +41,10 @@ public class CheckAuthWebInterceptor extends HandlerInterceptorAdapter {
             Context context = methodCache.get(method);
             if (context != null) {
                 log.debug("[CHECK AUTH WEB]begin to check auth");
-                AuthorizedToken authorizedToken = authorizationService.checkAuth(context.getResource(),
-                        context.getOperation(), context.getInstanceExtractor().extract(request));
+                AuthorizedToken authorizedToken =
+                        checkAuthService.checkAuth(ModelUtils.createCurrentBceAuthContextWrapper(),
+                                ModelUtils.createHeaderUser(request), context.getResource(), context.getOperation(),
+                                context.getInstanceExtractor().extract(request));
                 TokenHolder.setAuthorizedToken(authorizedToken);
             }
             return true;
