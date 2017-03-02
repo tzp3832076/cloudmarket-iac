@@ -15,6 +15,9 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
+import com.baidu.bce.mkt.framework.iac.annotation.InstanceForCheck;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
@@ -39,6 +42,8 @@ public class VendorController {
 
     @ApiOperation(value = "商铺信息保存接口")
     @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "saveDraft",
+            instanceParameterName = "vendorId")
     public void saveVendorShopDraft(@PathVariable("vendorId") String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         VendorShopAuditContent content = helper.toShopAuditContent(request);
@@ -47,6 +52,8 @@ public class VendorController {
 
     @ApiOperation(value = "商铺信息提交接口")
     @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft", params = "submit")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft",
+            instanceParameterName = "vendorId")
     public void submitVendorShopDraft(@PathVariable("vendorId") String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         VendorShopAuditContent content = helper.toShopAuditContent(request);
@@ -55,6 +62,8 @@ public class VendorController {
 
     @ApiOperation(value = "服务商-商铺信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopDraft")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read",
+            instanceParameterName = "vendorId")
     public ShopDraftDetailResponse getVendorShopDraft(@PathVariable("vendorId") String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
         return helper.toShopDraftDetailResponse(shopDraftContent);
@@ -62,6 +71,8 @@ public class VendorController {
 
     @ApiOperation(value = "服务商基本信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/vendorInfo")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
+            instanceParameterName = "vendorId")
     public VendorInfoDetailResponse getVendorInfo(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         return helper.toVendorInfoDetailResponse(vendorInfo);
@@ -69,6 +80,8 @@ public class VendorController {
 
     @ApiOperation(value = "服务商概览页面接口")
     @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/overview")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_OVERVIEW, operation = "read",
+            instanceParameterName = "vendorId")
     public VendorOverviewResponse getVendorOverview(@PathVariable("vendorId") String vendorId) {
         VendorOverview vendorOverview = vendorService.getVendorOverview(vendorId);
         return helper.toVendorOverviewResponse(vendorOverview);

@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 public class IacConstants {
     public static final BigDecimal DEFAULT_MARGIN = BigDecimal.valueOf(10000);
 
+    public static final String RESOURCE_VENDOR_OVERVIEW = "vendorOverview";
     public static final String RESOURCE_VENDOR_INFO = "vendorInfo";
     public static final String RESOURCE_VENDOR_SHOP = "vendorShop";
     public static final String RESOURCE_VENDOR_CONTRACT_DEPOSIT = "vendorContractAndDeposit";

@@ -72,7 +72,7 @@ public class WebInterceptorTest {
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
         AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
-        when(checkAuthService.checkAuth(any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
+        when(checkAuthService.checkAuth(any(), any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/v1/calculate/add/1/2"))
                 .andReturn().getResponse().getContentAsString();

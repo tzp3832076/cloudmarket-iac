@@ -4,24 +4,30 @@ package com.baidu.bce.mkt.iac.common.service.checker;
 
 import static com.baidu.bce.mkt.iac.common.constant.IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT;
 import static com.baidu.bce.mkt.iac.common.constant.IacConstants.RESOURCE_VENDOR_INFO;
+import static com.baidu.bce.mkt.iac.common.constant.IacConstants.RESOURCE_VENDOR_OVERVIEW;
 import static com.baidu.bce.mkt.iac.common.constant.IacConstants.RESOURCE_VENDOR_SHOP;
 
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * vendor related instance checker
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @Slf4j
+@Component
 public class VendorRelatedInstanceChecker implements LocalInstanceChecker {
     @Override
     public String[] supportResources() {
-        return new String[]{RESOURCE_VENDOR_INFO, RESOURCE_VENDOR_SHOP, RESOURCE_VENDOR_CONTRACT_DEPOSIT};
+        return new String[]{RESOURCE_VENDOR_INFO,
+                RESOURCE_VENDOR_SHOP, RESOURCE_VENDOR_CONTRACT_DEPOSIT, RESOURCE_VENDOR_OVERVIEW};
     }
 
     @Override

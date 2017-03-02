@@ -9,11 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
 import com.baidu.bce.mkt.framework.iac.service.RemoteCheckAuthService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * authorization aop configuration
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @Configuration
+@Slf4j
 public class AuthorizationAopConfiguration {
     public static final String BEAN_NAME_CHECK_AUTH_INTERCEPTOR = "checkAuthAopInterceptor";
 
@@ -25,6 +28,7 @@ public class AuthorizationAopConfiguration {
 
     @Bean(name = BEAN_NAME_CHECK_AUTH_INTERCEPTOR)
     public CheckAuthAopInterceptor checkAuthInterceptor(CheckAuthService checkAuthService) {
+        log.info("current check auth service type is {}", checkAuthService.getClass().getName());
         return new CheckAuthAopInterceptor(checkAuthService);
     }
 

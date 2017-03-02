@@ -62,6 +62,7 @@ public class AuthorizationWebConfiguration extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         Map<String, Object> beanMap = applicationContext.getBeansWithAnnotation(Controller.class);
         if (!CollectionUtils.isEmpty(beanMap)) {
+            log.info("current check auth service type is {}", checkAuthService.getClass().getName());
             Map<Method, Context> methodCache = parseToMethodCache(beanMap);
             registry.addInterceptor(new CheckAuthWebInterceptor(methodCache, checkAuthService))
                     .addPathPatterns("/**")

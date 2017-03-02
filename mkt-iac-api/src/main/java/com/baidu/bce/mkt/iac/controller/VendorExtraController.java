@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.service.ContractAndDepositService;
 import com.baidu.bce.mkt.iac.helper.VendorExtraHepler;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -32,6 +34,8 @@ public class VendorExtraController {
 
     @ApiOperation(value = "合同list和保证金更新接口")
     @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
+            instanceParameterName = "vendorId")
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                         @RequestBody ContractAndDepositSubmitRequest request) {
         service.updateDepositAndContractList(vendorId, request.getDeposit(),

@@ -16,7 +16,6 @@ import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ModelUtils;
 import com.baidu.bce.mkt.framework.iac.model.TokenHolder;
 import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
-import com.baidu.bce.plat.webframework.iam.service.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
