@@ -5,4 +5,4 @@ export PATH=${JAVA_HOME}/bin:/usr/maven/apache-maven-3.0.4/bin:$PATH
 
 find ./  -name "pom.xml" -exec sed -i "s/<version>\${mkt-framework-version}/<version>$1/g" {} \;
 
-mvn -Dversion=$1 -Dmaven.test.skip=true clean package deploy:deploy -U
+mvn -Dversion=$1 -Dmaven.test.skip=true clean deploy:deploy
