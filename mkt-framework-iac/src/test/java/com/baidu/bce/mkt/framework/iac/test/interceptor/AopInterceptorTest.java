@@ -29,11 +29,9 @@ import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.mkt.framework.bootstrap.ServiceApp;
 import com.baidu.bce.mkt.framework.iac.EnableMktAuthorization;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
-import com.baidu.bce.mkt.framework.iac.aop.AuthorizationAopConfiguration;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
-import com.baidu.bce.mkt.framework.iac.service.RemoteCheckAuthService;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 

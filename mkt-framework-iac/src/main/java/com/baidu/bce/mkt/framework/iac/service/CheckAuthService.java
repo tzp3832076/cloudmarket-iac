@@ -4,7 +4,6 @@ package com.baidu.bce.mkt.framework.iac.service;
 
 import java.util.List;
 
-import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.BceAuthContextWrapper;
 import com.baidu.bce.mkt.framework.iac.model.HeadUser;

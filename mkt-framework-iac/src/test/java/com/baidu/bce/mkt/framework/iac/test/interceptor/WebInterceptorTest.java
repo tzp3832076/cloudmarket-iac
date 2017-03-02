@@ -35,8 +35,6 @@ import com.baidu.bce.mkt.framework.iac.annotation.Subject;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
-import com.baidu.bce.mkt.framework.iac.service.RemoteCheckAuthService;
-import com.baidu.bce.mkt.framework.iac.web.AuthorizationWebConfiguration;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 
