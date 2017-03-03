@@ -115,14 +115,14 @@ public class VendorControllerHelper {
     public VendorOverviewResponse toVendorOverviewResponse(VendorOverview vendorOverview) {
         VendorOverviewResponse response = new VendorOverviewResponse();
         VendorInfo vendorInfo = vendorOverview.getVendorInfo();
-        response.setVendorDone(true);
         response.setCompanyName(vendorInfo.getCompany());
         response.setVerifyStatus(vendorOverview.getQualityStatus().name());
         response.setUserId(vendorInfo.getBceUserId());
         response.setVendorStatus(vendorInfo.getStatus().name());
-        response.setVendorShopDone(vendorOverview.getVendorShop() != null);
-        response.setAgreementDone(!CollectionUtils.isEmpty(vendorOverview.getVendorContractList()));
-        response.setDepositDone(vendorOverview.getVendorDeposit() != null);
+        response.setVendorAuditStatus(vendorOverview.getVendorAuditStatus().name());
+        response.setVendorShopAuditStatus(vendorOverview.getVendorShopAuditStatus().name());
+        response.setAgreementAuditStatus(vendorOverview.getAgreementAuditStatus().name());
+        response.setDepositAuditStatus(vendorOverview.getDepositAuditStatus().name());
         response.setProductsOnSale(vendorOverview.getProductsOnSale());
         response.setProductsAuditing(vendorOverview.getProductsAuditing());
         return response;

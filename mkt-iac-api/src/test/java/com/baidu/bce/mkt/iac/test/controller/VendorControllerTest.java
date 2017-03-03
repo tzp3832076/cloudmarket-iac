@@ -24,13 +24,13 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
-import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
@@ -160,8 +160,10 @@ public class VendorControllerTest extends ApiMockMvcTest {
         vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
                                                             "test", "companySite", 1000, "address", "tel", "test-test",
                                                             "hotline", "othermarket", "contact_info"));
-        vendorOverview.setVendorShop(new VendorShop());
-        vendorOverview.setVendorDeposit(null);
+        vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
+        vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
+        vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITINIG);
+        vendorOverview.setAgreementAuditStatus(ProcessStatus.DONE);
         vendorOverview.setProductsOnSale(0);
         vendorOverview.setProductsAuditing(0);
         vendorOverview.setQualityStatus(AuditStatus.NONE);

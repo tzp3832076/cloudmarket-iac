@@ -7,6 +7,7 @@ package com.baidu.bce.mkt.iac.common.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
@@ -96,6 +98,7 @@ public class VendorService {
         VendorOverview vendorOverview = new VendorOverview();
         VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
         VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
+        VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
         List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
         VendorDeposit deposit = depositMapper.getVendorDeposit(vendorId);
         AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
@@ -105,9 +108,12 @@ public class VendorService {
         vendorOverview.setProductsAuditing(productsAuditingCount);
         vendorOverview.setProductsOnSale(productsOnSaleCount);
         vendorOverview.setQualityStatus(qualityStatus);
-        vendorOverview.setVendorContractList(contracts);
-        vendorOverview.setVendorDeposit(deposit);
-        vendorOverview.setVendorShop(vendorShop);
+        vendorOverview.setVendorAuditStatus(ProcessStatus.DONE); // 在console页面的一定是完成入驻
+        vendorOverview.setVendorShopAuditStatus(getVendorShopAuditStatus(vendorShop, vendorShopDraft));
+        vendorOverview.setAgreementAuditStatus(CollectionUtils.isEmpty(contracts)
+                                                       ? ProcessStatus.TODO : ProcessStatus.DONE);
+        vendorOverview.setDepositAuditStatus(
+                deposit.isPayOff() ? ProcessStatus.DONE : ProcessStatus.TODO);
         return vendorOverview;
     }
 
@@ -115,4 +121,15 @@ public class VendorService {
         VendorStatus vendorStatus = VendorStatus.valueOf(status);
         vendorInfoMapper.updateVendorStatus(vendorId, vendorStatus);
     }
+
+    private ProcessStatus getVendorShopAuditStatus(VendorShop vendorShop,
+                                                   VendorShopDraft shopDraft) {
+        if (vendorShop != null) {
+            return ProcessStatus.DONE;
+        } else {
+            return InfoStatus.AUDIT.equals(shopDraft.getStatus()) ? ProcessStatus.AUDITINIG :
+                                                                                                    ProcessStatus.TODO;
+        }
+    }
+
 }

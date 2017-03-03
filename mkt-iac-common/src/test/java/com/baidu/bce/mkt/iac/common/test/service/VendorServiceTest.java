@@ -17,6 +17,7 @@ import com.baidu.bce.internalsdk.qualify.model.EnterpriseInfoResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.internalsdk.qualify.model.finance.RealNameTypeForFinance;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
@@ -118,10 +119,11 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         VendorOverview vendorOverview = vendorService.getVendorOverview("vendor_1");
         log.info("getVendorOverview {}", vendorOverview);
         Assert.assertNotNull(vendorOverview.getVendorInfo());
-        Assert.assertNotNull(vendorOverview.getVendorShop());
+        Assert.assertEquals(vendorOverview.getVendorAuditStatus(), ProcessStatus.DONE);
+        Assert.assertEquals(vendorOverview.getVendorShopAuditStatus(), ProcessStatus.DONE);
+        Assert.assertEquals(vendorOverview.getAgreementAuditStatus(), ProcessStatus.DONE);
+        Assert.assertEquals(vendorOverview.getDepositAuditStatus(), ProcessStatus.DONE);
         Assert.assertEquals(vendorOverview.getQualityStatus(), AuditStatus.PASS);
-        Assert.assertNotNull(vendorOverview.getVendorContractList());
-        Assert.assertNotNull(vendorOverview.getVendorDeposit());
     }
 
     @Test

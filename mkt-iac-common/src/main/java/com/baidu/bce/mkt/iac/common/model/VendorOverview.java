@@ -4,13 +4,8 @@
 
 package com.baidu.bce.mkt.iac.common.model;
 
-import java.util.List;
-
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
-import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
-import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
-import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 
 import lombok.Data;
 
@@ -20,9 +15,10 @@ import lombok.Data;
 @Data
 public class VendorOverview {
     private VendorInfo vendorInfo;
-    private VendorShop vendorShop;
-    private List<VendorContract> vendorContractList;
-    private VendorDeposit vendorDeposit;
+    private ProcessStatus vendorAuditStatus;
+    private ProcessStatus vendorShopAuditStatus;
+    private ProcessStatus agreementAuditStatus;
+    private ProcessStatus depositAuditStatus;
     private AuditStatus qualityStatus;
     private int productsOnSale;
     private int productsAuditing;

@@ -25,10 +25,10 @@ public class VendorOverviewResponse {
     private String vendorStatus;
 
     // 'VENDOR_DONE|VENDOR_SHOP_DONE|AGREEMENT_DONE|DEPOSIT_DONE'
-    private boolean isVendorDone;
-    private boolean isVendorShopDone;
-    private boolean isAgreementDone;
-    private boolean isDepositDone;
+    private String vendorAuditStatus;
+    private String vendorShopAuditStatus;
+    private String agreementAuditStatus;
+    private String depositAuditStatus;
 
     private int productsOnSale;
     private int productsAuditing;
