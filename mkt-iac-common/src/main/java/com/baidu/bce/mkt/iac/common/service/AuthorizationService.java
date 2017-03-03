@@ -2,7 +2,9 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
 import com.baidu.bce.mkt.iac.common.model.db.RolePermission;
+import com.baidu.bce.mkt.iac.common.service.checker.LocalInstanceChecker;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +38,20 @@ public class AuthorizationService {
     private RolePermissionMapper rolePermissionMapper;
     @Autowired
     private RemoteInstanceCheckHandler remoteInstanceCheckHandler;
+
+    private Map<String, LocalInstanceChecker> checkerMap;
+
+    @Autowired
+    public AuthorizationService(List<LocalInstanceChecker> checkers) {
+        checkerMap = new HashMap<>();
+        if (!CollectionUtils.isEmpty(checkers)) {
+            for (LocalInstanceChecker localInstanceChecker : checkers) {
+                for (String supportResource : localInstanceChecker.supportResources()) {
+                    checkerMap.put(supportResource, localInstanceChecker);
+                }
+            }
+        }
+    }
 
     public UserIdentity authorize(AuthorizeCommand authorizeCommand) {
         CurrentForAuthUser currentForAuthUser = new CurrentForAuthUser(authorizeCommand.getBceUserId(),
@@ -64,8 +81,11 @@ public class AuthorizationService {
                 log.info("current user has op role, check resource instance pass directly");
                 return;
             }
-            boolean owner = remoteInstanceCheckHandler.check(userIdentity.getUserId(),
-                    userIdentity.getVendorId(), resource, instances);
+            LocalInstanceChecker localInstanceChecker = checkerMap.get(resource);
+            boolean owner = localInstanceChecker == null
+                    ? remoteInstanceCheckHandler.check(userIdentity.getUserId(), userIdentity.getVendorId(),
+                            resource, instances) :
+                    localInstanceChecker.doCheck(userIdentity, instances);
             if (!owner) {
                 log.info("user is not owner of resource = {} and instances = {}", resource, instances);
                 throw MktIacExceptions.noPermission();

@@ -32,6 +32,6 @@ public class ResourceSystemMapperTest extends BaseMapperTest {
     @Test
     public void testGet() {
         ResourceSystem resourceSystem = resourceSystemMapper.getByResource("audit");
-        Assert.assertEquals("MKT-AUDIT", resourceSystem.getSystem());
+        Assert.assertEquals("MKT_AUDIT", resourceSystem.getSystem());
     }
 }

@@ -25,7 +25,7 @@ public class ResourceSystemCacheTest extends BaseCommonServiceTest {
     @Test
     public void testGetSystemFromCache() {
         String system = resourceSystemCache.getSystem("audit");
-        Assert.assertEquals("MKT-AUDIT", system);
+        Assert.assertEquals("MKT_AUDIT", system);
     }
 
     @Test

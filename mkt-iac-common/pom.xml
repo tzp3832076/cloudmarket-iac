@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
-            <artifactId>mkt-framework-iac-client</artifactId>
+            <artifactId>mkt-framework-iac</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>

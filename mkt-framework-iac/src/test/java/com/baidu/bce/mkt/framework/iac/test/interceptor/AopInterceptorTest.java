@@ -2,6 +2,7 @@
 
 package com.baidu.bce.mkt.framework.iac.test.interceptor;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -28,9 +29,9 @@ import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.mkt.framework.bootstrap.ServiceApp;
 import com.baidu.bce.mkt.framework.iac.EnableMktAuthorization;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
-import com.baidu.bce.mkt.framework.iac.aop.AuthorizationAopConfiguration;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
-import com.baidu.bce.mkt.framework.iac.service.AuthorizationService;
+import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 
@@ -51,8 +52,8 @@ public class AopInterceptorTest {
 
     private MockMvc mockMvc;
 
-    @MockBean(name = AuthorizationAopConfiguration.BEAN_NAME_AUTHORIZATION_SERVICE)
-    private AuthorizationService authorizationService;
+    @MockBean(name = CheckAuthService.BEAN_NAME)
+    private CheckAuthService checkAuthService;
 
     @Autowired
     private Target target;
@@ -62,8 +63,9 @@ public class AopInterceptorTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
-        AuthorizedToken authorizedToken = new AuthorizedToken(new Token(), mktToken);
-        when(authorizationService.checkAuth(anyString(), anyString(), anyList())).thenReturn(authorizedToken);
+        AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
+        when(checkAuthService.checkAuth(any(), any(), anyString(), anyString(), anyList()))
+                .thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
                 .request(HttpMethod.POST, "/v1/calculate/add")
                         .param("a", "1")
@@ -77,7 +79,7 @@ public class AopInterceptorTest {
     public static class Target {
         @RequestMapping(value = "/v1/calculate/add", method = RequestMethod.POST)
         @CheckAuth(resource = "calculate", operation = "add", instanceParameterName = "a")
-        public Result calculateAdd(@RequestParam int a, @RequestParam int b, AuthorizedToken token) {
+        public Result calculateAdd(@RequestParam int a, @RequestParam int b) {
             return new Result(a + b);
         }
     }

@@ -9,8 +9,12 @@ import java.math.BigDecimal;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class IacConstants {
-    public static final String DEFAULT_ROLE = "user";
     public static final BigDecimal DEFAULT_MARGIN = BigDecimal.valueOf(10000);
     public static final String INFO_EMPTY = "信息为空";
     public static final String FORMAT_ERROR = "格式有误";
+
+    public static final String RESOURCE_VENDOR_OVERVIEW = "vendorOverview";
+    public static final String RESOURCE_VENDOR_INFO = "vendorInfo";
+    public static final String RESOURCE_VENDOR_SHOP = "vendorShop";
+    public static final String RESOURCE_VENDOR_CONTRACT_DEPOSIT = "vendorContractAndDeposit";
 }

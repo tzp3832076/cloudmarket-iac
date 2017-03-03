@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.baidu.bce.internalsdk.mkt.iac.MktIacAuthorizationClient;
 import com.baidu.bce.internalsdk.mkt.iac.MktIacClient;
+import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
 import com.baidu.bce.mkt.framework.test.iam.IamRule;
 import com.baidu.bce.mkt.framework.test.mvc.BaseMockMvcTest;
 import com.baidu.bce.mkt.framework.test.mvc.MockEndpoint;
@@ -32,6 +33,8 @@ public abstract class ApiMockMvcTest extends BaseMockMvcTest {
     protected VendorService vendorService;
     @MockBean(name = "contractAndDepositService")
     protected ContractAndDepositService contractAndDepositService;
+    @MockBean(name = CheckAuthService.BEAN_NAME)
+    protected CheckAuthService checkAuthService;
 
     @Rule
     public IamRule iamRule = new IamRule();

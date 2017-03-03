@@ -10,26 +10,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * authorizedToken
+ * authorizedToken interface
  *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthorizedToken {
-    @Getter
-    private Token token;
-    private MktToken mktToken;
+public interface AuthorizedToken {
+    String getUserId();
 
-    public String getUserId() {
-        return mktToken != null ? mktToken.getUserId() : token.getUser().getId();
-    }
+    String getMainUserId();
 
-    public String getMainUserId() {
-        return mktToken != null ? mktToken.getMainUserId() : token.getUser().getDomain().getId();
-    }
-
-    public String getVendorId() {
-        return mktToken.getVendorId();
-    }
+    String getVendorId();
 }

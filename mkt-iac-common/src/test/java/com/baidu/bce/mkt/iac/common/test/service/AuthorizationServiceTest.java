@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerRequest;
 import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerResponse;
+import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
@@ -119,6 +120,34 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
             Assert.assertEquals("NoPermission", e.getCode());
             Assert.assertTrue(outputCapture.toString()
                     .contains("reject by role permission"));
+        }
+    }
+
+    @Test
+    public void testAuthorizeLocalResourceSuccess() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
+                null, false, null, "vendorShop",
+                "read", Arrays.asList("vendor111"));
+        authorizationService.authorize(authorizeCommand);
+        UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
+        Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
+        Assert.assertEquals("vendor111", userIdentity.getVendorId());
+        Assert.assertEquals("VENDOR", userIdentity.getRole());
+    }
+
+    @Test
+    public void testAuthorizeLocalResourceFailed() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
+                null, false, null, "vendorShop",
+                "read", Arrays.asList(IdUtils.generateUUID()));
+        try {
+            authorizationService.authorize(authorizeCommand);
+            Assert.fail();
+        } catch (BceException e) {
+            Assert.assertEquals("NoPermission", e.getCode());
+            Assert.assertTrue(outputCapture.toString()
+                    .contains("user is not owner of resource = vendorShop and instances = ["
+                            + authorizeCommand.getInstances().get(0) + "]"));
         }
     }
 }

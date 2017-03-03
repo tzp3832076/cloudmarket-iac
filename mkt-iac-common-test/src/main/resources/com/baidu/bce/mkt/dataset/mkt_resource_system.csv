@@ -1,4 +1,4 @@
 id, resource, system
-1, audit, MKT-AUDIT
-2, vendorprocess, MKT-AUDIT
-3, product, MKT-PRODUCT
+1, audit, MKT_AUDIT
+2, vendorprocess, MKT_AUDIT
+3, product, MKT_PRODUCT
