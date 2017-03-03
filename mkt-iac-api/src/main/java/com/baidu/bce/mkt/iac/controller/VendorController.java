@@ -88,7 +88,7 @@ public class VendorController {
     }
 
     @ApiOperation(value = "服务商总控状况的同步接口")
-    @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}/status")
+    @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}", params = "status")
     public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
                                    @RequestParam("status") String status) {
         vendorService.updateVendorStatus(vendorId, status);

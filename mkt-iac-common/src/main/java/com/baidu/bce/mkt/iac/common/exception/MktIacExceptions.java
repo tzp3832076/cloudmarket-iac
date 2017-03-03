@@ -20,13 +20,4 @@ public class MktIacExceptions {
     public static BceException noVendorInfo() {
         return new BceException("No Vendor Info", 403, "NoVendorInfo");
     }
-
-    public static BceException emailNotValid() {
-        return new BceException("邮箱信息不合法", 403, "EmailNotValid");
-    }
-
-    public static BceException cellphoneNotValid() {
-        return new BceException("手机信息不合法", 403, "CellphoneNotValid");
-    }
-
 }

@@ -64,7 +64,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         } catch (BceInternalResponseException e) {
             log.info("exception {}", e.getMessage());
             Assert.assertEquals(e.getCode(), "BceValidationException");
-            Assert.assertTrue(e.getMessage().contains("serviceEmail="
+            Assert.assertTrue(e.getMessage().contains("servicePhone="
                                                               + IacConstants.FORMAT_ERROR));
         }
 
