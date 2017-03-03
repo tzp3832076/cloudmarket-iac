@@ -29,6 +29,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,16 +51,12 @@ public class VendorService {
 
     @Transactional
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
-        // todo precheck
         saveShopDraft(vendorId, content);
         // todo submit audit
     }
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
-        if (vendorInfo == null) {
-            throw MktIacExceptions.noVendorInfo();
-        }
         content.setVendorId(vendorId);
         content.setName(vendorInfo.getCompany());
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
@@ -112,5 +109,10 @@ public class VendorService {
         vendorOverview.setVendorDeposit(deposit);
         vendorOverview.setVendorShop(vendorShop);
         return vendorOverview;
+    }
+
+    public void updateVendorStatus(String vendorId, String status) {
+        VendorStatus vendorStatus = VendorStatus.valueOf(status);
+        vendorInfoMapper.updateVendorStatus(vendorId, vendorStatus);
     }
 }

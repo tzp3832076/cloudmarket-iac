@@ -7,8 +7,10 @@ package com.baidu.bce.mkt.iac.common.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .
@@ -44,5 +46,8 @@ public interface VendorInfoMapper {
 
     @Select(SELECT_SQL_PREFIX + "where vendor_id = @{vendorId}")
     VendorInfo getVendorInfoByVendorId(@Param("vendorId") String vendorId);
+
+    @Update(UPDATE_SQL_PREFIX + " set status = @{status} where vendor_id = @{vendorId}")
+    int updateVendorStatus(@Param("vendorId") String vendorId, @Param("status")VendorStatus status);
 
 }

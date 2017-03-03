@@ -23,6 +23,7 @@ import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 import com.baidu.bce.plat.webframework.exception.BceException;
@@ -130,6 +131,16 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertEquals(vendorOverview.getQualityStatus(), AuditStatus.PASS);
         Assert.assertNotNull(vendorOverview.getVendorContractList());
         Assert.assertNotNull(vendorOverview.getVendorDeposit());
+    }
+
+    @Test
+    public void updateVendorStatus() {
+        String vendorId = "vendor_1";
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        Assert.assertEquals(vendorInfo.getStatus(), VendorStatus.PROCESSING);
+        vendorService.updateVendorStatus(vendorId, VendorStatus.FROZEN.name());
+        vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        Assert.assertEquals(vendorInfo.getStatus(), VendorStatus.FROZEN);
     }
 
 }

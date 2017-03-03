@@ -101,4 +101,12 @@ public class MktIacClient extends BceClient {
                        .path("/overview")
                        .get(VendorOverviewResponse.class);
     }
+
+    public void updateVendorStatus(String vendorId, String status) {
+        createMktRequest().path("/v1/vendor/")
+                .path(vendorId)
+                .path("/status")
+                .queryParam("status", status)
+                .put();
+    }
 }

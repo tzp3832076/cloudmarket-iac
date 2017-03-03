@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
@@ -41,7 +42,7 @@ public class VendorController {
     @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft")
     public void saveVendorShopDraft(@PathVariable("vendorId") String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
-        VendorShopAuditContent content = helper.toShopAuditContent(request);
+        VendorShopAuditContent content = helper.toShopAuditContent(request, false);
         vendorService.saveShopDraft(vendorId, content);
     }
 
@@ -49,7 +50,7 @@ public class VendorController {
     @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft", params = "submit")
     public void submitVendorShopDraft(@PathVariable("vendorId") String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
-        VendorShopAuditContent content = helper.toShopAuditContent(request);
+        VendorShopAuditContent content = helper.toShopAuditContent(request, true);
         vendorService.submitShopDraft(vendorId, content);
     }
 
@@ -72,6 +73,13 @@ public class VendorController {
     public VendorOverviewResponse getVendorOverview(@PathVariable("vendorId") String vendorId) {
         VendorOverview vendorOverview = vendorService.getVendorOverview(vendorId);
         return helper.toVendorOverviewResponse(vendorOverview);
+    }
+
+    @ApiOperation(value = "服务商总控状况的同步接口")
+    @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}/status")
+    public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
+                                   @RequestParam("status") String status) {
+        vendorService.updateVendorStatus(vendorId, status);
     }
 }
 

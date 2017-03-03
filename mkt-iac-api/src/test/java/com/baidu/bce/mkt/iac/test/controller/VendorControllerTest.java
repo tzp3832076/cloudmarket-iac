@@ -23,6 +23,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
@@ -46,7 +47,6 @@ public class VendorControllerTest extends ApiMockMvcTest {
         List<OnlineSupport> onlineSupports = new ArrayList<>();
         onlineSupports.add(new OnlineSupport("test", "test"));
         request.setBaiduQiaos(onlineSupports);
-        request.setServiceAvailTime("test");
         request.setCompanyDescription("test");
         request.setServicePhone("12345678901");
         request.setServiceEmail("sfy@baidu.com");
@@ -62,7 +62,10 @@ public class VendorControllerTest extends ApiMockMvcTest {
             mktIacClient.saveVendorShopDraft("test", request);
             Assert.fail("no exception");
         } catch (BceInternalResponseException e) {
-            Assert.assertEquals(e.getCode(), "CellphoneNotValid");
+            log.info("exception {}", e.getMessage());
+            Assert.assertEquals(e.getCode(), "BceValidationException");
+            Assert.assertTrue(e.getMessage().contains("serviceEmail="
+                                                              + IacConstants.FORMAT_ERROR));
         }
 
         request.setServicePhone("17710655544");
@@ -74,6 +77,42 @@ public class VendorControllerTest extends ApiMockMvcTest {
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
         mktIacClient.saveVendorShopDraft("test", request);
+    }
+
+    @Test
+    public void submitShopDraft() throws Exception {
+        ShopDraftSaveRequest request = new ShopDraftSaveRequest();
+        List<OnlineSupport> onlineSupports = new ArrayList<>();
+        onlineSupports.add(new OnlineSupport("test", "test"));
+        request.setCompanyDescription("");
+        request.setServicePhone("17710655544");
+        request.setServiceEmail("sfy@baidu.com");
+        request.setBaiduWalletAccount("test");
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("saveVendorShopDraft success.");
+                return null;
+            }
+        }).when(vendorService).saveShopDraft(anyString(), any());
+        try {
+            mktIacClient.submitVendorShopDraft("test", request);
+            Assert.fail("no exception");
+        } catch (BceInternalResponseException e) {
+            log.info("exception {}", e.getMessage());
+            Assert.assertEquals(e.getCode(), "BceValidationException");
+            Assert.assertTrue(e.getMessage().contains("companyDescription="
+                                                              + IacConstants.INFO_EMPTY));
+            Assert.assertTrue(e.getMessage().contains("baiduQiaos="
+                                                              + IacConstants.INFO_EMPTY));
+            Assert.assertTrue(e.getMessage().contains("serviceAvailTime="
+                                                              + IacConstants.INFO_EMPTY));
+        }
+        request.setServiceAvailTime("test");
+        request.setBaiduQiaos(onlineSupports);
+        request.setCompanyDescription("test");
+        mktIacClient.submitVendorShopDraft("test", request);
+
     }
 
     @Test
@@ -129,5 +168,17 @@ public class VendorControllerTest extends ApiMockMvcTest {
         when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
         VendorOverviewResponse response = mktIacClient.getVendorOverview("test");
         log.info("getVendorOverview {} ", response);
+    }
+
+    @Test
+    public void updateVendorStatus() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("update vendor status success");
+                return null;
+            }
+        }).when(vendorService).updateVendorStatus(anyString(), anyString());
+        mktIacClient.updateVendorStatus("test", "HOSTED");
     }
 }

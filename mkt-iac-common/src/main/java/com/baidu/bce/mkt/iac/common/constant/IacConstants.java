@@ -11,4 +11,6 @@ import java.math.BigDecimal;
 public class IacConstants {
     public static final String DEFAULT_ROLE = "user";
     public static final BigDecimal DEFAULT_MARGIN = BigDecimal.valueOf(10000);
+    public static final String INFO_EMPTY = "信息为空";
+    public static final String FORMAT_ERROR = "格式有误";
 }

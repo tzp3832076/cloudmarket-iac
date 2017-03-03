@@ -28,4 +28,8 @@ public class MktIacExceptions {
     public static BceException cellphoneNotValid() {
         return new BceException("手机信息不合法", 403, "CellphoneNotValid");
     }
+
+    public static BceException infoEmpty() {
+        return new BceException("信息不可以为空", 403, "infoEmpty");
+    }
 }
