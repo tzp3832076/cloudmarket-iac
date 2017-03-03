@@ -65,22 +65,13 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(draft);
         Assert.assertEquals(draft.getContent().contains("\"cellphone\":\"111111\""), true);
         // exception StatusInAudit
-        vendorShopDraftMapper.updateShopAuditIdAndStatus(vendorId, "test", InfoStatus.PASS);
+        vendorShopDraftMapper.updateShopAuditIdAndStatus(vendorId, "test", InfoStatus.AUDIT);
         try {
-            vendorService.saveShopDraft("XXX", content);
+            vendorService.saveShopDraft(vendorId, content);
             Assert.fail("no exception");
         } catch (BceException e) {
-            Assert.assertEquals(e.getCode(), "NoVendorInfo");
+            Assert.assertEquals(e.getCode(), "StatusInAudit");
         }
-        // exception NoVendorInfo
-        try {
-            vendorService.saveShopDraft("XXX", content);
-            Assert.fail("no exception");
-        } catch (BceException e) {
-            Assert.assertEquals(e.getCode(), "NoVendorInfo");
-        }
-
-
     }
 
     @Test
