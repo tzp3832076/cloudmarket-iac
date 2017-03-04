@@ -5,7 +5,6 @@
 package com.baidu.bce.mkt.iac.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +16,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
+import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
@@ -41,55 +41,55 @@ public class VendorController {
     private final VendorControllerHelper helper;
 
     @ApiOperation(value = "商铺信息保存接口")
-    @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft")
+    @RequestMapping(method = RequestMethod.POST, value = "/shopDraft")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "saveDraft",
             instanceParameterName = "vendorId")
-    public void saveVendorShopDraft(@PathVariable("vendorId") String vendorId,
+    public void saveVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         VendorShopAuditContent content = helper.toShopAuditContent(request, false);
         vendorService.saveShopDraft(vendorId, content);
     }
 
     @ApiOperation(value = "商铺信息提交接口")
-    @RequestMapping(method = RequestMethod.POST, value = "/{vendorId}/shopDraft", params = "submit")
+    @RequestMapping(method = RequestMethod.POST, value = "/shopDraft", params = "submit")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft",
             instanceParameterName = "vendorId")
-    public void submitVendorShopDraft(@PathVariable("vendorId") String vendorId,
+    public void submitVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         VendorShopAuditContent content = helper.toShopAuditContent(request, true);
         vendorService.submitShopDraft(vendorId, content);
     }
 
     @ApiOperation(value = "服务商-商铺信息获取接口")
-    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopDraft")
+    @RequestMapping(method = RequestMethod.GET, value = "/shopDraft")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read",
             instanceParameterName = "vendorId")
-    public ShopDraftDetailResponse getVendorShopDraft(@PathVariable("vendorId") String vendorId) {
+    public ShopDraftDetailResponse getVendorShopDraft(@VendorId String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
         return helper.toShopDraftDetailResponse(shopDraftContent);
     }
 
     @ApiOperation(value = "服务商基本信息获取接口")
-    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/vendorInfo")
+    @RequestMapping(method = RequestMethod.GET, value = "/vendorInfo")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
             instanceParameterName = "vendorId")
-    public VendorInfoDetailResponse getVendorInfo(@PathVariable("vendorId") String vendorId) {
+    public VendorInfoDetailResponse getVendorInfo(@VendorId String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         return helper.toVendorInfoDetailResponse(vendorInfo);
     }
 
     @ApiOperation(value = "服务商概览页面接口")
-    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/overview")
+    @RequestMapping(method = RequestMethod.GET, value = "/overview")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_OVERVIEW, operation = "read",
             instanceParameterName = "vendorId")
-    public VendorOverviewResponse getVendorOverview(@PathVariable("vendorId") String vendorId) {
+    public VendorOverviewResponse getVendorOverview(@VendorId String vendorId) {
         VendorOverview vendorOverview = vendorService.getVendorOverview(vendorId);
         return helper.toVendorOverviewResponse(vendorOverview);
     }
 
     @ApiOperation(value = "服务商总控状况的同步接口")
-    @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}", params = "status")
-    public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
+    @RequestMapping(method = RequestMethod.PUT, params = "status")
+    public void updateVendorStatus(@VendorId String vendorId,
                                    @RequestParam("status") String status) {
         vendorService.updateVendorStatus(vendorId, status);
     }

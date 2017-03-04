@@ -46,7 +46,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         contracts.add(new ContractAndDepositSubmitRequest.Contract("mum1", "test", true));
         request.setContractList(contracts);
         request.setDeposit(new BigDecimal(10000));
-        mktIacClient.submitContractsAndDeposit("test", request);
+        mktIacClient.submitContractsAndDeposit(request);
     }
 
 }

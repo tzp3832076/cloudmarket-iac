@@ -59,7 +59,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
         try {
-            mktIacClient.saveVendorShopDraft("test", request);
+            mktIacClient.saveVendorShopDraft(request);
             Assert.fail("no exception");
         } catch (BceInternalResponseException e) {
             log.info("exception {}", e.getMessage());
@@ -76,7 +76,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
-        mktIacClient.saveVendorShopDraft("test", request);
+        mktIacClient.saveVendorShopDraft(request);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
         try {
-            mktIacClient.submitVendorShopDraft("test", request);
+            mktIacClient.submitVendorShopDraft(request);
             Assert.fail("no exception");
         } catch (BceInternalResponseException e) {
             log.info("exception {}", e.getMessage());
@@ -111,7 +111,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         request.setServiceAvailTime("test");
         request.setBaiduQiaos(onlineSupports);
         request.setCompanyDescription("test");
-        mktIacClient.submitVendorShopDraft("test", request);
+        mktIacClient.submitVendorShopDraft(request);
 
     }
 
@@ -132,7 +132,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         content.setVendorId("test");
         shopDraft.setContent(content);
         when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraft);
-        mktIacClient.getShopDraftDetail("test");
+        mktIacClient.getShopDraftDetail();
     }
 
     @Test
@@ -150,7 +150,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 new VendorInfo("test", "test", VendorStatus.FROZEN,
                                       "test", "companySite", 1000, "address", "tel", "test-test",
                                       "hotline", "othermarket", JsonUtils.toJson(contacts)));
-        VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail("test");
+        VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", detailResponse);
     }
 
@@ -168,7 +168,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         vendorOverview.setProductsAuditing(0);
         vendorOverview.setQualityStatus(AuditStatus.NONE);
         when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
-        VendorOverviewResponse response = mktIacClient.getVendorOverview("test");
+        VendorOverviewResponse response = mktIacClient.getVendorOverview();
         log.info("getVendorOverview {} ", response);
     }
 
@@ -181,6 +181,6 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(vendorService).updateVendorStatus(anyString(), anyString());
-        mktIacClient.updateVendorStatus("test", "HOSTED");
+        mktIacClient.updateVendorStatus("HOSTED");
     }
 }
