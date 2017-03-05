@@ -50,9 +50,10 @@ public class CheckAuthAopInterceptor extends MethodParser<AopInstanceExtractor> 
         } else {
             log.debug("found method context in cache");
         }
+        List<String> instances = context.getInstanceExtractor() == null
+                ? null : context.getInstanceExtractor().extract(methodInvocation);
         AuthorizedToken authorizedToken = checkAuthService.checkAuth(ModelUtils.createCurrentBceAuthContextWrapper(),
-                ModelUtils.createHeaderUser(), context.getResource(), context.getOperation(),
-                context.getInstanceExtractor().extract(methodInvocation));
+                ModelUtils.createHeaderUser(), context.getResource(), context.getOperation(), instances);
         TokenHolder.setAuthorizedToken(authorizedToken);
         try {
             return methodInvocation.proceed();

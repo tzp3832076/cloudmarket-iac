@@ -3,6 +3,7 @@
 package com.baidu.bce.mkt.framework.iac.web;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,10 +41,12 @@ public class CheckAuthWebInterceptor extends HandlerInterceptorAdapter {
             Context context = methodCache.get(method);
             if (context != null) {
                 log.debug("[CHECK AUTH WEB]begin to check auth");
+                List<String> instances = context.getInstanceExtractor() == null
+                        ? null : context.getInstanceExtractor().extract(request);
                 AuthorizedToken authorizedToken =
                         checkAuthService.checkAuth(ModelUtils.createCurrentBceAuthContextWrapper(),
                                 ModelUtils.createHeaderUser(request), context.getResource(), context.getOperation(),
-                                context.getInstanceExtractor().extract(request));
+                                instances);
                 TokenHolder.setAuthorizedToken(authorizedToken);
             }
             return true;
