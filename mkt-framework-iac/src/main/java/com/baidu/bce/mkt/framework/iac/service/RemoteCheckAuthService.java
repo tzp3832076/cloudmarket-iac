@@ -50,7 +50,7 @@ public class RemoteCheckAuthService implements CheckAuthService {
 
     private AuthorizationRequest.HeaderUser createHeaderUser(HeadUser headUser) {
         AuthorizationRequest.HeaderUser headerUser = new AuthorizationRequest.HeaderUser();
-        headerUser.setUserId(headerUser.getUserId());
+        headerUser.setUserId(headUser.getUserId());
         return headerUser;
     }
 
