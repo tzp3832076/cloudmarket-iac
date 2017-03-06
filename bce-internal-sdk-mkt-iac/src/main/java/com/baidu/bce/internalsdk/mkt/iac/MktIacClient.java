@@ -34,7 +34,7 @@ public class MktIacClient extends BceClient {
         return createAuthorizedRequest();
     }
 
-    public void noticeAudit(String type, String id, String status, AuditNoticeRequest request) {
+    public void auditResultNotice(String type, String id, String status, AuditNoticeRequest request) {
 
         if (TYPE_APPLICATION.equals(type)) {
             createMktRequest()
@@ -56,14 +56,14 @@ public class MktIacClient extends BceClient {
 
     public void saveVendorShopDraft( ShopDraftSaveRequest request) {
         createMktRequest()
-                .path("/v1/vendor/")
+                .path("/v1/vendor")
                 .path("/shopDraft")
                 .post(Entity.json(request));
     }
 
     public void submitVendorShopDraft( ShopDraftSaveRequest request) {
         createMktRequest()
-                .path("/v1/vendor/")
+                .path("/v1/vendor")
                 .path("/shopDraft")
                 .keyOnlyQueryParam("submit")
                 .post(Entity.json(request));
@@ -71,33 +71,36 @@ public class MktIacClient extends BceClient {
 
     public ShopDraftDetailResponse getShopDraftDetail() {
         return createMktRequest()
-                       .path("/v1/vendor/")
+                       .path("/v1/vendor")
                        .path("/shopDraft")
                        .get(ShopDraftDetailResponse.class);
     }
 
     public VendorInfoDetailResponse getVendorInfoDetail() {
         return createMktRequest()
-                       .path("/v1/vendor/")
+                       .path("/v1/vendor")
                        .path("/vendorInfo").get(VendorInfoDetailResponse.class);
     }
 
-    public void submitContractsAndDeposit(ContractAndDepositSubmitRequest request) {
+    public void submitContractsAndDeposit(String vendorId,
+                                          ContractAndDepositSubmitRequest request) {
         createMktRequest()
                 .path("/v1/vendor/")
+                .path(vendorId)
                 .path("/contractAndDeposit")
                 .post(Entity.json(request));
     }
 
     public VendorOverviewResponse getVendorOverview() {
         return createMktRequest()
-                       .path("/v1/vendor/")
+                       .path("/v1/vendor")
                        .path("/overview")
                        .get(VendorOverviewResponse.class);
     }
 
-    public void updateVendorStatus(String status) {
+    public void updateVendorStatus(String vendorId, String status) {
         createMktRequest().path("/v1/vendor/")
+                .path(vendorId)
                 .keyOnlyQueryParam("status")
                 .queryParam("status", status)
                 .put();

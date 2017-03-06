@@ -51,7 +51,7 @@ public class NoticeControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(noticeService).auditNoticeApplication(anyString(), any());
-        mktIacClient.noticeAudit("APPLICATION", "id", "PASS", request);
+        mktIacClient.auditResultNotice("APPLICATION", "id", "PASS", request);
     }
 
 }

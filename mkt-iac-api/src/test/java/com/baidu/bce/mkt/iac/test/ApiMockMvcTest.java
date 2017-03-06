@@ -4,7 +4,9 @@ package com.baidu.bce.mkt.iac.test;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.baidu.bce.internalsdk.mkt.iac.MktIacAuthorizationClient;
 import com.baidu.bce.internalsdk.mkt.iac.MktIacClient;
@@ -23,6 +25,9 @@ import com.baidu.bce.plat.webframework.iam.service.IAMService;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public abstract class ApiMockMvcTest extends BaseMockMvcTest {
+    @Autowired
+    protected WebApplicationContext applicationContext;
+
     @MockBean(name = "IAMService")
     private IAMService iamService;
     @MockBean(name = "authorizationService")

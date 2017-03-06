@@ -32,8 +32,6 @@ public class NoticeController {
     private NoticeService noticeService;
     @Autowired
     private NoticeHelper helper;
-    private static String TYPE_APPLICATION = "APPLICATION";
-    private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
 
     @ApiOperation(value = "入驻审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
@@ -43,5 +41,4 @@ public class NoticeController {
         VendorInfo vendorInfo = helper.toVendorInfo(id, request.getContent());
         noticeService.auditNoticeApplication(status, vendorInfo);
     }
-
 }
