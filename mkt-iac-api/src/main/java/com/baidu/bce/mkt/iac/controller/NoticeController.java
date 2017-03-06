@@ -38,7 +38,7 @@ public class NoticeController {
     public void auditNotice(@RequestParam("id") String id,
                             @RequestParam("status") String status,
                             @RequestBody(required = false) AuditNoticeRequest request) {
-        VendorInfo vendorInfo = helper.toVendorInfo(id, request.getContent());
+        VendorInfo vendorInfo = request == null ? null : helper.toVendorInfo(id, request.getContent());
         noticeService.auditNoticeApplication(status, vendorInfo);
     }
 }

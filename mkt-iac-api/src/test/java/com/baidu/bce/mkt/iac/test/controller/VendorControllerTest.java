@@ -23,6 +23,7 @@ import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
@@ -38,6 +39,7 @@ import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
@@ -204,5 +206,14 @@ public class VendorControllerTest extends ApiMockMvcTest {
             }
         }).when(vendorService).updateVendorStatus(anyString(), anyString());
         mktIacClient.updateVendorStatus("test", "HOSTED");
+    }
+
+    @Test
+    public void getVendorBaseContactByBceId() {
+        VendorShop vendorShop = new VendorShop();
+        vendorShop.setEmail("test");
+        when(vendorService.getVendorShopByBceUserId(anyString())).thenReturn(vendorShop);
+        VendorBaseContactResponse response = mktIacClient.getVendorBaseContactByBceId("test");
+        log.info("getVendorBaseContactByBceId {} ", response);
     }
 }

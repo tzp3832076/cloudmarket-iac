@@ -24,7 +24,8 @@ public class NoticeService {
 
     public void auditNoticeApplication(String status, VendorInfo vendorInfo) {
         if (InfoStatus.PASS.name().equals(status)) {
-            VendorInfo temp = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
+            VendorInfo temp = vendorInfo == null
+                                      ? null : vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
             if (temp == null) {
                 vendorInfoMapper.add(vendorInfo);
             } else {

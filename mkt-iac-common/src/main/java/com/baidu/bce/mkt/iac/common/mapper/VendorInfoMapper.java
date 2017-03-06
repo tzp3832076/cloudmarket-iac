@@ -50,4 +50,6 @@ public interface VendorInfoMapper {
     @Update(UPDATE_SQL_PREFIX + " set status = @{status} where vendor_id = @{vendorId}")
     int updateVendorStatus(@Param("vendorId") String vendorId, @Param("status")VendorStatus status);
 
+    @Select(SELECT_SQL_PREFIX + "where bce_user_id = @{bceUserId}")
+    VendorInfo getVendorInfoByBceUserId(@Param("bceUserId") String bceUserId);
 }

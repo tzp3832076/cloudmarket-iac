@@ -16,6 +16,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -23,6 +24,7 @@ import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorControllerHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -59,7 +61,7 @@ public class VendorController {
         vendorService.submitShopDraft(vendorId, content);
     }
 
-    @ApiOperation(value = "服务商-商铺信息获取接口")
+    @ApiOperation(value = "服务商-商铺草稿信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/shopDraft")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read")
     public ShopDraftDetailResponse getVendorShopDraft(@VendorId String vendorId) {
@@ -88,6 +90,14 @@ public class VendorController {
     public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
                                    @RequestParam("status") String status) {
         vendorService.updateVendorStatus(vendorId, status);
+    }
+
+    @ApiOperation(value = "服务商店铺信息线上接口 -- 给审核系统用于获取Email 通过提交人用户ID")
+    @RequestMapping(method = RequestMethod.GET, value = "/{bceUserId}/baseContact",
+            params = "type=BCE_ID")
+    public VendorBaseContactResponse getVendorBaseContactByBceId(@PathVariable("bceUserId") String bceUserId) {
+        VendorShop vendorShop = vendorService.getVendorShopByBceUserId(bceUserId);
+        return helper.toVendorBaseContact(vendorShop);
     }
 }
 

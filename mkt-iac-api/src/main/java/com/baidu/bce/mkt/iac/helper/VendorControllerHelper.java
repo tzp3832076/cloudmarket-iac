@@ -20,6 +20,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -28,6 +29,7 @@ import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.utils.CheckUtils;
 import com.baidu.bce.plat.webframework.exception.BceValidationException;
 
@@ -128,6 +130,13 @@ public class VendorControllerHelper {
         return response;
     }
 
+    public VendorBaseContactResponse toVendorBaseContact(VendorShop shop) {
+        VendorBaseContactResponse response = new VendorBaseContactResponse();
+        if (shop != null) {
+            response.setEmail(shop.getEmail());
+        }
+        return response;
+    }
     private void checkShopDraftSaveRequest(ShopDraftSaveRequest request, boolean canBeEmpty) {
         Map<String, String> fieldMap = canBeEmpty ? new HashMap<>() : getEmptyFieldMap(request);
         if (!(canBeEmpty && StringUtils.isEmpty(request.getServiceEmail()))) {

@@ -23,6 +23,7 @@ import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
@@ -136,4 +137,10 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertEquals(vendorInfo.getStatus(), VendorStatus.FROZEN);
     }
 
+    @Test
+    public void getVendorShopByBceUserId() {
+        String bceUserId = "bce_user_1";
+        VendorShop shop = vendorService.getVendorShopByBceUserId(bceUserId);
+        Assert.assertNotNull(shop);
+    }
 }

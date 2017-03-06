@@ -88,6 +88,17 @@ public class VendorService {
     }
 
     /**
+     * vendorShop Online
+     */
+    public VendorShop getVendorShopByBceUserId(String bceUserId) {
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByBceUserId(bceUserId);
+        if (vendorInfo == null) {
+            throw MktIacExceptions.noVendorInfo();
+        }
+        return vendorShopMapper.getVendorShopByVendorId(vendorInfo.getVendorId());
+    }
+
+    /**
      * vendorInfo
      */
     public VendorInfo getVendorInfoByVendorId(String vendorId) {

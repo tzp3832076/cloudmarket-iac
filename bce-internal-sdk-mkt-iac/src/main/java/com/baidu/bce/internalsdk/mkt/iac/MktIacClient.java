@@ -7,8 +7,10 @@ import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ParamMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 
@@ -104,5 +106,21 @@ public class MktIacClient extends BceClient {
                 .keyOnlyQueryParam("status")
                 .queryParam("status", status)
                 .put();
+    }
+
+    public VendorBaseContactResponse getVendorBaseContactByBceId(String bceUserId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(bceUserId)
+                       .path("/baseContact")
+                       .queryParam("type", "BCE_ID")
+                       .get(VendorBaseContactResponse.class);
+
+    }
+
+
+    public ParamMapResponse getParamsMap() {
+        return createMktRequest()
+                       .path("/v1/auditparams").get(ParamMapResponse.class);
     }
 }

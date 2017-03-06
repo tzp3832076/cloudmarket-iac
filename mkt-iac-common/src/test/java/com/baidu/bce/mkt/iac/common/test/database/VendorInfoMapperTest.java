@@ -47,4 +47,11 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         Assert.assertEquals(vendorInfo.getStatus(), VendorStatus.HOSTED);
     }
 
+    @Test
+    public void getVendorInfoByBceUserId() {
+        String bceUserId = "bce_user_1";
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByBceUserId(bceUserId);
+        Assert.assertNotNull(vendorInfo);
+    }
+
 }
