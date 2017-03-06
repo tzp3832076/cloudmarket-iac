@@ -50,8 +50,8 @@ public class VendorExtraController {
                 hepler.toVendorContractList(vendorId, request.getContractList()));
     }
 
-    @ApiOperation(value = "获取服务商&合同号lisr -- oss调用")
-    @RequestMapping(value = "/{vendorId}/contractToOss", method = RequestMethod.GET)
+    @ApiOperation(value = "获取服务商&合同号list")
+    @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
             instanceParameterName = "vendorId")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {

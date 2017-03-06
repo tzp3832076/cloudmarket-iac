@@ -117,11 +117,11 @@ public class MktIacClient extends BceClient {
                        .get(VendorBaseContactResponse.class);
     }
 
-    public VendorContractResponse getVendorContractToOss(String vendorId) {
+    public VendorContractResponse getVendorContract(String vendorId) {
         return createMktRequest()
                        .path("/v1/vendor/")
                        .path(vendorId)
-                       .path("/contractToOss")
+                       .path("/contract")
                        .get(VendorContractResponse.class);
     }
 }

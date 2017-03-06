@@ -69,15 +69,15 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     }
 
     @Test
-    public void getVendorContractsToOss() {
+    public void getVendorContracts() {
         List<VendorContract> contractList = new ArrayList<>();
         contractList.add(new VendorContract("test", "test", "test"));
         when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
         VendorInfo vendorInfo = new VendorInfo();
         vendorInfo.setCompany("test");
         when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(vendorInfo);
-        VendorContractResponse response = mktIacClient.getVendorContractToOss("test");
-        log.info("getVendorContractsToOss {}", response);
+        VendorContractResponse response = mktIacClient.getVendorContract("test");
+        log.info("getVendorContracts {}", response);
 
     }
 

@@ -34,11 +34,11 @@ public class VendorExtraHepler {
                                                            List<VendorContract> contracts) {
         VendorContractResponse response = new VendorContractResponse();
         response.setVendorName(vendorInfo.getCompany());
-        List<String> contractNumList = new ArrayList<>();
+        List<VendorContractResponse.ContractInfo> contractInfoNumList = new ArrayList<>();
         for (VendorContract contract : contracts) {
-            contractNumList.add(contract.getContractNum());
+            contractInfoNumList.add(new VendorContractResponse.ContractInfo(contract.getContractNum()));
         }
-        response.setContractNumList(contractNumList);
+        response.setContractInfoList(contractInfoNumList);
         return response;
     }
 }
