@@ -81,6 +81,10 @@ public class ContractAndDepositService {
         }
     }
 
+    public List<VendorContract> getVendorContractList(String vendorId) {
+        return contractMapper.getVendorContractList(vendorId);
+    }
+
     public void addContract(VendorContract contract) {
         VendorContract vendorContract = contractMapper.getVendorContract(
                 contract.getVendorId(), contract.getContractNum());

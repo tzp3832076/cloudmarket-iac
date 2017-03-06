@@ -21,9 +21,12 @@ import org.mockito.stubbing.Answer;
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
+import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +66,19 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         request.setContractList(contracts);
         request.setDeposit(new BigDecimal(10000));
         mktIacClient.submitContractsAndDeposit("test", request);
+    }
+
+    @Test
+    public void getVendorContractsToOss() {
+        List<VendorContract> contractList = new ArrayList<>();
+        contractList.add(new VendorContract("test", "test", "test"));
+        when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
+        VendorInfo vendorInfo = new VendorInfo();
+        vendorInfo.setCompany("test");
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(vendorInfo);
+        VendorContractResponse response = mktIacClient.getVendorContractToOss("test");
+        log.info("getVendorContractsToOss {}", response);
+
     }
 
 }

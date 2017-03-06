@@ -80,4 +80,13 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(contract);
     }
 
+    @Test
+    public void getContractList() {
+        List<VendorContract> vendorContractList = service.getVendorContractList("vendor_1");
+        Assert.assertNotNull(vendorContractList);
+        vendorContractList = service.getVendorContractList("vendor_XX");
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 0);
+    }
+
 }

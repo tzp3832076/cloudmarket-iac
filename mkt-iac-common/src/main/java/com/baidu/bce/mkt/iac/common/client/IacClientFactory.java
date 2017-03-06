@@ -2,6 +2,7 @@
 
 package com.baidu.bce.mkt.iac.common.client;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import endpoint.EndpointManager;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @Component
-public class IacClientFactory {
+public class IacClientFactory implements InitializingBean {
     @Autowired
     private ConfigProperties configProperties;
     private MktAuditClient mktAuditClient;
@@ -28,19 +29,20 @@ public class IacClientFactory {
     }
 
     public MktAuditClient createAuditClient() {
-        if (mktAuditClient == null) {
-            mktAuditClient = new MktAuditClient(EndpointManager.getEndpoint("MKT_AUDIT"),
-                                                       configProperties.getMktServiceAk(),
-                                                       configProperties.getMktServiceSk());
-        }
         return mktAuditClient;
     }
 
     public QualifyClient createQualifyClient() {
-        if (qualifyClient == null) {
-            qualifyClient = new QualifyClient(configProperties.getMktServiceAk(),
-                                                     configProperties.getMktServiceSk());
-        }
         return qualifyClient;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        qualifyClient = new QualifyClient(configProperties.getMktServiceAk(),
+                                                 configProperties.getMktServiceSk());
+        mktAuditClient = new MktAuditClient(EndpointManager.getEndpoint("MKT_AUDIT"),
+                                                   configProperties.getMktServiceAk(),
+                                                   configProperties.getMktServiceSk());
+
     }
 }

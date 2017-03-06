@@ -10,6 +10,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 
@@ -114,6 +115,13 @@ public class MktIacClient extends BceClient {
                        .path("/baseContact")
                        .queryParam("type", "BCE_ID")
                        .get(VendorBaseContactResponse.class);
+    }
 
+    public VendorContractResponse getVendorContractToOss(String vendorId) {
+        return createMktRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/contractToOss")
+                       .get(VendorContractResponse.class);
     }
 }

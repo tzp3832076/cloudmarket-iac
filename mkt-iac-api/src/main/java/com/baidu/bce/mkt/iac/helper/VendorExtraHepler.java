@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
+import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 
 /**
  * Created on 2017/3/1 by sunfangyuan@baidu.com .
@@ -26,5 +28,17 @@ public class VendorExtraHepler {
                                                              contract.isDelete()));
         }
         return vendorContractList;
+    }
+
+    public VendorContractResponse toVendorContractResponse(VendorInfo vendorInfo,
+                                                           List<VendorContract> contracts) {
+        VendorContractResponse response = new VendorContractResponse();
+        response.setVendorName(vendorInfo.getCompany());
+        List<String> contractNumList = new ArrayList<>();
+        for (VendorContract contract : contracts) {
+            contractNumList.add(contract.getContractNum());
+        }
+        response.setContractNumList(contractNumList);
+        return response;
     }
 }
