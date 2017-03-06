@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.baidu.bce.internalsdk.core.BceInternalResponseException;
 import com.baidu.bce.internalsdk.iam.model.Token;
@@ -52,7 +51,6 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Before
     public void  initVendorId() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
         mktToken.setVendorId(IdUtils.generateUUID());

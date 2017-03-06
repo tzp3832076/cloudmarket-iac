@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
@@ -36,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorExtraControllerTest extends ApiMockMvcTest {
     @Before
     public void  initOpId() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
         MktToken mktToken = new MktToken();
         mktToken.setRole("OP");
         mktToken.setUserId(IdUtils.generateShortUUID());
