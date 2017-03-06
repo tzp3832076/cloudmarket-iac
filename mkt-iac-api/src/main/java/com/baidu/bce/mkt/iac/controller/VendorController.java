@@ -26,6 +26,7 @@ import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
+import com.baidu.bce.mkt.iac.helper.ParamProperties;
 import com.baidu.bce.mkt.iac.helper.VendorControllerHelper;
 import com.wordnik.swagger.annotations.ApiOperation;
 
@@ -42,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorController {
     private final VendorService vendorService;
     private final VendorControllerHelper helper;
+    private final ParamProperties paramProperties;
 
     @ApiOperation(value = "商铺信息保存接口")
     @RequestMapping(method = RequestMethod.POST, value = "/shopDraft")
@@ -66,7 +68,8 @@ public class VendorController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read")
     public ShopDraftDetailResponse getVendorShopDraft(@VendorId String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
-        return helper.toShopDraftDetailResponse(shopDraftContent);
+        log.debug("paramProperties {}", paramProperties.getVendorShopMap());
+        return helper.toShopDraftDetailResponse(shopDraftContent, paramProperties.getVendorShopMap());
     }
 
     @ApiOperation(value = "服务商基本信息获取接口")
@@ -74,7 +77,8 @@ public class VendorController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read")
     public VendorInfoDetailResponse getVendorInfo(@VendorId String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
-        return helper.toVendorInfoDetailResponse(vendorInfo);
+        log.debug("paramProperties {}", paramProperties.getVendorInfoMap());
+        return helper.toVendorInfoDetailResponse(vendorInfo, paramProperties.getVendorInfoMap());
     }
 
     @ApiOperation(value = "服务商概览页面接口")

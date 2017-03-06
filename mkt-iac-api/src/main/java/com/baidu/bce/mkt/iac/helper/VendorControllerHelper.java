@@ -16,11 +16,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
+import com.baidu.bce.internalsdk.mkt.iac.model.ParamMapModel;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
-import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -64,53 +65,64 @@ public class VendorControllerHelper {
     }
 
     public ShopDraftDetailResponse toShopDraftDetailResponse(ShopDraftContentAndStatus
-                                                                     contentAndStatus) {
+                                                                     contentAndStatus,
+                                                             Map<String, String> paramMap) {
         ShopDraftDetailResponse response = new ShopDraftDetailResponse();
-        response.setStatus(contentAndStatus.getStatus().name());
+        ParamMapModel paramMapModel = toParamMapModel(paramMap);
+        response.setMap(paramMapModel);
+        ShopDraftDetailResponse.ShopDraftDetail detail = new ShopDraftDetailResponse.ShopDraftDetail();
+        detail.setStatus(contentAndStatus.getStatus().name());
         VendorShopAuditContent content = contentAndStatus.getContent();
-        response.setServicePhone(content.getCellphone());
-        response.setBaiduWalletAccount(content.getWalletId());
-        response.setServiceEmail(content.getEmail());
-        response.setCompanyDescription(content.getIntro());
-        response.setCompanyName(content.getName());
-        response.setServiceAvailTime(content.getServiceTime());
+        detail.setServicePhone(content.getCellphone());
+        detail.setBaiduWalletAccount(content.getWalletId());
+        detail.setServiceEmail(content.getEmail());
+        detail.setCompanyDescription(content.getIntro());
+        detail.setCompanyName(content.getName());
+        detail.setServiceAvailTime(content.getServiceTime());
         List<OnlineSupport> onlineSupports = new ArrayList<>();
         for (VendorShopAuditContent.CustomerService customerService : content.getCustomerServices()) {
             onlineSupports.add(new OnlineSupport(customerService.getTitle(),
                                                         customerService.getUrl()));
         }
-        response.setBaiduQiaos(onlineSupports);
+        detail.setBaiduQiaos(onlineSupports);
+        response.setData(detail);
         return response;
     }
 
-    public VendorInfoDetailResponse toVendorInfoDetailResponse(VendorInfo vendorInfo) {
+    public VendorInfoDetailResponse toVendorInfoDetailResponse(VendorInfo vendorInfo,
+                                                               Map<String, String> paramMap) {
         VendorInfoDetailResponse response = new VendorInfoDetailResponse();
+        response.setMap(toParamMapModel(paramMap));
+        VendorInfoDetailResponse.VendorInfoDetail detail =
+                new VendorInfoDetailResponse.VendorInfoDetail();
         if (vendorInfo == null) {
+            response.setData(detail);
             return response;
         }
-        response.setCompanyName(vendorInfo.getCompany());
-        response.setCompanyCapital(vendorInfo.getCapital());
-        response.setServiceHotline(vendorInfo.getHotline());
-        response.setJoinedOtherMarkets(vendorInfo.getOtherMarket());
-        response.setCompanyPhone(vendorInfo.getTelephone());
-        response.setCompanySite(vendorInfo.getWebsite());
-        response.setCompanyAddress(vendorInfo.getAddress());
+        detail.setCompanyName(vendorInfo.getCompany());
+        detail.setCompanyCapital(vendorInfo.getCapital());
+        detail.setServiceHotline(vendorInfo.getHotline());
+        detail.setJoinedOtherMarkets(vendorInfo.getOtherMarket());
+        detail.setCompanyPhone(vendorInfo.getTelephone());
+        detail.setCompanySite(vendorInfo.getWebsite());
+        detail.setCompanyAddress(vendorInfo.getAddress());
         VendorInfoContacts contacts = JsonUtils.fromJson(vendorInfo.getContactInfo(),
                 VendorInfoContacts.class);
         Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> contactWayMap =
                 getVendorContactMap(contacts.getContractList());
-        response.setBizContact(
+        detail.setBizContact(
                 contactWayMap.get(VendorInfoContacts.ContactType.Business).getName());
-        response.setBizContactPhone(
+        detail.setBizContactPhone(
                 contactWayMap.get(VendorInfoContacts.ContactType.Business).getPhone());
-        response.setEmerContact(
+        detail.setEmerContact(
                 contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getName());
-        response.setEmerContactPhone(
+        detail.setEmerContactPhone(
                 contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getPhone());
-        response.setTechContact(
+        detail.setTechContact(
                 contactWayMap.get(VendorInfoContacts.ContactType.Technical).getName());
-        response.setTechContactPhone(
+        detail.setTechContactPhone(
                 contactWayMap.get(VendorInfoContacts.ContactType.Technical).getPhone());
+        response.setData(detail);
         return response;
     }
 
@@ -180,5 +192,14 @@ public class VendorControllerHelper {
             contactWayMap.put(contactWay.getType(), contactWay);
         }
         return contactWayMap;
+    }
+
+    private ParamMapModel toParamMapModel(Map<String, String> paramMap) {
+        ParamMapModel response = new ParamMapModel();
+        for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+            response.put(entry.getKey(), entry.getValue());
+            log.debug("param response {} ", response.get(entry.getKey()));
+        }
+        return response;
     }
 }

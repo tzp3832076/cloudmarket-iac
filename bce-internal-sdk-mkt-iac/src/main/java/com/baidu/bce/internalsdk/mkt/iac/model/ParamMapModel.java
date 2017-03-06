@@ -17,5 +17,5 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ParamMapResponse extends HashMap<String, String> {
+public class ParamMapModel extends HashMap<String, String> {
 }

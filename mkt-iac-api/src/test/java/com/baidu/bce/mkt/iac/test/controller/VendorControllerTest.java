@@ -22,6 +22,7 @@ import com.baidu.bce.internalsdk.core.BceInternalResponseException;
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
+import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
@@ -151,7 +152,8 @@ public class VendorControllerTest extends ApiMockMvcTest {
         content.setVendorId("test");
         shopDraft.setContent(content);
         when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraft);
-        mktIacClient.getShopDraftDetail();
+        ShopDraftDetailResponse response = mktIacClient.getShopDraftDetail();
+        log.info("getVendorShopDraft = {}", JsonUtils.toJson(response));
     }
 
     @Test
@@ -170,7 +172,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
                                       "test", "companySite", 1000, "address", "tel", "test-test",
                                       "hotline", "othermarket", JsonUtils.toJson(contacts)));
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
-        log.info("getVendorInfoDetail {}", detailResponse);
+        log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
     }
 
     @Test

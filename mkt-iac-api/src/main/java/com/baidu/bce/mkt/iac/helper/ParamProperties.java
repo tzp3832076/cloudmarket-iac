@@ -21,5 +21,9 @@ import lombok.Setter;
 public class ParamProperties {
     @Getter
     @Setter
-    private Map<String, String> map;
+    private Map<String, String> vendorInfoMap;
+
+    @Getter
+    @Setter
+    private Map<String, String> vendorShopMap;
 }

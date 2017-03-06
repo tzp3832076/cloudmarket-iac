@@ -18,12 +18,20 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShopDraftDetailResponse {
-    private String status;
-    private String companyName;
-    private String companyDescription;
-    private String baiduWalletAccount;
-    private String serviceEmail;
-    private String servicePhone;
-    private String serviceAvailTime;
-    private List<OnlineSupport> baiduQiaos;
+    private ShopDraftDetail data;
+    private ParamMapModel map;
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class ShopDraftDetail {
+        private String status;
+        private String companyName;
+        private String companyDescription;
+        private String baiduWalletAccount;
+        private String serviceEmail;
+        private String servicePhone;
+        private String serviceAvailTime;
+        private List<OnlineSupport> baiduQiaos;
+    }
 }
