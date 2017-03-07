@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
-import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -68,7 +68,6 @@ public class VendorController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read")
     public ShopDraftDetailResponse getVendorShopDraft(@VendorId String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
-        log.debug("paramProperties {}", paramProperties.getVendorShopMap());
         return helper.toShopDraftDetailResponse(shopDraftContent, paramProperties.getVendorShopMap());
     }
 

@@ -32,4 +32,16 @@ public class VendorShopMapperTest extends BaseMapperTest {
         Assert.assertNotNull(vendorShop);
     }
 
+    @Test
+    public void updateVendorShop() {
+        VendorShop vendorShop = shopMapper.getVendorShopByVendorId("vendor_1");
+        Assert.assertNotNull(vendorShop);
+        Assert.assertEquals(vendorShop.getCellphone(), "cellphone");
+        vendorShop.setCellphone("test");
+        shopMapper.updateVendorShop(vendorShop);
+        vendorShop = shopMapper.getVendorShopByVendorId("vendor_1");
+        Assert.assertNotNull(vendorShop);
+        Assert.assertEquals(vendorShop.getCellphone(), "test");
+    }
+
 }

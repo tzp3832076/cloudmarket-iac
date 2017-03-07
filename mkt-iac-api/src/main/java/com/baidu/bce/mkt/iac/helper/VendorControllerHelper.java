@@ -7,15 +7,14 @@ package com.baidu.bce.mkt.iac.helper;
 import static com.baidu.bae.commons.lib.utils.ReflectionHelper.getFieldValue;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ParamMapModel;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
@@ -42,25 +41,22 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerHelper
 @Slf4j
 public class VendorControllerHelper {
+    @Autowired
+    private ParamProperties paramProperties;
 
     public VendorShopAuditContent toShopAuditContent(ShopDraftSaveRequest request,
                                                      boolean isSubmit) {
         checkShopDraftSaveRequest(request, !isSubmit);
         VendorShopAuditContent content = new VendorShopAuditContent();
-        content.setCellphone(request.getServicePhone());
-        content.setEmail(request.getServiceEmail());
-        content.setIntro(request.getCompanyDescription());
-        List<VendorShopAuditContent.CustomerService> customerServices = new ArrayList<>();
-        for (OnlineSupport onlineSupport : request.getBaiduQiaos()) {
-            customerServices.add(new VendorShopAuditContent.CustomerService(
-                                                                                   onlineSupport
-                                                                                           .getName(),
-                                                                                   onlineSupport
-                                                                                           .getLink()));
-        }
-        content.setCustomerServices(customerServices);
-        content.setServiceTime(request.getServiceAvailTime());
-        content.setWalletId(request.getBaiduWalletAccount());
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+        shopDraft.setBaiduQiaos(request.getBaiduQiaos());
+        shopDraft.setBaiduWalletAccount(request.getBaiduWalletAccount());
+        shopDraft.setCompanyDescription(request.getCompanyDescription());
+        shopDraft.setServiceAvailTime(request.getServiceAvailTime());
+        shopDraft.setServiceEmail(request.getServiceEmail());
+        shopDraft.setServicePhone(request.getServicePhone());
+        content.setData(shopDraft);
+        content.setMap(toParamMapModel(paramProperties.getVendorShopMap()));
         return content;
     }
 
@@ -72,19 +68,14 @@ public class VendorControllerHelper {
         response.setMap(paramMapModel);
         ShopDraftDetailResponse.ShopDraftDetail detail = new ShopDraftDetailResponse.ShopDraftDetail();
         detail.setStatus(contentAndStatus.getStatus().name());
-        VendorShopAuditContent content = contentAndStatus.getContent();
-        detail.setServicePhone(content.getCellphone());
-        detail.setBaiduWalletAccount(content.getWalletId());
-        detail.setServiceEmail(content.getEmail());
-        detail.setCompanyDescription(content.getIntro());
-        detail.setCompanyName(content.getName());
-        detail.setServiceAvailTime(content.getServiceTime());
-        List<OnlineSupport> onlineSupports = new ArrayList<>();
-        for (VendorShopAuditContent.CustomerService customerService : content.getCustomerServices()) {
-            onlineSupports.add(new OnlineSupport(customerService.getTitle(),
-                                                        customerService.getUrl()));
-        }
-        detail.setBaiduQiaos(onlineSupports);
+        VendorShopAuditContent.ShopDraft content = contentAndStatus.getContent().getData();
+        detail.setServicePhone(content.getServicePhone());
+        detail.setBaiduWalletAccount(content.getBaiduWalletAccount());
+        detail.setServiceEmail(content.getServiceEmail());
+        detail.setCompanyDescription(content.getCompanyDescription());
+        detail.setCompanyName(content.getCompanyName());
+        detail.setServiceAvailTime(content.getServiceAvailTime());
+        detail.setBaiduQiaos(content.getBaiduQiaos());
         response.setData(detail);
         return response;
     }

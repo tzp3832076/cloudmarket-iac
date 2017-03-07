@@ -54,4 +54,16 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         Assert.assertNotNull(vendorInfo);
     }
 
+    @Test
+    public void updateWalletId() {
+        String vendorId = "vendor_1";
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        Assert.assertNotNull(vendorInfo);
+        Assert.assertEquals(vendorInfo.getWalletId(), "wallet_id");
+        vendorInfoMapper.updateWalletId(vendorId, "test");
+        vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        Assert.assertNotNull(vendorInfo);
+        Assert.assertEquals(vendorInfo.getWalletId(), "test");
+    }
+
 }

@@ -54,4 +54,15 @@ public class NoticeControllerTest extends ApiMockMvcTest {
         mktIacClient.auditResultNotice("APPLICATION", "id", "PASS", request);
     }
 
+    @Test
+    public void auditVendorShop() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("auditNoticeVendorShop success.");
+                return null;
+            }
+        }).when(noticeService).auditNoticeVendorShop(anyString(), any());
+        mktIacClient.auditResultNotice("VENDOR_SHOP", "vendor_id", "PASS", null);
+    }
 }

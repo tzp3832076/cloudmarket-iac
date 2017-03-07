@@ -4,15 +4,19 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
+import com.baidu.bce.mkt.audit.internal.sdk.model.request.SubmitAuditRequest;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
+import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.ProductHandler;
 import com.baidu.bce.mkt.iac.common.handler.QualityHandler;
@@ -50,17 +54,26 @@ public class VendorService {
     private final VendorDepositMapper depositMapper;
     private final QualityHandler qualityHandler;
     private final ProductHandler productHandler;
+    private final IacClientFactory iacClientFactory;
 
     @Transactional
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
         saveShopDraft(vendorId, content);
-        // todo submit audit
+        SubmitAuditRequest request = new SubmitAuditRequest();
+        request.setContent(JsonUtils.toJson(content));
+        request.setInfoType(IacConstants.AUDIT_VENDOR_SHOP);
+        request.setBaseInfo("");
+        request.setSearchItems(new ArrayList<>());
+        request.setInfoId(vendorId);
+        // todo 修改提交接口 返回 AuditID 存储在vendorShopDraft表中
+        iacClientFactory.createAuditClient().auditSubmit(request);
+        shopDraftMapper.updateShopAuditIdAndStatus(vendorId, "auditId_todo", InfoStatus.AUDIT);
     }
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
-        content.setVendorId(vendorId);
-        content.setName(vendorInfo.getCompany());
+        content.getData().setBceAccount(vendorInfo.getBceUserId());
+        content.getData().setCompanyName(vendorInfo.getCompany());
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
         if (shopDraft == null) {
             shopDraftMapper.add(new VendorShopDraft(vendorId, JsonUtils.toJson(content)));

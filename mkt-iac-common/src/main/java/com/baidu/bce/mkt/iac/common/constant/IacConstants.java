@@ -17,4 +17,6 @@ public class IacConstants {
     public static final String RESOURCE_VENDOR_INFO = "vendorInfo";
     public static final String RESOURCE_VENDOR_SHOP = "vendorShop";
     public static final String RESOURCE_VENDOR_CONTRACT_DEPOSIT = "vendorContractAndDeposit";
+
+    public static final String AUDIT_VENDOR_SHOP = "VENDOR_SHOP";
 }

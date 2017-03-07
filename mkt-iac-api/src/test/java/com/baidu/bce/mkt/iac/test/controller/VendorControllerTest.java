@@ -137,21 +137,23 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     public void getVendorShopDraft() throws Exception {
-        ShopDraftContentAndStatus shopDraft = new ShopDraftContentAndStatus();
-        shopDraft.setStatus(InfoStatus.AUDIT);
+        ShopDraftContentAndStatus shopDraftContentAndStatus = new ShopDraftContentAndStatus();
+        shopDraftContentAndStatus.setStatus(InfoStatus.AUDIT);
         VendorShopAuditContent content = new VendorShopAuditContent();
-        content.setCellphone("test");
-        List<VendorShopAuditContent.CustomerService> customerServices = new ArrayList<>();
-        customerServices.add(new VendorShopAuditContent.CustomerService("test", "test"));
-        content.setCustomerServices(customerServices);
-        content.setWalletId("test");
-        content.setEmail("test");
-        content.setIntro("test");
-        content.setName("test");
-        content.setServiceTime("test");
-        content.setVendorId("test");
-        shopDraft.setContent(content);
-        when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraft);
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+        shopDraft.setCompanyName("test");
+        shopDraft.setBceAccount("test");
+        shopDraft.setBaiduWalletAccount("test");
+        List<OnlineSupport> onlineSupportList = new ArrayList<>();
+        onlineSupportList.add(new OnlineSupport("test", "test"));
+        shopDraft.setBaiduQiaos(onlineSupportList);
+        shopDraft.setCompanyDescription("test");
+        shopDraft.setServiceEmail("test");
+        shopDraft.setServiceAvailTime("test");
+        shopDraft.setServicePhone("test");
+        content.setData(shopDraft);
+        shopDraftContentAndStatus.setContent(content);
+        when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraftContentAndStatus);
         ShopDraftDetailResponse response = mktIacClient.getShopDraftDetail();
         log.info("getVendorShopDraft = {}", JsonUtils.toJson(response));
     }

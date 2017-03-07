@@ -48,24 +48,28 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         VendorShopDraft draft = vendorService.getVendorShopDraft(vendorId);
         Assert.assertNull(draft);
         VendorShopAuditContent content = new VendorShopAuditContent();
-        content.setServiceTime("test");
-        content.setIntro("test");
-        content.setEmail("test");
-        content.setWalletId("test");
-        content.setCellphone("test");
-        content.setCustomerServices(new ArrayList<>());
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+        shopDraft.setServicePhone("test");
+        shopDraft.setServiceAvailTime("test");
+        shopDraft.setServiceEmail("test");
+        shopDraft.setCompanyDescription("test");
+        shopDraft.setBaiduQiaos(new ArrayList<>());
+        shopDraft.setBaiduWalletAccount("test");
+        shopDraft.setBceAccount("test");
+        shopDraft.setCompanyName("test");
+        content.setData(shopDraft);
         // first add
         vendorService.saveShopDraft(vendorId, content);
         draft = vendorService.getVendorShopDraft(vendorId);
         Assert.assertNotNull(draft);
         log.info("content {}", draft.getContent());
-        Assert.assertEquals(draft.getContent().contains("\"cellphone\":\"test\""), true);
+        Assert.assertEquals(draft.getContent().contains("\"servicePhone\":\"test\""), true);
         // second
-        content.setCellphone("111111");
+        shopDraft.setServicePhone("111111");
         vendorService.saveShopDraft(vendorId, content);
         draft = vendorService.getVendorShopDraft(vendorId);
         Assert.assertNotNull(draft);
-        Assert.assertEquals(draft.getContent().contains("\"cellphone\":\"111111\""), true);
+        Assert.assertEquals(draft.getContent().contains("\"servicePhone\":\"111111\""), true);
         // exception StatusInAudit
         vendorShopDraftMapper.updateShopAuditIdAndStatus(vendorId, "test", InfoStatus.AUDIT);
         try {
@@ -89,18 +93,20 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     public void getVendorShopDraftContent() {
         String vendorId = "vendor_1";
         VendorShopAuditContent content = new VendorShopAuditContent();
-        content.setServiceTime("test");
-        content.setIntro("test");
-        content.setEmail("test");
-        content.setWalletId("test");
-        content.setCellphone("test");
-        content.setCustomerServices(new ArrayList<>());
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+        shopDraft.setServicePhone("test");
+        shopDraft.setServiceAvailTime("test");
+        shopDraft.setServiceEmail("test");
+        shopDraft.setCompanyDescription("test");
+        shopDraft.setBaiduQiaos(new ArrayList<>());
+        shopDraft.setBaiduWalletAccount("test");
+        content.setData(shopDraft);
         // first add
         vendorService.saveShopDraft(vendorId, content);
-        ShopDraftContentAndStatus contentAndStatus = vendorService.getShopDraftContentAndStatus(
-                vendorId);
+        ShopDraftContentAndStatus contentAndStatus = vendorService.getShopDraftContentAndStatus(vendorId);
         Assert.assertEquals(contentAndStatus.getStatus(), InfoStatus.EDIT);
-        Assert.assertEquals(contentAndStatus.getContent().getCellphone(), "test");
+        Assert.assertEquals(contentAndStatus.getContent().getData().getBaiduWalletAccount(), "test");
+        Assert.assertEquals(contentAndStatus.getContent().getData().getServiceEmail(), "test");
     }
 
     @Test

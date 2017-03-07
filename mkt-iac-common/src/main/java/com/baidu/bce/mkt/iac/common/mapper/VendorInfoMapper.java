@@ -52,4 +52,7 @@ public interface VendorInfoMapper {
 
     @Select(SELECT_SQL_PREFIX + "where bce_user_id = @{bceUserId}")
     VendorInfo getVendorInfoByBceUserId(@Param("bceUserId") String bceUserId);
+
+    @Update(UPDATE_SQL_PREFIX + " set wallet_id = @{walletId} where vendor_id = @{vendorId}")
+    int updateWalletId(@Param("vendorId") String vendorId, @Param("walletId")String walletId);
 }

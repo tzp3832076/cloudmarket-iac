@@ -41,4 +41,11 @@ public class NoticeController {
         VendorInfo vendorInfo = request == null ? null : helper.toVendorInfo(id, request.getContent());
         noticeService.auditNoticeApplication(status, vendorInfo);
     }
+
+    @ApiOperation(value = "vendorShop审核信息通过的通知接收")
+    @RequestMapping(method = RequestMethod.PUT, value = "/audit", params = "type=vendorShop")
+    public void auditNotice(@RequestParam("id") String id,
+                            @RequestParam("status") String status) {
+        noticeService.auditNoticeVendorShop(status, id);
+    }
 }

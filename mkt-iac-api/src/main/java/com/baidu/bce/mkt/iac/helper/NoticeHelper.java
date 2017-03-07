@@ -17,7 +17,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 public class NoticeHelper {
 
     public VendorInfo toVendorInfo(String vendorId, String content) {
-        // todo 修改bos 到 vendorInfo的部分接口
+        // done 在审核系统通过后返回的是 json(application)
         ApplicationNoticeBody application = JsonUtils.fromJson(content, ApplicationNoticeBody
                                                                                 .class);
         return new VendorInfo(vendorId, application.getBceUserId(),

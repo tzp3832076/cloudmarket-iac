@@ -7,6 +7,7 @@ package com.baidu.bce.mkt.iac.common.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 
@@ -33,6 +34,11 @@ public interface VendorShopMapper {
                     + " NOW() "
                     + " )")
     int add(VendorShop vendorShop);
+
+    @Update(UPDATE_SQL_PREFIX + " SET name = @{name}, intro = @{intro}, email = @{email},"
+                    + " cellphone = @{cellphone}, service_info = @{serviceInfo} "
+                    + " WHERE vendor_id = @{vendorId}")
+    int updateVendorShop(VendorShop vendorShop);
 
     @Select(SELECT_SQL_PREFIX + "where vendor_id = @{vendorId}")
     VendorShop getVendorShopByVendorId(@Param("vendorId") String vendorId);
