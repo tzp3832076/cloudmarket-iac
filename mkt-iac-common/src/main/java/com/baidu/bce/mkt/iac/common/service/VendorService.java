@@ -58,7 +58,7 @@ public class VendorService {
 
     @Transactional
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
-        saveShopDraft(vendorId, content);
+        saveShopDraft(vendorId, content.getData());
         SubmitAuditRequest request = new SubmitAuditRequest();
         request.setContent(JsonUtils.toJson(content));
         request.setInfoType(IacConstants.AUDIT_VENDOR_SHOP);
@@ -70,10 +70,10 @@ public class VendorService {
         shopDraftMapper.updateShopAuditIdAndStatus(vendorId, "auditId_todo", InfoStatus.AUDIT);
     }
 
-    public void saveShopDraft(String vendorId, VendorShopAuditContent content) {
+    public void saveShopDraft(String vendorId, VendorShopAuditContent.ShopDraft content) {
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
-        content.getData().setBceAccount(vendorInfo.getBceUserId());
-        content.getData().setCompanyName(vendorInfo.getCompany());
+        content.setBceAccount(vendorInfo.getBceUserId());
+        content.setCompanyName(vendorInfo.getCompany());
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
         if (shopDraft == null) {
             shopDraftMapper.add(new VendorShopDraft(vendorId, JsonUtils.toJson(content)));
@@ -92,8 +92,8 @@ public class VendorService {
 
     public ShopDraftContentAndStatus getShopDraftContentAndStatus(String vendorId) {
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
-        VendorShopAuditContent content = JsonUtils.fromJson(shopDraft.getContent(),
-                VendorShopAuditContent.class);
+        VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(shopDraft.getContent(),
+                VendorShopAuditContent.ShopDraft.class);
         ShopDraftContentAndStatus contentAndStatus = new ShopDraftContentAndStatus();
         contentAndStatus.setContent(content);
         contentAndStatus.setStatus(shopDraft.getStatus());

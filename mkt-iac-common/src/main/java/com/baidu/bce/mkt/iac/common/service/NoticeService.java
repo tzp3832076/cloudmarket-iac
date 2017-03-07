@@ -50,15 +50,15 @@ public class NoticeService {
     public void auditNoticeVendorShop(String status, String vendorId) {
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
         if (InfoStatus.PASS.name().equals(status)) {
-            VendorShopAuditContent content = JsonUtils.fromJson(vendorShopDraft.getContent(),
-                    VendorShopAuditContent.class);
-            VendorShop vendorShop = getVendorShopFromContent(content.getData(), vendorShopDraft);
+            VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(vendorShopDraft.getContent(),
+                    VendorShopAuditContent.ShopDraft.class);
+            VendorShop vendorShop = getVendorShopFromContent(content, vendorShopDraft);
             if (vendorShopMapper.getVendorShopByVendorId(vendorId) == null) {
                 vendorShopMapper.add(vendorShop);
             } else {
                 vendorShopMapper.updateVendorShop(vendorShop);
             }
-            vendorInfoMapper.updateWalletId(vendorId, content.getData().getBaiduWalletAccount());
+            vendorInfoMapper.updateWalletId(vendorId, content.getBaiduWalletAccount());
         }
         shopDraftMapper.updateShopAuditIdAndStatus(vendorId, vendorShopDraft.getAuditId(),
                 InfoStatus.valueOf(status));

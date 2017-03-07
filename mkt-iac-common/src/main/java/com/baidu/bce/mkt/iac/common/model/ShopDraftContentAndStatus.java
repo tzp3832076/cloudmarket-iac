@@ -14,5 +14,5 @@ import lombok.Data;
 @Data
 public class ShopDraftContentAndStatus {
     private InfoStatus status;
-    private VendorShopAuditContent content;
+    private VendorShopAuditContent.ShopDraft content;
 }

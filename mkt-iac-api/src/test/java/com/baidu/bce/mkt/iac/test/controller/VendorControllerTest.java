@@ -139,7 +139,6 @@ public class VendorControllerTest extends ApiMockMvcTest {
     public void getVendorShopDraft() throws Exception {
         ShopDraftContentAndStatus shopDraftContentAndStatus = new ShopDraftContentAndStatus();
         shopDraftContentAndStatus.setStatus(InfoStatus.AUDIT);
-        VendorShopAuditContent content = new VendorShopAuditContent();
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setCompanyName("test");
         shopDraft.setBceAccount("test");
@@ -151,8 +150,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         shopDraft.setServiceEmail("test");
         shopDraft.setServiceAvailTime("test");
         shopDraft.setServicePhone("test");
-        content.setData(shopDraft);
-        shopDraftContentAndStatus.setContent(content);
+        shopDraftContentAndStatus.setContent(shopDraft);
         when(vendorService.getShopDraftContentAndStatus(anyString())).thenReturn(shopDraftContentAndStatus);
         ShopDraftDetailResponse response = mktIacClient.getShopDraftDetail();
         log.info("getVendorShopDraft = {}", JsonUtils.toJson(response));

@@ -50,7 +50,8 @@ public class VendorController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "saveDraft")
     public void saveVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
-        VendorShopAuditContent content = helper.toShopAuditContent(request, false);
+        helper.checkShopDraftSaveRequest(request, true);
+        VendorShopAuditContent.ShopDraft content = helper.getShopDraftContent(request);
         vendorService.saveShopDraft(vendorId, content);
     }
 
@@ -59,7 +60,8 @@ public class VendorController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft")
     public void submitVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
-        VendorShopAuditContent content = helper.toShopAuditContent(request, true);
+        helper.checkShopDraftSaveRequest(request, false);
+        VendorShopAuditContent content = helper.toShopAuditContent(request);
         vendorService.submitShopDraft(vendorId, content);
     }
 

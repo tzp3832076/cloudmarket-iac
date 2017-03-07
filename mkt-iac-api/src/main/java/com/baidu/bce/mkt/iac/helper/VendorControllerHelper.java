@@ -44,10 +44,7 @@ public class VendorControllerHelper {
     @Autowired
     private ParamProperties paramProperties;
 
-    public VendorShopAuditContent toShopAuditContent(ShopDraftSaveRequest request,
-                                                     boolean isSubmit) {
-        checkShopDraftSaveRequest(request, !isSubmit);
-        VendorShopAuditContent content = new VendorShopAuditContent();
+    public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setBaiduQiaos(request.getBaiduQiaos());
         shopDraft.setBaiduWalletAccount(request.getBaiduWalletAccount());
@@ -55,6 +52,12 @@ public class VendorControllerHelper {
         shopDraft.setServiceAvailTime(request.getServiceAvailTime());
         shopDraft.setServiceEmail(request.getServiceEmail());
         shopDraft.setServicePhone(request.getServicePhone());
+        return shopDraft;
+    }
+
+    public VendorShopAuditContent toShopAuditContent(ShopDraftSaveRequest request) {
+        VendorShopAuditContent content = new VendorShopAuditContent();
+        VendorShopAuditContent.ShopDraft shopDraft = getShopDraftContent(request);
         content.setData(shopDraft);
         content.setMap(toParamMapModel(paramProperties.getVendorShopMap()));
         return content;
@@ -68,7 +71,7 @@ public class VendorControllerHelper {
         response.setMap(paramMapModel);
         ShopDraftDetailResponse.ShopDraftDetail detail = new ShopDraftDetailResponse.ShopDraftDetail();
         detail.setStatus(contentAndStatus.getStatus().name());
-        VendorShopAuditContent.ShopDraft content = contentAndStatus.getContent().getData();
+        VendorShopAuditContent.ShopDraft content = contentAndStatus.getContent();
         detail.setServicePhone(content.getServicePhone());
         detail.setBaiduWalletAccount(content.getBaiduWalletAccount());
         detail.setServiceEmail(content.getServiceEmail());
@@ -140,7 +143,7 @@ public class VendorControllerHelper {
         }
         return response;
     }
-    private void checkShopDraftSaveRequest(ShopDraftSaveRequest request, boolean canBeEmpty) {
+    public void checkShopDraftSaveRequest(ShopDraftSaveRequest request, boolean canBeEmpty) {
         Map<String, String> fieldMap = canBeEmpty ? new HashMap<>() : getEmptyFieldMap(request);
         if (!(canBeEmpty && StringUtils.isEmpty(request.getServiceEmail()))) {
             if (!CheckUtils.checkEmail(request.getServiceEmail())) {
