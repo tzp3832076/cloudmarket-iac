@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.audit.internal.sdk.model.request.SubmitAuditRequest;
+import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -60,14 +61,14 @@ public class VendorService {
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
         saveShopDraft(vendorId, content.getData());
         SubmitAuditRequest request = new SubmitAuditRequest();
-        request.setContent(JsonUtils.toJson(content));
+        request.setData(content.getData());
+        request.setMap(content.getMap());
         request.setInfoType(IacConstants.AUDIT_VENDOR_SHOP);
         request.setBaseInfo("");
         request.setSearchItems(new ArrayList<>());
         request.setInfoId(vendorId);
-        // todo 修改提交接口 返回 AuditID 存储在vendorShopDraft表中
-        iacClientFactory.createAuditClient().auditSubmit(request);
-        shopDraftMapper.updateShopAuditIdAndStatus(vendorId, "auditId_todo", InfoStatus.AUDIT);
+        SubmitAuditResponse response = iacClientFactory.createAuditClient().auditSubmit(request);
+        shopDraftMapper.updateShopAuditIdAndStatus(vendorId, response.getAuditId(), InfoStatus.AUDIT);
     }
 
     public void saveShopDraft(String vendorId, VendorShopAuditContent.ShopDraft content) {
