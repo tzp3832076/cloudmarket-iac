@@ -20,6 +20,10 @@
             <artifactId>bce-internal-sdk-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.baidu.bce</groupId>
+            <artifactId>mkt-framework-sdk</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>

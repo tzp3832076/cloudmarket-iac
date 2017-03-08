@@ -2,8 +2,7 @@
 
 package com.baidu.bce.internalsdk.mkt.iac;
 
-import com.baidu.bce.internalsdk.core.BceClient;
-import com.baidu.bce.internalsdk.core.BceInternalRequest;
+
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
@@ -13,6 +12,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.mkt.framework.sdk.BaseClient;
 
 import endpoint.EndpointManager;
 
@@ -20,7 +20,7 @@ import endpoint.EndpointManager;
  * mkt iac client
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
-public class MktIacClient extends BceClient {
+public class MktIacClient extends BaseClient {
     private static String TYPE_APPLICATION = "APPLICATION";
     private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
 
@@ -30,10 +30,6 @@ public class MktIacClient extends BceClient {
 
     public MktIacClient(String endpoint, String accessKey, String secretKey) {
         super(endpoint, accessKey, secretKey);
-    }
-
-    private BceInternalRequest createMktRequest() {
-        return createAuthorizedRequest();
     }
 
     public void auditResultNotice(String type, String id, String status, AuditNoticeRequest request) {

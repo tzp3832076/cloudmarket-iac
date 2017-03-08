@@ -18,7 +18,7 @@
     <parent>
         <groupId>com.baidu.bce</groupId>
         <artifactId>mkt-framework-parent</artifactId>
-        <version>1.0.13.1</version>
+        <version>1.0.17.1</version>
     </parent>
 
     <groupId>com.baidu.bce</groupId>
