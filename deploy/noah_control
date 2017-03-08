@@ -1,0 +1,36 @@
+#!/bin/bash
+THIS_DIR=$(dirname $(readlink -f $0))
+
+function start(){
+    pushd $THIS_DIR
+    bash start.sh
+    popd
+}
+
+function stop(){
+    pushd $THIS_DIR
+    bash stop.sh
+    popd
+}
+
+case C"$1" in
+    C)
+        echo "Usage: $0 {start|stop|restart}"
+        ;;
+    Cstart)
+        start
+        echo "Done!"
+        ;;
+    Cstop)
+        stop
+        echo "Done!"
+        ;;
+    Crestart)
+        stop
+        start
+        echo "Done!"
+        ;;
+    C*)
+        echo "Usage: $0 {start|stop|restart}"
+        ;;
+esac
