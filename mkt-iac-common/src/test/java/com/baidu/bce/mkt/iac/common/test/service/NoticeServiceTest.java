@@ -3,6 +3,9 @@
  */
 package com.baidu.bce.mkt.iac.common.test.service;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
+import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
@@ -69,6 +73,7 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
         shopDraft.setServiceAvailTime("test");
         shopDraft.setServicePhone("test");
         content.setData(shopDraft);
+        when(auditClient.auditSubmit(any())).thenReturn(new SubmitAuditResponse("test"));
         vendorService.submitShopDraft(vendorId, content);
         VendorShopDraft vendorShopDraft = vendorShopDraftMapper.getShopDraftByVendorId(vendorId);
         Assert.assertNotNull(vendorShopDraft);
