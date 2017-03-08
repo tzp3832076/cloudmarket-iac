@@ -35,7 +35,7 @@ public class MktIacClient extends BaseClient {
     public void auditResultNotice(String type, String id, String status, AuditNoticeRequest request) {
 
         if (TYPE_APPLICATION.equals(type)) {
-            createMktRequest()
+            createMktAuthorizedRequest()
                     .path("/v1/notice/audit")
                     .queryParam("type", "application")
                     .queryParam("id", id)
@@ -43,7 +43,7 @@ public class MktIacClient extends BaseClient {
                     .post(Entity.json(request));
         }
         if (TYPE_VENDOR_SHOP.equals(type)) {
-            createMktRequest()
+            createMktAuthorizedRequest()
                     .path("/v1/notice/audit")
                     .queryParam("type", "vendorShop")
                     .queryParam("id", id)
@@ -53,14 +53,14 @@ public class MktIacClient extends BaseClient {
     }
 
     public void saveVendorShopDraft( ShopDraftSaveRequest request) {
-        createMktRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor")
                 .path("/shopDraft")
                 .post(Entity.json(request));
     }
 
     public void submitVendorShopDraft( ShopDraftSaveRequest request) {
-        createMktRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor")
                 .path("/shopDraft")
                 .keyOnlyQueryParam("submit")
@@ -68,21 +68,21 @@ public class MktIacClient extends BaseClient {
     }
 
     public ShopDraftDetailResponse getShopDraftDetail() {
-        return createMktRequest()
+        return createMktAuthorizedRequest()
                        .path("/v1/vendor")
                        .path("/shopDraft")
                        .get(ShopDraftDetailResponse.class);
     }
 
     public VendorInfoDetailResponse getVendorInfoDetail() {
-        return createMktRequest()
+        return createMktAuthorizedRequest()
                        .path("/v1/vendor")
                        .path("/vendorInfo").get(VendorInfoDetailResponse.class);
     }
 
     public void submitContractsAndDeposit(String vendorId,
                                           ContractAndDepositSubmitRequest request) {
-        createMktRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path(vendorId)
                 .path("/contractAndDeposit")
@@ -90,14 +90,14 @@ public class MktIacClient extends BaseClient {
     }
 
     public VendorOverviewResponse getVendorOverview() {
-        return createMktRequest()
+        return createMktAuthorizedRequest()
                        .path("/v1/vendor")
                        .path("/overview")
                        .get(VendorOverviewResponse.class);
     }
 
     public void updateVendorStatus(String vendorId, String status) {
-        createMktRequest().path("/v1/vendor/")
+        createMktAuthorizedRequest().path("/v1/vendor/")
                 .path(vendorId)
                 .keyOnlyQueryParam("status")
                 .queryParam("status", status)
@@ -105,7 +105,7 @@ public class MktIacClient extends BaseClient {
     }
 
     public VendorBaseContactResponse getVendorBaseContactByBceId(String bceUserId) {
-        return createMktRequest()
+        return createMktAuthorizedRequest()
                        .path("/v1/vendor/")
                        .path(bceUserId)
                        .path("/baseContact")
@@ -114,7 +114,7 @@ public class MktIacClient extends BaseClient {
     }
 
     public VendorContractResponse getVendorContract(String vendorId) {
-        return createMktRequest()
+        return createMktAuthorizedRequest()
                        .path("/v1/vendor/")
                        .path(vendorId)
                        .path("/contract")
