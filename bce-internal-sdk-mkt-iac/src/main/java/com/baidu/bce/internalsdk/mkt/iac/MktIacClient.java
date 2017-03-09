@@ -32,13 +32,13 @@ public class MktIacClient extends BaseClient {
         super(endpoint, accessKey, secretKey);
     }
 
-    public void auditResultNotice(String type, String id, String status, AuditNoticeRequest request) {
+    public void auditResultNotice(String type, String vendorId, String status, AuditNoticeRequest request) {
 
         if (TYPE_APPLICATION.equals(type)) {
             createMktAuthorizedRequest()
                     .path("/v1/notice/audit")
                     .queryParam("type", "application")
-                    .queryParam("id", id)
+                    .queryParam("vendorId", vendorId)
                     .queryParam("status", status)
                     .post(Entity.json(request));
         }
@@ -46,7 +46,7 @@ public class MktIacClient extends BaseClient {
             createMktAuthorizedRequest()
                     .path("/v1/notice/audit")
                     .queryParam("type", "vendorShop")
-                    .queryParam("id", id)
+                    .queryParam("vendorId", vendorId)
                     .queryParam("status", status)
                     .put();
         }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.service.NoticeService;
 import com.baidu.bce.mkt.iac.helper.NoticeHelper;
@@ -35,17 +37,23 @@ public class NoticeController {
 
     @ApiOperation(value = "入驻审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
-    public void auditNotice(@RequestParam("id") String id,
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "update",
+            instanceParameterName = "vendorId")
+//    @UnknownExceptionResponse(message = "入驻审核信息同步失败")
+    public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status,
                             @RequestBody(required = false) AuditNoticeRequest request) {
-        VendorInfo vendorInfo = request == null ? null : helper.toVendorInfo(id, request.getContent());
+        VendorInfo vendorInfo = request == null ? null : helper.toVendorInfo(vendorId, request.getContent());
         noticeService.auditNoticeApplication(status, vendorInfo);
     }
 
     @ApiOperation(value = "vendorShop审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.PUT, value = "/audit", params = "type=vendorShop")
-    public void auditNotice(@RequestParam("id") String id,
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "update",
+            instanceParameterName = "vendorId")
+//    @UnknownExceptionResponse(message = "vendorShop审核信息同步失败")
+    public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status) {
-        noticeService.auditNoticeVendorShop(status, id);
+        noticeService.auditNoticeVendorShop(status, vendorId);
     }
 }

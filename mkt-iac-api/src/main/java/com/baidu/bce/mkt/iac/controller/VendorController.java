@@ -48,6 +48,7 @@ public class VendorController {
     @ApiOperation(value = "商铺信息保存接口")
     @RequestMapping(method = RequestMethod.POST, value = "/shopDraft")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "saveDraft")
+//    @UnknownExceptionResponse(message = "商铺信息保存失败")
     public void saveVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         helper.checkShopDraftSaveRequest(request, true);
@@ -58,6 +59,7 @@ public class VendorController {
     @ApiOperation(value = "商铺信息提交接口")
     @RequestMapping(method = RequestMethod.POST, value = "/shopDraft", params = "submit")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft")
+//    @UnknownExceptionResponse(message = "商铺信息提交失败")
     public void submitVendorShopDraft(@VendorId String vendorId,
                                     @RequestBody ShopDraftSaveRequest request) {
         helper.checkShopDraftSaveRequest(request, false);
@@ -68,6 +70,7 @@ public class VendorController {
     @ApiOperation(value = "服务商-商铺草稿信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/shopDraft")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read")
+//    @UnknownExceptionResponse(message = "商铺草稿信息获取失败")
     public ShopDraftDetailResponse getVendorShopDraft(@VendorId String vendorId) {
         ShopDraftContentAndStatus shopDraftContent = vendorService.getShopDraftContentAndStatus(vendorId);
         return helper.toShopDraftDetailResponse(shopDraftContent, paramProperties.getVendorShopMap());
@@ -76,6 +79,7 @@ public class VendorController {
     @ApiOperation(value = "服务商基本信息获取接口")
     @RequestMapping(method = RequestMethod.GET, value = "/vendorInfo")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read")
+//    @UnknownExceptionResponse(message = "服务商基本信息获取失败")
     public VendorInfoDetailResponse getVendorInfo(@VendorId String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         log.debug("paramProperties {}", paramProperties.getVendorInfoMap());
@@ -85,6 +89,7 @@ public class VendorController {
     @ApiOperation(value = "服务商概览页面接口")
     @RequestMapping(method = RequestMethod.GET, value = "/overview")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_OVERVIEW, operation = "read")
+//    @UnknownExceptionResponse(message = "服务商概览页获取失败")
     public VendorOverviewResponse getVendorOverview(@VendorId String vendorId) {
         VendorOverview vendorOverview = vendorService.getVendorOverview(vendorId);
         return helper.toVendorOverviewResponse(vendorOverview);
@@ -92,6 +97,9 @@ public class VendorController {
 
     @ApiOperation(value = "服务商总控状况的同步接口 --AUDIT系统 调用")
     @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}", params = "status")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
+            instanceParameterName = "vendorId")
+//    @UnknownExceptionResponse(message = "服务商状态更新失败")
     public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
                                    @RequestParam("status") String status) {
         vendorService.updateVendorStatus(vendorId, status);
@@ -100,6 +108,9 @@ public class VendorController {
     @ApiOperation(value = "服务商店铺信息线上接口 -- 给审核系统用于获取Email 通过提交人用户ID")
     @RequestMapping(method = RequestMethod.GET, value = "/{bceUserId}/baseContact",
             params = "type=BCE_ID")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
+            instanceParameterName = "bceUserId")
+//    @UnknownExceptionResponse(message = "服务商店铺联系方式获取失败")
     public VendorBaseContactResponse getVendorBaseContactByBceId(@PathVariable("bceUserId") String bceUserId) {
         VendorShop vendorShop = vendorService.getVendorShopByBceUserId(bceUserId);
         return helper.toVendorBaseContact(vendorShop);

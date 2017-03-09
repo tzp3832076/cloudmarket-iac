@@ -44,6 +44,7 @@ public class VendorExtraController {
     @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
             instanceParameterName = "vendorId")
+//    @UnknownExceptionResponse(message = "合同保证金更新错误")
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                          @RequestBody ContractAndDepositSubmitRequest request) {
         service.updateDepositAndContractList(vendorId, request.getDeposit(),
@@ -52,8 +53,9 @@ public class VendorExtraController {
 
     @ApiOperation(value = "获取服务商&合同号list")
     @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
             instanceParameterName = "vendorId")
+//    @UnknownExceptionResponse(message = "获取服务商合同号失败")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
