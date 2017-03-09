@@ -17,7 +17,7 @@ import endpoint.EndpointManager;
  */
 public class MktIacAuthorizationClient extends BceClient {
     public MktIacAuthorizationClient() {
-        super(EndpointManager.getEndpoint("MKT-IAC"));
+        super(EndpointManager.getEndpoint("MKT_IAC"));
     }
 
     public MktIacAuthorizationClient(String endpoint) {

@@ -8,6 +8,8 @@ UPDATE bce_cloudmarket_iac.mkt_vendor_info  SET bce_user_id = 'b1f91fbe6fe54d2ea
 INSERT INTO mkt_role (role, description) VALUES ('OP', '运营'), ('VENDOR','服务商');
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 ('b1f91fbe6fe54d2eaf70ef0025f1c3c2', 'BCE', 'VENDOR', 'ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae');
+INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
+('UUAP:wujinlin', 'UUAP', 'OP', '');
 
 INSERT INTO mkt_permission (resource, operation, description) VALUES
 ('product', 'read', '获取商品'),
@@ -27,6 +29,7 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action) VALUES
 ('VENDOR', 'vendorShop', 'saveDraft', 'ALLOW'),
 ('OP', 'vendorContractAndDeposit', 'update', 'ALLOW'),
 ('OP', 'vendorContractAndDeposit', 'read', 'ALLOW'),
+('OP', 'vendorInfo', 'update', 'ALLOW'),
 ('OP', 'vendorInfo', 'read', 'ALLOW');
 
 INSERT INTO mkt_resource_system (resource, system) VALUES

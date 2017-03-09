@@ -93,6 +93,9 @@ public class VendorService {
 
     public ShopDraftContentAndStatus getShopDraftContentAndStatus(String vendorId) {
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
+        if (shopDraft == null) {
+            return null; // vendorInfo 为初始状态 无店铺信息
+        }
         VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(shopDraft.getContent(),
                 VendorShopAuditContent.ShopDraft.class);
         ShopDraftContentAndStatus contentAndStatus = new ShopDraftContentAndStatus();
@@ -125,7 +128,7 @@ public class VendorService {
         VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
         List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
-        VendorDeposit deposit = depositMapper.getVendorDeposit(vendorId);
+
         AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
         int productsOnSaleCount = productHandler.getProductsOnSaleCount(vendorId);
         int productsAuditingCount = productHandler.getProductsAuditingCount(vendorId);
@@ -137,8 +140,7 @@ public class VendorService {
         vendorOverview.setVendorShopAuditStatus(getVendorShopAuditStatus(vendorShop, vendorShopDraft));
         vendorOverview.setAgreementAuditStatus(CollectionUtils.isEmpty(contracts)
                                                        ? ProcessStatus.TODO : ProcessStatus.DONE);
-        vendorOverview.setDepositAuditStatus(
-                deposit.isPayOff() ? ProcessStatus.DONE : ProcessStatus.TODO);
+        vendorOverview.setDepositAuditStatus(getVendorDepositStatus(vendorId));
         return vendorOverview;
     }
 
@@ -154,6 +156,15 @@ public class VendorService {
         } else {
             return InfoStatus.AUDIT.equals(shopDraft.getStatus()) ? ProcessStatus.AUDITINIG :
                                                                                                     ProcessStatus.TODO;
+        }
+    }
+
+    private ProcessStatus getVendorDepositStatus(String vendorId) {
+        VendorDeposit deposit = depositMapper.getVendorDeposit(vendorId);
+        if (deposit == null) {
+            return ProcessStatus.TODO;
+        } else {
+            return deposit.isPayOff() ? ProcessStatus.DONE : ProcessStatus.TODO;
         }
     }
 

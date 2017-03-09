@@ -20,4 +20,8 @@ public class MktIacExceptions {
     public static BceException noVendorInfo() {
         return new BceException("No Vendor Info", 403, "NoVendorInfo");
     }
+
+    public static BceException notJsonFormat() {
+        return new BceException("JSON transform failed", 403, "NotJsonFormat");
+    }
 }

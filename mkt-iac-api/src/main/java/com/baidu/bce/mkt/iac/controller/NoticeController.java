@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
@@ -39,7 +40,7 @@ public class NoticeController {
     @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "update",
             instanceParameterName = "vendorId")
-//    @UnknownExceptionResponse(message = "入驻审核信息同步失败")
+    @UnknownExceptionResponse(message = "入驻审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status,
                             @RequestBody(required = false) AuditNoticeRequest request) {
@@ -51,7 +52,7 @@ public class NoticeController {
     @RequestMapping(method = RequestMethod.PUT, value = "/audit", params = "type=vendorShop")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "update",
             instanceParameterName = "vendorId")
-//    @UnknownExceptionResponse(message = "vendorShop审核信息同步失败")
+    @UnknownExceptionResponse(message = "vendorShop审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status) {
         noticeService.auditNoticeVendorShop(status, vendorId);

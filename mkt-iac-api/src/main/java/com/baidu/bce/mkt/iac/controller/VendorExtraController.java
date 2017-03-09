@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
+import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
@@ -44,7 +45,7 @@ public class VendorExtraController {
     @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
             instanceParameterName = "vendorId")
-//    @UnknownExceptionResponse(message = "合同保证金更新错误")
+    @UnknownExceptionResponse(message = "合同保证金更新错误")
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                          @RequestBody ContractAndDepositSubmitRequest request) {
         service.updateDepositAndContractList(vendorId, request.getDeposit(),
@@ -55,7 +56,7 @@ public class VendorExtraController {
     @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
             instanceParameterName = "vendorId")
-//    @UnknownExceptionResponse(message = "获取服务商合同号失败")
+    @UnknownExceptionResponse(message = "获取服务商合同号失败")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
