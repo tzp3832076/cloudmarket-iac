@@ -27,7 +27,7 @@ public class MktIacClient extends BaseClient {
     private static String TYPE_VENDOR_SHOP = "VENDOR_SHOP";
 
     public MktIacClient(String accessKey, String secretKey) {
-        super(EndpointManager.getEndpoint("MKT-IAC"), accessKey, secretKey);
+        super(EndpointManager.getEndpoint("MKT_IAC"), accessKey, secretKey);
     }
 
     public MktIacClient(String endpoint, String accessKey, String secretKey) {
