@@ -2,7 +2,7 @@
 
 package com.baidu.bce.internalsdk.mkt.iac;
 
-
+import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
@@ -13,11 +13,13 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.framework.sdk.BaseClient;
+import com.baidu.bce.mkt.framework.sdk.utils.RequestUtils;
 
 import endpoint.EndpointManager;
 
 /**
  * mkt iac client
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacClient extends BaseClient {
@@ -32,34 +34,29 @@ public class MktIacClient extends BaseClient {
         super(endpoint, accessKey, secretKey);
     }
 
-    public void auditResultNotice(String type, String vendorId, String status, AuditNoticeRequest request) {
+    public void auditResultNotice(String type, String vendorId, String status,
+                                  AuditNoticeRequest request) {
+        BceInternalRequest bceInternalRequest = createMktAuthorizedRequest()
+                                                        .path("/v1/notice/audit");
+        RequestUtils.safeAddQueryParam(bceInternalRequest, "vendorId", vendorId);
+        RequestUtils.safeAddQueryParam(bceInternalRequest, "status", status);
 
         if (TYPE_APPLICATION.equals(type)) {
-            createMktAuthorizedRequest()
-                    .path("/v1/notice/audit")
-                    .queryParam("type", "application")
-                    .queryParam("vendorId", vendorId)
-                    .queryParam("status", status)
-                    .post(Entity.json(request));
+            bceInternalRequest.queryParam("type", "application").post(Entity.json(request));
         }
         if (TYPE_VENDOR_SHOP.equals(type)) {
-            createMktAuthorizedRequest()
-                    .path("/v1/notice/audit")
-                    .queryParam("type", "vendorShop")
-                    .queryParam("vendorId", vendorId)
-                    .queryParam("status", status)
-                    .put();
+            bceInternalRequest.queryParam("type", "vendorShop").put();
         }
     }
 
-    public void saveVendorShopDraft( ShopDraftSaveRequest request) {
+    public void saveVendorShopDraft(ShopDraftSaveRequest request) {
         createMktAuthorizedRequest()
                 .path("/v1/vendor")
                 .path("/shopDraft")
                 .post(Entity.json(request));
     }
 
-    public void submitVendorShopDraft( ShopDraftSaveRequest request) {
+    public void submitVendorShopDraft(ShopDraftSaveRequest request) {
         createMktAuthorizedRequest()
                 .path("/v1/vendor")
                 .path("/shopDraft")

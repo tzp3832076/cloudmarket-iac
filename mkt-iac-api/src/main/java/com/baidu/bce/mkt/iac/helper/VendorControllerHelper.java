@@ -69,6 +69,9 @@ public class VendorControllerHelper {
         ShopDraftDetailResponse response = new ShopDraftDetailResponse();
         ParamMapModel paramMapModel = toParamMapModel(paramMap);
         response.setMap(paramMapModel);
+        if (contentAndStatus == null) {
+            return response;
+        }
         ShopDraftDetailResponse.ShopDraftDetail detail = new ShopDraftDetailResponse.ShopDraftDetail();
         detail.setStatus(contentAndStatus.getStatus().name());
         VendorShopAuditContent.ShopDraft content = contentAndStatus.getContent();
@@ -102,20 +105,28 @@ public class VendorControllerHelper {
         detail.setCompanyAddress(vendorInfo.getAddress());
         VendorInfoContacts contacts = JsonUtils.fromJson(vendorInfo.getContactInfo(),
                 VendorInfoContacts.class);
-        Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> contactWayMap =
-                getVendorContactMap(contacts.getContractList());
-        detail.setBizContact(
-                contactWayMap.get(VendorInfoContacts.ContactType.Business).getName());
-        detail.setBizContactPhone(
-                contactWayMap.get(VendorInfoContacts.ContactType.Business).getPhone());
-        detail.setEmerContact(
-                contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getName());
-        detail.setEmerContactPhone(
-                contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getPhone());
-        detail.setTechContact(
-                contactWayMap.get(VendorInfoContacts.ContactType.Technical).getName());
-        detail.setTechContactPhone(
-                contactWayMap.get(VendorInfoContacts.ContactType.Technical).getPhone());
+        if (contacts != null) {
+            Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> contactWayMap =
+                    getVendorContactMap(contacts.getContractList());
+            if (contactWayMap.get(VendorInfoContacts.ContactType.Business) != null) {
+                detail.setBizContact(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Business).getName());
+                detail.setBizContactPhone(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Business).getPhone());
+            }
+            if (contactWayMap.get(VendorInfoContacts.ContactType.Emergency) != null) {
+                detail.setEmerContact(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getName());
+                detail.setEmerContactPhone(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getPhone());
+            }
+            if (contactWayMap.get(VendorInfoContacts.ContactType.Technical) != null) {
+                detail.setTechContact(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Technical).getName());
+                detail.setTechContactPhone(
+                        contactWayMap.get(VendorInfoContacts.ContactType.Technical).getPhone());
+            }
+        }
         response.setData(detail);
         return response;
     }

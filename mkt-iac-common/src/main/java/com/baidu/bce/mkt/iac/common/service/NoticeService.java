@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
@@ -35,9 +36,8 @@ public class NoticeService {
     private VendorShopMapper vendorShopMapper;
 
     public void auditNoticeApplication(String status, VendorInfo vendorInfo) {
-        if (InfoStatus.PASS.name().equals(status)) {
-            VendorInfo temp = vendorInfo == null
-                                      ? null : vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
+        if (InfoStatus.PASS.name().equals(status) && vendorInfo != null) {
+            VendorInfo temp = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
             if (temp == null) {
                 vendorInfoMapper.add(vendorInfo);
             } else {
@@ -49,9 +49,12 @@ public class NoticeService {
     @Transactional
     public void auditNoticeVendorShop(String status, String vendorId) {
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
-        if (InfoStatus.PASS.name().equals(status)) {
+        if (InfoStatus.PASS.name().equals(status) && vendorShopDraft != null) {
             VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(vendorShopDraft.getContent(),
                     VendorShopAuditContent.ShopDraft.class);
+            if (content == null) {
+                throw MktIacExceptions.notJsonFormat();
+            }
             VendorShop vendorShop = getVendorShopFromContent(content, vendorShopDraft);
             if (vendorShopMapper.getVendorShopByVendorId(vendorId) == null) {
                 vendorShopMapper.add(vendorShop);
