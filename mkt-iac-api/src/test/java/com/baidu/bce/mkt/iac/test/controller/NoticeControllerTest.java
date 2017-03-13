@@ -13,6 +13,7 @@ import org.mockito.stubbing.Answer;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.ApplicationNoticeBody;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class NoticeControllerTest extends ApiMockMvcTest {
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void auditNotice() throws Exception {
         ApplicationNoticeBody body = new ApplicationNoticeBody();
         body.setAuditId("test");
@@ -55,6 +57,7 @@ public class NoticeControllerTest extends ApiMockMvcTest {
     }
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void auditVendorShop() {
         doAnswer(new Answer() {
             @Override
