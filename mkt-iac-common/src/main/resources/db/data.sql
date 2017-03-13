@@ -32,6 +32,15 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action) VALUES
 ('OP', 'vendorInfo', 'update', 'ALLOW'),
 ('OP', 'vendorInfo', 'read', 'ALLOW');
 
+INSERT INTO  mkt_role_permission (role, resource, operation, action) VALUES
+('VENDOR', 'audit', 'submit', 'ALLOW'),
+('VENDOR', 'audit', 'read', 'ALLOW'),
+('VENDOR', 'audit', 'cancel', 'ALLOW'),
+('OP', 'audit', 'read', 'ALLOW'),
+('OP', 'audit', 'update', 'ALLOW'),
+('OP', 'vendorprocess', 'update', 'ALLOW'),
+('OP', 'vendorprocess', 'read', 'ALLOW');
+
 INSERT INTO mkt_resource_system (resource, system) VALUES
 ('audit', 'MKT_AUDIT'),
 ('vendorprocess', 'MKT_AUDIT'),

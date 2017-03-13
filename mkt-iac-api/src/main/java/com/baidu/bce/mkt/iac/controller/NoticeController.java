@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
-import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
-import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.service.NoticeService;
 import com.baidu.bce.mkt.iac.helper.NoticeHelper;
+import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
+import com.baidu.bce.plat.webframework.iam.model.BceRole;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
@@ -38,8 +38,9 @@ public class NoticeController {
 
     @ApiOperation(value = "入驻审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "update",
-            instanceParameterName = "vendorId")
+//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "update",
+//            instanceParameterName = "vendorId")
+    @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "入驻审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status,
@@ -50,8 +51,9 @@ public class NoticeController {
 
     @ApiOperation(value = "vendorShop审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.PUT, value = "/audit", params = "type=vendorShop")
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "update",
-            instanceParameterName = "vendorId")
+//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "update",
+//            instanceParameterName = "vendorId")
+    @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "vendorShop审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,
                             @RequestParam("status") String status) {
