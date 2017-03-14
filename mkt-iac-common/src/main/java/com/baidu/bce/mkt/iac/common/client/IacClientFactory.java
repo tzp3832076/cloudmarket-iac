@@ -19,10 +19,6 @@ import endpoint.EndpointManager;
  */
 @Component
 public class IacClientFactory implements InitializingBean {
-
-    @Autowired
-    private SDKEndpointConfiguration sdkEndpointConfiguration;
-
     @Autowired
     private SDKEndpointConfiguration sdkEndpointConfiguration;
     @Autowired
