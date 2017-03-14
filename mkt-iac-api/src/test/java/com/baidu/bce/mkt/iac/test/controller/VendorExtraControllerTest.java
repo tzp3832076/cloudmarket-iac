@@ -19,6 +19,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.baidu.bce.internalsdk.iam.model.Token;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
@@ -79,6 +80,19 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         VendorContractResponse response = mktIacClient.getVendorContract("test");
         log.info("getVendorContracts {}", response);
 
+    }
+
+    @Test
+    public void getVendorContractsAndDeposit() {
+        List<VendorContract> contractList = new ArrayList<>();
+        contractList.add(new VendorContract("test", "test", "test"));
+        when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
+        VendorInfo vendorInfo = new VendorInfo();
+        vendorInfo.setCompany("test");
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(vendorInfo);
+        when(contractAndDepositService.getVendorDeposit(anyString())).thenReturn(null);
+        ContractAndDepositResponse response = mktIacClient.getContractsAndDeposit("test");
+        log.info("getVendorContractsAndDeposit {}", response);
     }
 
 }

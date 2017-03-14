@@ -5,12 +5,15 @@ package com.baidu.bce.internalsdk.mkt.iac;
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.framework.sdk.BaseClient;
 import com.baidu.bce.mkt.framework.sdk.utils.RequestUtils;
@@ -86,11 +89,37 @@ public class MktIacClient extends BaseClient {
                 .post(Entity.json(request));
     }
 
+    public ContractAndDepositResponse getContractsAndDeposit(String vendorId) {
+        return createMktAuthorizedRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/contractAndDeposit")
+                       .get(ContractAndDepositResponse.class);
+    }
+
     public VendorOverviewResponse getVendorOverview() {
         return createMktAuthorizedRequest()
                        .path("/v1/vendor")
                        .path("/overview")
                        .get(VendorOverviewResponse.class);
+    }
+
+    public VendorAmountResponse getVendorAmountStatistics() {
+        return createMktAuthorizedRequest()
+                       .path("/v1/vendor")
+                       .path("/amountStatistics")
+                       .get(VendorAmountResponse.class);
+
+    }
+
+    public VendorListResponse getVendorList(String company, String bceUserId, int pageNo,
+                                            int pageSize) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor").path("/list")
+                                             .queryParam("pageNo", pageNo)
+                                             .queryParam("pageSize", pageSize);
+        RequestUtils.safeAddQueryParam(request, "companyName", company);
+        RequestUtils.safeAddQueryParam(request, "bceUserId", bceUserId);
+        return request.get(VendorListResponse.class);
     }
 
     public void updateVendorStatus(String vendorId, String status) {

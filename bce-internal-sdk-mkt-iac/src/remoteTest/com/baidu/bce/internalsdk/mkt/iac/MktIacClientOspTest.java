@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.baidu.bce.internalsdk.mkt.iac.model.ApplicationNoticeBody;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 
 /**
@@ -74,6 +75,7 @@ public class MktIacClientOspTest {
     }
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void getVendorContract() {
         mktIacClient.getVendorContract("ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae");
     }

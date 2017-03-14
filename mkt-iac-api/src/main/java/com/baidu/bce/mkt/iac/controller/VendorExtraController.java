@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
+import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.service.ContractAndDepositService;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorExtraHepler;
+import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
+import com.baidu.bce.plat.webframework.iam.model.BceRole;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
@@ -54,12 +58,26 @@ public class VendorExtraController {
 
     @ApiOperation(value = "获取服务商&合同号list")
     @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
-            instanceParameterName = "vendorId")
+//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
+//            instanceParameterName = "vendorId")
+    @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "获取服务商合同号失败")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
         return hepler.toVendorContractResponse(vendorInfo, vendorContractList);
+    }
+
+    @ApiOperation(value = "获取服务商合同信息和保证金信息")
+    @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.GET)
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
+                instanceParameterName = "vendorId")
+    @UnknownExceptionResponse(message = "获取服务商合同和保证金信息失败")
+    public ContractAndDepositResponse getVendorContractsAndDeposit(@PathVariable("vendorId") String
+                                                                     vendorId) {
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
+        VendorDeposit deposit = service.getVendorDeposit(vendorId);
+        return hepler.toContractAndDepositResponse(vendorInfo, vendorContractList, deposit);
     }
 }

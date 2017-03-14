@@ -3,14 +3,16 @@
  */
 package com.baidu.bce.mkt.iac.common.test.database;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
-import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .
@@ -64,6 +66,33 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
         Assert.assertNotNull(vendorInfo);
         Assert.assertEquals(vendorInfo.getWalletId(), "test");
+    }
+
+    @Test
+    public void getVendorCountByStatus() {
+        int res = vendorInfoMapper.getVendorCountByStatus(VendorStatus.PROCESSING);
+        Assert.assertEquals(res, 2);
+        res = vendorInfoMapper.getVendorCountByStatus(VendorStatus.HOSTED);
+        Assert.assertEquals(res, 0);
+
+    }
+
+    @Test
+    public void getVendorList() {
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.PROCESSING,
+                null, null, 0, 10);
+        Assert.assertTrue(vendorInfos.size() > 0);
+        vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.FROZEN,
+                null, null, 0, 10);
+        Assert.assertTrue(vendorInfos.size() == 0);
+    }
+
+    @Test
+    public void getVendorCount() {
+        int res = vendorInfoMapper.getVendorCount(VendorStatus.FROZEN, null, null);
+        Assert.assertEquals(0, res);
+        res = vendorInfoMapper.getVendorCount(VendorStatus.PROCESSING, null, null);
+        Assert.assertTrue(res > 0);
     }
 
 }
