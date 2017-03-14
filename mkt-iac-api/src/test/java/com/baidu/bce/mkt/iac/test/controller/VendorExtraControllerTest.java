@@ -25,6 +25,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
+import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
@@ -70,6 +71,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     }
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void getVendorContracts() {
         List<VendorContract> contractList = new ArrayList<>();
         contractList.add(new VendorContract("test", "test", "test"));
