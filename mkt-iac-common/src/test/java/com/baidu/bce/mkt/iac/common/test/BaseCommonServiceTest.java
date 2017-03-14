@@ -43,6 +43,7 @@ public abstract class BaseCommonServiceTest extends BaseServiceTest {
         when(clientFactory.createAuditClient()).thenReturn(auditClient);
         qualifyClient = mock(QualifyClient.class);
         when(clientFactory.createQualifyClient()).thenReturn(qualifyClient);
+        when(clientFactory.createMktAuditClient(anyString())).thenReturn(auditClient);
     }
 
     @WorkerApp(scanBasePackages = "com.baidu.bce.mkt.iac.common")

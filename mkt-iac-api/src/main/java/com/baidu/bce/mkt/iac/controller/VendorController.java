@@ -67,6 +67,14 @@ public class VendorController {
         vendorService.saveShopDraft(vendorId, content);
     }
 
+    @ApiOperation(value = "商铺信息撤销审核")
+    @RequestMapping(method = RequestMethod.PUT, value = "/shopDraft", params = "cancelAudit")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft")
+    @UnknownExceptionResponse(message = "商铺撤销审核失败")
+    public void cancelAuditShopDraft(@VendorId String vendorId) {
+        vendorService.cancelAuditShopDraft(vendorId);
+    }
+
     @ApiOperation(value = "商铺信息提交接口")
     @RequestMapping(method = RequestMethod.POST, value = "/shopDraft", params = "submit")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft")
