@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.baidu.bce.internalsdk.qualify.QualifyClient;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.iac.common.config.ConfigProperties;
-import com.baidu.bce.plat.webframework.endpoint.SDKEndpointConfiguration;
 
 import endpoint.EndpointManager;
 
@@ -19,9 +18,6 @@ import endpoint.EndpointManager;
  */
 @Component
 public class IacClientFactory implements InitializingBean {
-    @Autowired
-    private SDKEndpointConfiguration sdkEndpointConfiguration;
-
     @Autowired
     private ConfigProperties configProperties;
     private MktAuditClient mktAuditClient;
