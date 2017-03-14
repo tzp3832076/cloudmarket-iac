@@ -91,6 +91,21 @@ public class VendorService {
         }
     }
 
+    @Transactional
+    public void cancelAuditShopDraft(String vendorId) {
+        VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
+        VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
+        if (shopDraft == null) {
+            log.warn("cancelAuditShopDraft shop draft is null. vendorId {}", vendorId);
+        } else {
+            if (InfoStatus.AUDIT.equals(shopDraft.getStatus())) {
+                iacClientFactory.createMktAuditClient(vendorInfo.getBceUserId())
+                        .cancelAudit(shopDraft.getAuditId());
+                shopDraftMapper.updateShopAuditIdAndStatus(vendorId, "", InfoStatus.EDIT);
+            }
+        }
+    }
+
     public VendorShopDraft getVendorShopDraft(String vendorId) {
         return shopDraftMapper.getShopDraftByVendorId(vendorId);
     }

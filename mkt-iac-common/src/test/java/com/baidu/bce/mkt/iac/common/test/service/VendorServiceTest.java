@@ -3,8 +3,10 @@
  */
 package com.baidu.bce.mkt.iac.common.test.service;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,11 +14,14 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.internalsdk.qualify.model.EnterpriseInfoResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.internalsdk.qualify.model.finance.RealNameTypeForFinance;
+import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
@@ -154,5 +159,31 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Map<VendorStatus, Integer> countMap = vendorService.statisticsVendorAmount();
         Assert.assertEquals(countMap.get(VendorStatus.HOSTED).intValue(), 0);
         Assert.assertEquals(countMap.get(VendorStatus.PROCESSING).intValue(), 2);
+    }
+
+    @Test
+    public void cancelAuditShopDraft() {
+        String vendorId = "vendor_2";
+        VendorShopAuditContent auditContent = new VendorShopAuditContent();
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+        auditContent.setData(shopDraft);
+        when(auditClient.auditSubmit(any())).thenReturn(new SubmitAuditResponse("test_audit_id"));
+        vendorService.submitShopDraft(vendorId, auditContent);
+        VendorShopDraft draft = vendorService.getVendorShopDraft(vendorId);
+        Assert.assertNotNull(draft);
+        Assert.assertEquals(draft.getStatus(), InfoStatus.AUDIT);
+        Assert.assertEquals(draft.getAuditId(), "test_audit_id");
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("cancel audit success");
+                return null;
+            }
+        }).when(auditClient).cancelAudit(anyString());
+        vendorService.cancelAuditShopDraft(vendorId);
+        draft = vendorService.getVendorShopDraft(vendorId);
+        Assert.assertNotNull(draft);
+        Assert.assertEquals(draft.getStatus(), InfoStatus.EDIT);
+        Assert.assertEquals(draft.getAuditId(), "");
     }
 }

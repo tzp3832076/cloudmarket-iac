@@ -253,4 +253,16 @@ public class VendorControllerTest extends ApiMockMvcTest {
         VendorListResponse response = mktIacClient.getVendorList("test", "test", 1, 1);
         log.info("getVendorList {}", response);
     }
+
+    @Test
+    public void cancelAuditShopDraft() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("cancel success");
+                return null;
+            }
+        }).when(vendorService).cancelAuditShopDraft(anyString());
+        mktIacClient.cancelShopDraftAudit();
+    }
 }

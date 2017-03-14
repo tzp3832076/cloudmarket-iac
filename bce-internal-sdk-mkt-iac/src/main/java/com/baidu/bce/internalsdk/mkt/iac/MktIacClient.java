@@ -74,6 +74,14 @@ public class MktIacClient extends BaseClient {
                        .get(ShopDraftDetailResponse.class);
     }
 
+    public void cancelShopDraftAudit() {
+        createMktAuthorizedRequest()
+                .path("/v1/vendor")
+                .path("/shopDraft")
+                .keyOnlyQueryParam("cancelAudit")
+                .put();
+    }
+
     public VendorInfoDetailResponse getVendorInfoDetail() {
         return createMktAuthorizedRequest()
                        .path("/v1/vendor")

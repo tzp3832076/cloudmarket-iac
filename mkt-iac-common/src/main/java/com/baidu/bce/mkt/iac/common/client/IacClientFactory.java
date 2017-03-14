@@ -21,6 +21,9 @@ import endpoint.EndpointManager;
 public class IacClientFactory implements InitializingBean {
     @Autowired
     private SDKEndpointConfiguration sdkEndpointConfiguration;
+
+    @Autowired
+    private SDKEndpointConfiguration sdkEndpointConfiguration;
     @Autowired
     private ConfigProperties configProperties;
     private MktAuditClient mktAuditClient;
@@ -32,6 +35,14 @@ public class IacClientFactory implements InitializingBean {
     }
 
     public MktAuditClient createAuditClient() {
+        return mktAuditClient;
+    }
+
+    public MktAuditClient createMktAuditClient(String userId) {
+        MktAuditClient mktAuditClient = new MktAuditClient(EndpointManager.getEndpoint("MKT_AUDIT"),
+                                                                  configProperties.getMktServiceAk(),
+                                                                  configProperties.getMktServiceSk());
+        mktAuditClient.setHeaderUserId(userId);
         return mktAuditClient;
     }
 
