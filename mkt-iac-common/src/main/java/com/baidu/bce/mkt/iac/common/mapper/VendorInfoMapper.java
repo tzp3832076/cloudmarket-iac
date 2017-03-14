@@ -4,6 +4,8 @@
 
 package com.baidu.bce.mkt.iac.common.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -23,8 +25,20 @@ public interface VendorInfoMapper {
                                     + "create_time ";
     String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
+    String COUNT_SQL_PREFIX = "SELECT count(1) FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
     String UPDATE_SQL_PREFIX = "UPDATE " + TABLE + " ";
+    String DYNAMIC_SEARCH_SQL = " #where() 1 = 1 "
+                                        + " #if ($_parameter.bceUserId)"
+                                        + " AND (bce_user_id = '$_parameter.bceUserId') "
+                                        + " #end "
+                                        + " #if ($_parameter.company)"
+                                        + " AND (company like '%$_parameter.company%') "
+                                        + " #end "
+                                        + " #if ($_parameter.status)"
+                                        + " AND (status = '$_parameter.status') "
+                                        + " #end "
+                                        + " #end ";
 
     @Insert(INSERT_SQL_PREFIX + "( "
                     + " @{vendorId},"
@@ -55,4 +69,22 @@ public interface VendorInfoMapper {
 
     @Update(UPDATE_SQL_PREFIX + " set wallet_id = @{walletId} where vendor_id = @{vendorId}")
     int updateWalletId(@Param("vendorId") String vendorId, @Param("walletId")String walletId);
+
+    @Select(COUNT_SQL_PREFIX + " WHERE status = @{status}")
+    int getVendorCountByStatus(@Param("status") VendorStatus status);
+
+    @Select(SELECT_SQL_PREFIX + DYNAMIC_SEARCH_SQL + " ORDER BY create_time DESC"
+                    + "  #if ($_parameter.start >= 0 && $_parameter.limit > 0)"
+                    + "    LIMIT @{start}, @{limit}"
+                    + "  #end")
+    List<VendorInfo> getVendorList(@Param("status") VendorStatus status,
+                                   @Param("bceUserId") String bceUserId,
+                                   @Param("company") String company,
+                                   @Param("start") int start,
+                                   @Param("limit") int limit);
+
+    @Select(COUNT_SQL_PREFIX + DYNAMIC_SEARCH_SQL)
+    int getVendorCount(@Param("status") VendorStatus status,
+                       @Param("bceUserId") String bceUserId,
+                       @Param("company") String company);
 }

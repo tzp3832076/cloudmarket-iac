@@ -4,13 +4,16 @@
 
 package com.baidu.bce.mkt.iac.helper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
+import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 
 /**
@@ -39,6 +42,22 @@ public class VendorExtraHepler {
             contractInfoNumList.add(new VendorContractResponse.ContractInfo(contract.getContractNum()));
         }
         response.setContractInfoList(contractInfoNumList);
+        return response;
+    }
+
+    public ContractAndDepositResponse toContractAndDepositResponse(VendorInfo vendorInfo,
+                                                                   List<VendorContract> contracts,
+                                                                   VendorDeposit deposit) {
+        ContractAndDepositResponse response = new ContractAndDepositResponse();
+        response.setBceAccount(vendorInfo.getBceUserId());
+        response.setVendorName(vendorInfo.getCompany());
+        List<ContractAndDepositResponse.ContractInfo> contractInfos = new ArrayList<>();
+        for (VendorContract contract : contracts) {
+            contractInfos.add(new ContractAndDepositResponse.ContractInfo(
+                    contract.getContractNum(), contract.getContractDigest()));
+        }
+        response.setContractInfoList(contractInfos);
+        response.setDeposit(deposit == null ? BigDecimal.ZERO : deposit.getPayValue());
         return response;
     }
 }

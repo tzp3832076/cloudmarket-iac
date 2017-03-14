@@ -5,12 +5,15 @@
 package com.baidu.bce.mkt.iac.common.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.audit.internal.sdk.model.request.SubmitAuditRequest;
@@ -28,6 +31,7 @@ import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
@@ -144,9 +148,32 @@ public class VendorService {
         return vendorOverview;
     }
 
+    public Map<VendorStatus, Integer> statisticsVendorAmount() {
+        Map<VendorStatus, Integer> vendorCountMap = new HashMap<>();
+        vendorCountMap.put(VendorStatus.HOSTED,
+                vendorInfoMapper.getVendorCountByStatus(VendorStatus.HOSTED));
+        vendorCountMap.put(VendorStatus.PROCESSING,
+                vendorInfoMapper.getVendorCountByStatus(VendorStatus.PROCESSING));
+        return vendorCountMap;
+    }
+
     public void updateVendorStatus(String vendorId, String status) {
         VendorStatus vendorStatus = VendorStatus.valueOf(status);
         vendorInfoMapper.updateVendorStatus(vendorId, vendorStatus);
+    }
+
+    public VendorListModel getVendorList(String bceUserId, String companyName,
+                                         int start, int limit) {
+        bceUserId = StringUtils.isEmpty(bceUserId) ? null : bceUserId;
+        companyName = StringUtils.isEmpty(companyName) ? null : companyName;
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.HOSTED,
+                bceUserId, companyName, start, limit);
+        int totalCount = vendorInfoMapper.getVendorCount(VendorStatus.HOSTED,
+                bceUserId, companyName);
+        VendorListModel vendorListModel = new VendorListModel();
+        vendorListModel.setTotalCount(totalCount);
+        vendorListModel.setVendorInfoList(vendorInfos);
+        return vendorListModel;
     }
 
     private ProcessStatus getVendorShopAuditStatus(VendorShop vendorShop,

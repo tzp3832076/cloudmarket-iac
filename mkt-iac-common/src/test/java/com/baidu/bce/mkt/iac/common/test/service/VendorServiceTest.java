@@ -8,6 +8,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -146,5 +147,12 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         String bceUserId = "bce_user_1";
         VendorShop shop = vendorService.getVendorShopByBceUserId(bceUserId);
         Assert.assertNotNull(shop);
+    }
+
+    @Test
+    public void statisticsVendorAmount() {
+        Map<VendorStatus, Integer> countMap = vendorService.statisticsVendorAmount();
+        Assert.assertEquals(countMap.get(VendorStatus.HOSTED).intValue(), 0);
+        Assert.assertEquals(countMap.get(VendorStatus.PROCESSING).intValue(), 2);
     }
 }

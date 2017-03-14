@@ -4,13 +4,16 @@
 package com.baidu.bce.mkt.iac.test.controller;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,18 +27,22 @@ import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
+import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
+import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
@@ -194,6 +201,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
     }
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void updateVendorStatus() {
         MktToken mktToken = new MktToken();
         mktToken.setRole("OP");
@@ -211,11 +219,38 @@ public class VendorControllerTest extends ApiMockMvcTest {
     }
 
     @Test
+    @CurrentUser(isServiceAccount = true)
     public void getVendorBaseContactByBceId() {
         VendorShop vendorShop = new VendorShop();
         vendorShop.setEmail("test");
         when(vendorService.getVendorShopByBceUserId(anyString())).thenReturn(vendorShop);
         VendorBaseContactResponse response = mktIacClient.getVendorBaseContactByBceId("test");
         log.info("getVendorBaseContactByBceId {} ", response);
+    }
+
+    @Test
+    public void getVendorAmount() {
+        Map<VendorStatus, Integer> countMap = new HashMap<>();
+        countMap.put(VendorStatus.HOSTED, 2);
+        countMap.put(VendorStatus.PROCESSING, 0);
+        when(vendorService.statisticsVendorAmount()).thenReturn(countMap);
+        VendorAmountResponse response = mktIacClient.getVendorAmountStatistics();
+        log.info("getVendorAmount {}", response);
+    }
+
+    @Test
+    public void getVendorList() {
+        VendorListModel vendorListModel = new VendorListModel();
+        vendorListModel.setTotalCount(10);
+        List<VendorInfo> vendorInfoList = new ArrayList<>();
+        vendorInfoList.add(new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                                 "test", "website", 1000, "address",
+                                                 "tel", "test-test", "hotline", "othermarket",
+                                                 "contact_info"));
+        vendorListModel.setVendorInfoList(vendorInfoList);
+        when(vendorService.getVendorList(anyString(), anyString(), anyInt(), anyInt()))
+                .thenReturn(vendorListModel);
+        VendorListResponse response = mktIacClient.getVendorList("test", "test", 1, 1);
+        log.info("getVendorList {}", response);
     }
 }

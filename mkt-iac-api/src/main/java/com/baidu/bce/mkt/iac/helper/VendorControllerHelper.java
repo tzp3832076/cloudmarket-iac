@@ -7,6 +7,7 @@ package com.baidu.bce.mkt.iac.helper;
 import static com.baidu.bae.commons.lib.utils.ReflectionHelper.getFieldValue;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +19,22 @@ import org.springframework.util.CollectionUtils;
 import com.baidu.bce.internalsdk.mkt.iac.model.ParamMapModel;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
+import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
+import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.utils.CheckUtils;
 import com.baidu.bce.plat.webframework.exception.BceValidationException;
 
@@ -147,6 +152,13 @@ public class VendorControllerHelper {
         return response;
     }
 
+    public VendorAmountResponse toVendorAmountResponse(Map<VendorStatus, Integer> countMap) {
+        VendorAmountResponse response = new VendorAmountResponse();
+        response.setProcessingNum(countMap.get(VendorStatus.PROCESSING));
+        response.setHostedNum(countMap.get(VendorStatus.HOSTED));
+        return response;
+    }
+
     public VendorBaseContactResponse toVendorBaseContact(VendorShop shop) {
         VendorBaseContactResponse response = new VendorBaseContactResponse();
         if (shop != null) {
@@ -154,6 +166,20 @@ public class VendorControllerHelper {
         }
         return response;
     }
+
+    public VendorListResponse toVendorListResponse(VendorListModel listModel) {
+        VendorListResponse vendorListResponse = new VendorListResponse();
+        vendorListResponse.setTotalCount(listModel.getTotalCount());
+        List<VendorListResponse.VendorBaseInfo> vendorBaseInfoList = new ArrayList<>();
+        for (VendorInfo vendorInfo : listModel.getVendorInfoList()) {
+            vendorBaseInfoList.add(new VendorListResponse.VendorBaseInfo(
+                    vendorInfo.getCompany(), vendorInfo.getBceUserId(), vendorInfo.getVendorId()
+            ));
+        }
+        vendorListResponse.setVendorBaseInfoList(vendorBaseInfoList);
+        return vendorListResponse;
+    }
+
     public void checkShopDraftSaveRequest(ShopDraftSaveRequest request, boolean canBeEmpty) {
         Map<String, String> fieldMap = canBeEmpty ? new HashMap<>() : getEmptyFieldMap(request);
         if (!(canBeEmpty && StringUtils.isEmpty(request.getServiceEmail()))) {
