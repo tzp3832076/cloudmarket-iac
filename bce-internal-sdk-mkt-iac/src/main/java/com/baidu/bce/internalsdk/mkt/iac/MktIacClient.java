@@ -163,4 +163,8 @@ public class MktIacClient extends BaseClient {
                        .path("/contract")
                        .get(VendorContractResponse.class);
     }
+
+    public void signAgreement() {
+        createMktAuthorizedRequest().path("/v1/vendor/agreement").put();
+    }
 }

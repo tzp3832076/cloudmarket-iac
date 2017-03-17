@@ -6,6 +6,8 @@ package com.baidu.bce.mkt.iac.common.model.db;
 
 import java.sql.Timestamp;
 
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +32,7 @@ public class VendorInfo {
     private String walletId;
     private Timestamp createTime;
     private Timestamp updateTime;
+    private ProcessStatus agreementStatus;
 
     public VendorInfo(String vendorId, String bceUserId, VendorStatus status, String company,
                       String website, int capital, String address, String telephone,

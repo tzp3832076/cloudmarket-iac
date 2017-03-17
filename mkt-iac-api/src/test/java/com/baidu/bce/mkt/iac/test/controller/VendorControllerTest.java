@@ -275,4 +275,16 @@ public class VendorControllerTest extends ApiMockMvcTest {
                                       "hotline", "othermarket", JsonUtils.toJson("")));
         mktIacClient.getVendorInfoByUserId("test");
     }
+
+    @Test
+    public void signAgreement() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("signAgreement");
+                return null;
+            }
+        }).when(vendorService).signAgreement(any());
+        mktIacClient.signAgreement();
+    }
 }

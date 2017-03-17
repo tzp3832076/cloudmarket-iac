@@ -132,7 +132,7 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(vendorOverview.getVendorInfo());
         Assert.assertEquals(vendorOverview.getVendorAuditStatus(), ProcessStatus.DONE);
         Assert.assertEquals(vendorOverview.getVendorShopAuditStatus(), ProcessStatus.DONE);
-        Assert.assertEquals(vendorOverview.getAgreementAuditStatus(), ProcessStatus.DONE);
+        Assert.assertEquals(vendorOverview.getAgreementAuditStatus(), ProcessStatus.TODO);
         Assert.assertEquals(vendorOverview.getDepositAuditStatus(), ProcessStatus.DONE);
         Assert.assertEquals(vendorOverview.getQualityStatus(), AuditStatus.PASS);
     }
@@ -191,6 +191,23 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     public void getVendorInfoByUserId() {
         VendorInfo info = vendorService.getVendorInfoByUserId("bce_user_1");
         Assert.assertNotNull(info);
+    }
+
+    @Test
+    public void signAgreement() {
+        String vendorId = "vendor_1";
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.TODO);
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("syncVendorContract yes");
+                return null;
+            }
+        }).when(auditClient).syncVendorContract(any(), anyString());
+        vendorService.signAgreement("vendor_1");
+        vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.DONE);
     }
 
 }

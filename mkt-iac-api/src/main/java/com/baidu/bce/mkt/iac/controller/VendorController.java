@@ -171,6 +171,14 @@ public class VendorController {
         VendorInfo vendorInfo = vendorService.getVendorInfoByUserId(bceUserId);
         return helper.toVendorInfoDetailResponse(vendorInfo, paramProperties.getVendorInfoMap());
     }
+
+    @ApiOperation(value = "服务商确认签署电子协议")
+    @RequestMapping(method = RequestMethod.PUT, value = "/agreement")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_OVERVIEW, operation = "read")
+    @UnknownExceptionResponse(message = "服务商确认签署电子协议状态同步失败")
+    public void signAgreement(@VendorId String vendorId) {
+        vendorService.signAgreement(vendorId);
+    }
 }
 
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
@@ -93,6 +94,18 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         Assert.assertEquals(0, res);
         res = vendorInfoMapper.getVendorCount(VendorStatus.PROCESSING, null, null);
         Assert.assertTrue(res > 0);
+    }
+
+    @Test
+    public void updateAgreementStatus() {
+        String vendorId = "vendor_1";
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        Assert.assertNotNull(vendorInfo);
+        Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.TODO);
+        int res = vendorInfoMapper.updateAgreementStatus(vendorId, ProcessStatus.DONE);
+        vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        Assert.assertNotNull(vendorInfo);
+        Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.DONE);
     }
 
 }

@@ -28,8 +28,8 @@ public class SyncHandler {
         clientFactory.createAuditClient().syncVendorDeposit(vendorId, status);
     }
 
-    public void noticeAuditContractStatus(String vendorId, boolean isEmpty) {
-        String status = isEmpty ? PROCESS_TODO : PROCESS_DONE;
+    public void noticeAuditContractStatus(String vendorId, boolean isSign) {
+        String status = isSign ? PROCESS_DONE : PROCESS_TODO;
         clientFactory.createAuditClient().syncVendorContract(vendorId, status);
     }
 }

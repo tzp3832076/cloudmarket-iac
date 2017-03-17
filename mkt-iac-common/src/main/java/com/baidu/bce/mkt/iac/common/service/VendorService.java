@@ -12,7 +12,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
@@ -24,6 +23,7 @@ import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.ProductHandler;
 import com.baidu.bce.mkt.iac.common.handler.QualityHandler;
+import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
@@ -60,6 +60,7 @@ public class VendorService {
     private final QualityHandler qualityHandler;
     private final ProductHandler productHandler;
     private final IacClientFactory iacClientFactory;
+    private final SyncHandler syncHandler;
 
     @Transactional
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
@@ -147,6 +148,11 @@ public class VendorService {
         return vendorInfoMapper.getVendorInfoByBceUserId(userId);
     }
 
+    public void signAgreement(String vendorId) {
+        vendorInfoMapper.updateAgreementStatus(vendorId, ProcessStatus.DONE);
+        syncHandler.noticeAuditContractStatus(vendorId, true);
+    }
+
     public VendorOverview getVendorOverview(String vendorId) {
         VendorOverview vendorOverview = new VendorOverview();
         VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
@@ -163,8 +169,7 @@ public class VendorService {
         vendorOverview.setQualityStatus(qualityStatus);
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE); // 在console页面的一定是完成入驻
         vendorOverview.setVendorShopAuditStatus(getVendorShopAuditStatus(vendorShop, vendorShopDraft));
-        vendorOverview.setAgreementAuditStatus(CollectionUtils.isEmpty(contracts)
-                                                       ? ProcessStatus.TODO : ProcessStatus.DONE);
+        vendorOverview.setAgreementAuditStatus(vendorInfo.getAgreementStatus());
         vendorOverview.setDepositAuditStatus(getVendorDepositStatus(vendorId));
         return vendorOverview;
     }

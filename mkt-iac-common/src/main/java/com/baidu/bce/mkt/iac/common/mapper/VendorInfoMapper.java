@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
@@ -23,7 +24,7 @@ public interface VendorInfoMapper {
                                     + "capital, address, telephone, service_category, hotline, "
                                     + "other_market, contact_info, wallet_id, "
                                     + "create_time ";
-    String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time ";
+    String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time, agreement_status ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
     String COUNT_SQL_PREFIX = "SELECT count(1) FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
@@ -63,6 +64,9 @@ public interface VendorInfoMapper {
 
     @Update(UPDATE_SQL_PREFIX + " set status = @{status} where vendor_id = @{vendorId}")
     int updateVendorStatus(@Param("vendorId") String vendorId, @Param("status")VendorStatus status);
+
+    @Update(UPDATE_SQL_PREFIX + " set agreement_status = @{status} where vendor_id = @{vendorId}")
+    int updateAgreementStatus(@Param("vendorId") String vendorId, @Param("status")ProcessStatus status);
 
     @Select(SELECT_SQL_PREFIX + "where bce_user_id = @{bceUserId}")
     VendorInfo getVendorInfoByBceUserId(@Param("bceUserId") String bceUserId);
