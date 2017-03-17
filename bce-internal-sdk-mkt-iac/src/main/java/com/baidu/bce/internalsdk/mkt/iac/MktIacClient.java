@@ -91,8 +91,7 @@ public class MktIacClient extends BaseClient {
     public VendorInfoDetailResponse getVendorInfoByUserId(String userId) {
         BceInternalRequest request = createMktAuthorizedRequest()
                                              .path("/v1/vendor")
-                                             .path("/vendorInfo")
-                                             .keyOnlyQueryParam("byUserId");
+                                             .path("/vendorInfo");
         RequestUtils.safeAddQueryParam(request, "bceUserId", userId);
 
         return request.get(VendorInfoDetailResponse.class);

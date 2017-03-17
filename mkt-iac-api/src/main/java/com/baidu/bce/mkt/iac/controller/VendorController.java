@@ -163,7 +163,7 @@ public class VendorController {
     }
 
     @ApiOperation(value = "服务商是否已入驻(兼容一期的服务商)-接口判断")
-    @RequestMapping(method = RequestMethod.GET, value = "/vendorInfo", params = "byUserId")
+    @RequestMapping(method = RequestMethod.GET, value = "/vendorInfo", params = "bceUserId")
     @UnknownExceptionResponse(message = "服务商基本信息获取失败")
     @BceAuth(role = {BceRole.SERVICE})
     public VendorInfoDetailResponse getVendorInfoByUserId(@RequestParam(value = "bceUserId")
