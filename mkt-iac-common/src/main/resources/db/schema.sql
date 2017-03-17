@@ -66,6 +66,7 @@ CREATE TABLE mkt_vendor_info (
     other_market VARCHAR(256) NOT NULL COMMENT '已加入提前的云市场',
     contact_info VARCHAR(512) NOT NULL COMMENT '服务商联系人信息 json',
     wallet_id VARCHAR(64) NOT NULL COMMENT '百度钱包ID',
+    agreement_status VARCHAR(32) NOT NULL DEFAULT 'TODO' COMMENT '电子协议签署状态 TODO|DONE',
     create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id),

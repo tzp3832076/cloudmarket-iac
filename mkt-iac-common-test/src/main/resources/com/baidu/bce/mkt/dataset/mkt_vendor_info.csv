@@ -1,3 +1,3 @@
-id, vendor_id, bce_user_id, status, company, website, capital, address, telephone, service_category, hotline, other_market, contact_info, wallet_id, create_time, update_time
-1, vendor_1, bce_user_1, PROCESSING, company, website, 1000, address, telephone, service_category, hotline, other_market, contact_info, wallet_id, 2017-02-21 00:00:00, 2017-02-21 00:00:00
-2, vendor_2, bce_user_2, PROCESSING, company, website, 1000, address, telephone, service_category,hotline, other_market, contact_info, wallet_id, 2017-02-21 00:00:00, 2017-02-21 00:00:00
+id, vendor_id, bce_user_id, status, company, website, capital, address, telephone, service_category, hotline, other_market, contact_info, wallet_id, agreement_status,create_time, update_time
+1, vendor_1, bce_user_1, PROCESSING, company, website, 1000, address, telephone, service_category, hotline, other_market, contact_info, wallet_id, TODO,2017-02-21 00:00:00, 2017-02-21 00:00:00
+2, vendor_2, bce_user_2, PROCESSING, company, website, 1000, address, telephone, service_category,hotline, other_market, contact_info, wallet_id, TODO,2017-02-21 00:00:00, 2017-02-21 00:00:00
