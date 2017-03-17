@@ -150,7 +150,10 @@ public class VendorService {
 
     public void signAgreement(String vendorId) {
         vendorInfoMapper.updateAgreementStatus(vendorId, ProcessStatus.DONE);
-        syncHandler.noticeAuditContractStatus(vendorId, true);
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        if (VendorStatus.PROCESSING.equals(vendorInfo.getStatus())) {
+            syncHandler.noticeAuditContractStatus(vendorId, true);
+        }
     }
 
     public VendorOverview getVendorOverview(String vendorId) {
