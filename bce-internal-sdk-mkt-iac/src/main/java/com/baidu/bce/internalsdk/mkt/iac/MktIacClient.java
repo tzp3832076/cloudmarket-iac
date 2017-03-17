@@ -89,12 +89,13 @@ public class MktIacClient extends BaseClient {
     }
 
     public VendorInfoDetailResponse getVendorInfoByUserId(String userId) {
-        return createMktAuthorizedRequest()
-                       .path("/v1/vendor")
-                       .path("/vendorInfo/")
-                       .path(userId)
-                       .keyOnlyQueryParam("byUserId")
-                       .get(VendorInfoDetailResponse.class);
+        BceInternalRequest request = createMktAuthorizedRequest()
+                                             .path("/v1/vendor")
+                                             .path("/vendorInfo")
+                                             .keyOnlyQueryParam("byUserId");
+        RequestUtils.safeAddQueryParam(request, "bceUserId", userId);
+
+        return request.get(VendorInfoDetailResponse.class);
     }
 
     public void submitContractsAndDeposit(String vendorId,
