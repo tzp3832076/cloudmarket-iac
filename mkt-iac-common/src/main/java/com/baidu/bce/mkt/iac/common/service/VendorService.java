@@ -71,7 +71,9 @@ public class VendorService {
         request.setBaseInfo("");
         request.setSearchItems(new ArrayList<>());
         request.setInfoId(vendorId);
-        SubmitAuditResponse response = iacClientFactory.createAuditClient().auditSubmit(request);
+        VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
+        SubmitAuditResponse response = iacClientFactory.createMktAuditClient(vendorInfo.getBceUserId())
+                                               .auditSubmit(request);
         shopDraftMapper.updateShopAuditIdAndStatus(vendorId, response.getAuditId(), InfoStatus.AUDIT);
     }
 
