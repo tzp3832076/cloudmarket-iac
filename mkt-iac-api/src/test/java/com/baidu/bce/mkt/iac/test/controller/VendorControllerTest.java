@@ -265,4 +265,14 @@ public class VendorControllerTest extends ApiMockMvcTest {
         }).when(vendorService).cancelAuditShopDraft(anyString());
         mktIacClient.cancelShopDraftAudit();
     }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void getVendorInfoByUserId() {
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
+                new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                      "test", "companySite", 1000, "address", "tel", "test-test",
+                                      "hotline", "othermarket", JsonUtils.toJson("")));
+        mktIacClient.getVendorInfoByUserId("test");
+    }
 }

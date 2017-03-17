@@ -186,4 +186,11 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertEquals(draft.getStatus(), InfoStatus.EDIT);
         Assert.assertEquals(draft.getAuditId(), "");
     }
+
+    @Test
+    public void getVendorInfoByUserId() {
+        VendorInfo info = vendorService.getVendorInfoByUserId("bce_user_1");
+        Assert.assertNotNull(info);
+    }
+
 }

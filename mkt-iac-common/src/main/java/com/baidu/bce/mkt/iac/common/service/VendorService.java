@@ -143,6 +143,10 @@ public class VendorService {
         return vendorInfoMapper.getVendorInfoByVendorId(vendorId);
     }
 
+    public VendorInfo getVendorInfoByUserId(String userId) {
+        return vendorInfoMapper.getVendorInfoByBceUserId(userId);
+    }
+
     public VendorOverview getVendorOverview(String vendorId) {
         VendorOverview vendorOverview = new VendorOverview();
         VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
