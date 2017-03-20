@@ -41,7 +41,6 @@ import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
-import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
@@ -165,19 +164,13 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     public void getVendorInfoDetail() throws Exception {
-        VendorInfoContacts contacts = new VendorInfoContacts();
-        List<VendorInfoContacts.ContactWay> contactWays = new ArrayList<>();
-        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Business,
-                                                                 "name", "1111"));
-        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Emergency,
-                                                                 "name", "1111"));
-        contactWays.add(new VendorInfoContacts.ContactWay(VendorInfoContacts.ContactType.Technical,
-                                                                 "name", "1111"));
-        contacts.setContractList(contactWays);
         when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
                 new VendorInfo("test", "test", VendorStatus.FROZEN,
                                       "test", "companySite", 1000, "address", "tel", "test-test",
-                                      "hotline", "othermarket", JsonUtils.toJson(contacts)));
+                                      "hotline", "othermarket", "{\"contactList\":"
+                                                                        + "[{\"type\":\"Business\",\"name\":\"test\",\"phone\":\"17710655544\"},"
+                                                                        + "{\"type\":\"Emergency\",\"name\":\"test\",\"phone\":\"17710655544\"},"
+                                                                        + "{\"type\":\"Technical\",\"name\":\"test\",\"phone\":\"17710655544\"}]}"));
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
     }
