@@ -168,9 +168,21 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 new VendorInfo("test", "test", VendorStatus.FROZEN,
                                       "test", "companySite", 1000, "address", "tel", "test-test",
                                       "hotline", "othermarket", "{\"contactList\":"
-                                                                        + "[{\"type\":\"Business\",\"name\":\"test\",\"phone\":\"17710655544\"},"
-                                                                        + "{\"type\":\"Emergency\",\"name\":\"test\",\"phone\":\"17710655544\"},"
-                                                                        + "{\"type\":\"Technical\",\"name\":\"test\",\"phone\":\"17710655544\"}]}"));
+                                                                        +
+                                                                        "[{\"type\":\"Business\","
+                                                                        + "\"name\":\"test\","
+                                                                        +
+                                                                        "\"phone\":\"17710655544\"},"
+                                                                        +
+                                                                        "{\"type\":\"Emergency\","
+                                                                        + "\"name\":\"test\","
+                                                                        +
+                                                                        "\"phone\":\"17710655544\"},"
+                                                                        +
+                                                                        "{\"type\":\"Technical\","
+                                                                        + "\"name\":\"test\","
+                                                                        +
+                                                                        "\"phone\":\"17710655544\"}]}"));
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
     }
