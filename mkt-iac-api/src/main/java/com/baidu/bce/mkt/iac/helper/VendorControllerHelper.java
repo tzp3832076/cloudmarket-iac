@@ -5,6 +5,7 @@
 package com.baidu.bce.mkt.iac.helper;
 
 import static com.baidu.bae.commons.lib.utils.ReflectionHelper.getFieldValue;
+import static com.baidu.bae.commons.lib.utils.ReflectionHelper.setFieldValue;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.internalsdk.mkt.iac.model.ParamMapModel;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
@@ -26,6 +28,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
+import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
@@ -204,13 +207,25 @@ public class VendorControllerHelper {
         for (int i = 0; i < fields.length; i++) {
             Object valueObj = getFieldValue(request, fields[i].getName()); // 获取属性值
             if (fields[i].getGenericType().equals(String.class)) {
-                if (StringUtils.isEmpty((String) valueObj)) {
+                String str =  SecurityUtils.stripSqlAndXss((String) valueObj);
+                if (StringUtils.isEmpty(str)) {
                     fieldMap.put(fields[i].getName(), IacConstants.INFO_EMPTY);
+                } else {
+                    setFieldValue(request, fields[i].getName(), str);
                 }
             }
         }
         if (CollectionUtils.isEmpty(request.getBaiduQiaos())) {
             fieldMap.put("baiduQiaos", IacConstants.INFO_EMPTY);
+        } else {
+            for (OnlineSupport support : request.getBaiduQiaos()) {
+                support.setLink(SecurityUtils.stripSqlAndXss(support.getLink()));
+                support.setName(SecurityUtils.stripSqlAndXss(support.getName()));
+                if (StringUtils.isEmpty(support.getLink())
+                            || StringUtils.isEmpty(support.getName())) {
+                    fieldMap.put("baiduQiaos", IacConstants.INFO_EMPTY);
+                }
+            }
         }
         return fieldMap;
     }

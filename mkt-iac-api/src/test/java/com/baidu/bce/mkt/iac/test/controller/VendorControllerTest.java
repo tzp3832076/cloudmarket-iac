@@ -111,7 +111,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         ShopDraftSaveRequest request = new ShopDraftSaveRequest();
         List<OnlineSupport> onlineSupports = new ArrayList<>();
         onlineSupports.add(new OnlineSupport("test", "test"));
-        request.setCompanyDescription("");
+        request.setCompanyDescription("<script>alert(1)</script>");
         request.setServicePhone("17710655544");
         request.setServiceEmail("sfy@baidu.com");
         request.setBaiduWalletAccount("test");
