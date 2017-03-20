@@ -269,10 +269,13 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     @CurrentUser(isServiceAccount = true)
     public void getVendorInfoByUserId() {
-        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
+        when(vendorService.getVendorInfoByUserId(anyString())).thenReturn(
                 new VendorInfo("test", "test", VendorStatus.FROZEN,
                                       "test", "companySite", 1000, "address", "tel", "test-test",
-                                      "hotline", "othermarket", JsonUtils.toJson("")));
+                                      "hotline", "othermarket", "{\"contactList\":"
+                                     + "[{\"type\":\"Business\",\"name\":\"test\",\"phone\":\"17710655544\"},"
+                                     + "{\"type\":\"Emergency\",\"name\":\"test\",\"phone\":\"17710655544\"},"
+                                     + "{\"type\":\"Technical\",\"name\":\"test\",\"phone\":\"17710655544\"}]}"));
         mktIacClient.getVendorInfoByUserId("test");
     }
 

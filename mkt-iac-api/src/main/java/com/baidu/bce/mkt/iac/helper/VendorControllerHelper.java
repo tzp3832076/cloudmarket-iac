@@ -26,12 +26,13 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditSdkConstant;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
-import com.baidu.bce.mkt.iac.common.model.VendorInfoContacts;
+import com.baidu.bce.mkt.audit.internal.sdk.model.common.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
@@ -42,6 +43,7 @@ import com.baidu.bce.mkt.iac.utils.CheckUtils;
 import com.baidu.bce.plat.webframework.exception.BceValidationException;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * Created on 2017/2/27 by sunfangyuan@baidu.com .
@@ -111,28 +113,29 @@ public class VendorControllerHelper {
         detail.setCompanyPhone(vendorInfo.getTelephone());
         detail.setCompanySite(vendorInfo.getWebsite());
         detail.setCompanyAddress(vendorInfo.getAddress());
+
         VendorInfoContacts contacts = JsonUtils.fromJson(vendorInfo.getContactInfo(),
                 VendorInfoContacts.class);
         if (contacts != null) {
-            Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> contactWayMap =
-                    getVendorContactMap(contacts.getContractList());
-            if (contactWayMap.get(VendorInfoContacts.ContactType.Business) != null) {
+            Map<String, VendorInfoContacts.ContactWay> contactWayMap = contacts
+                                                                               .getVendorContactMap();
+            if (contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT) != null) {
                 detail.setBizContact(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Business).getName());
+                        contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT).getName());
                 detail.setBizContactPhone(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Business).getPhone());
+                        contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT).getPhone());
             }
-            if (contactWayMap.get(VendorInfoContacts.ContactType.Emergency) != null) {
+            if (contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT) != null) {
                 detail.setEmerContact(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getName());
+                        contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT).getName());
                 detail.setEmerContactPhone(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Emergency).getPhone());
+                        contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT).getPhone());
             }
-            if (contactWayMap.get(VendorInfoContacts.ContactType.Technical) != null) {
+            if (contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT) != null) {
                 detail.setTechContact(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Technical).getName());
+                        contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT).getName());
                 detail.setTechContactPhone(
-                        contactWayMap.get(VendorInfoContacts.ContactType.Technical).getPhone());
+                        contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT).getPhone());
             }
         }
         response.setData(detail);
@@ -228,16 +231,6 @@ public class VendorControllerHelper {
             }
         }
         return fieldMap;
-    }
-
-    private Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> getVendorContactMap(
-            List<VendorInfoContacts.ContactWay> contactWayList) {
-        Map<VendorInfoContacts.ContactType, VendorInfoContacts.ContactWay> contactWayMap =
-                new HashMap<>();
-        for (VendorInfoContacts.ContactWay contactWay : contactWayList) {
-            contactWayMap.put(contactWay.getType(), contactWay);
-        }
-        return contactWayMap;
     }
 
     private ParamMapModel toParamMapModel(Map<String, String> paramMap) {
