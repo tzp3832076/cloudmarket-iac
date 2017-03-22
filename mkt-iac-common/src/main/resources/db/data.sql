@@ -12,6 +12,9 @@ INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 ('UUAP:wujinlin', 'UUAP', 'OP', '');
 
+INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
+('f168739fc9c5473ab798a39c3db446b6', 'BCE', 'VENDOR', '999608cc-d257-48af-99d2-27c983be8201');
+
 INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
 ('product', 'read', '获取商品', NOW()),
 ('vendorOverview', 'read', '服务商概览', NOW()),
