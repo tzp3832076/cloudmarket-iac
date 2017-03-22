@@ -42,8 +42,8 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('OP', 'vendorprocess', 'update', 'ALLOW', NOW()),
 ('OP', 'vendorprocess', 'read', 'ALLOW', NOW());
 
-INSERT INTO mkt_resource_system (resource, system, create_time) VALUES
-('audit', 'MKT_AUDIT', NOW()),
-('vendorprocess', 'MKT_AUDIT', NOW()),
-('product', 'MKT_PRODUCT', NOW());
+INSERT INTO mkt_resource_system (resource, system) VALUES
+('audit', 'MKT_AUDIT'),
+('vendorprocess', 'MKT_AUDIT'),
+('product', 'MKT_PRODUCT');
 

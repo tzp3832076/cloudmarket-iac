@@ -61,7 +61,7 @@ CREATE TABLE mkt_vendor_info (
     capital BIGINT(20) NOT NULL COMMENT '注册资本',
     address VARCHAR(256) NOT NULL COMMENT '公司地址',
     telephone VARCHAR(32) NOT NULL COMMENT '公司状态',
-    service_category VARCHAR(256) NOT NULL COMMENT '服务类别 一级-二级 ',
+    service_category VARCHAR(512) NOT NULL COMMENT '服务类别 叶子节点，分割 ',
     hotline VARCHAR(256) NOT NULL COMMENT '热线电话',
     other_market VARCHAR(256) NOT NULL COMMENT '已加入提前的云市场',
     contact_info VARCHAR(512) NOT NULL COMMENT '服务商联系人信息 json',

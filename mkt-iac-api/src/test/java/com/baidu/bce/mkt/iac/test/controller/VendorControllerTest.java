@@ -195,7 +195,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
                                                             "hotline", "othermarket", "contact_info"));
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
         vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
-        vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITINIG);
+        vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITING);
         vendorOverview.setAgreementAuditStatus(ProcessStatus.DONE);
         vendorOverview.setProductsOnSale(0);
         vendorOverview.setProductsAuditing(0);

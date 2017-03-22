@@ -9,6 +9,6 @@ package com.baidu.bce.mkt.iac.common.model;
  */
 public enum  ProcessStatus {
     TODO,
-    AUDITINIG,
+    AUDITING,
     DONE,
 }

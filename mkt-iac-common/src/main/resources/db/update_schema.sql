@@ -1,0 +1,1 @@
+alter table mkt_vendor_info modify column service_category VARCHAR(512) NOT NULL COMMENT '服务类别用，分割';
