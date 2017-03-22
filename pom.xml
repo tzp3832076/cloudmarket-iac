@@ -10,6 +10,7 @@
         <module>bce-internal-sdk-mkt-iac</module>
         <module>mkt-framework-iac</module>
         <module>mkt-framework-iac-client</module>
+        <module>mkt-framework-iac-test</module>
         <module>mkt-iac-common-test</module>
         <module>mkt-iac-common</module>
         <module>mkt-iac-api</module>
