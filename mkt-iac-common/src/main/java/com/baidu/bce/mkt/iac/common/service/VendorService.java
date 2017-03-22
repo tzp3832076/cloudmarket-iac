@@ -115,14 +115,19 @@ public class VendorService {
 
     public ShopDraftContentAndStatus getShopDraftContentAndStatus(String vendorId) {
         VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
-        if (shopDraft == null) {
-            return null; // vendorInfo 为初始状态 无店铺信息
-        }
-        VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(shopDraft.getContent(),
-                VendorShopAuditContent.ShopDraft.class);
+        VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
         ShopDraftContentAndStatus contentAndStatus = new ShopDraftContentAndStatus();
+        VendorShopAuditContent.ShopDraft content;
+        if (shopDraft == null) {
+            content = new VendorShopAuditContent.ShopDraft();
+            content.setCompanyName(vendorInfo.getCompany());
+            content.setBceAccount(vendorInfo.getBceUserId());
+        } else {
+            content = JsonUtils.fromJson(shopDraft.getContent(),
+                    VendorShopAuditContent.ShopDraft.class);
+        }
         contentAndStatus.setContent(content);
-        contentAndStatus.setStatus(shopDraft.getStatus());
+        contentAndStatus.setStatus(shopDraft == null ? InfoStatus.EDIT : shopDraft.getStatus());
         return contentAndStatus;
     }
 
