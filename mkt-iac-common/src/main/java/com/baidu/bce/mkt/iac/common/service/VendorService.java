@@ -210,6 +210,9 @@ public class VendorService {
         if (vendorShop != null) {
             return ProcessStatus.DONE;
         } else {
+            if (shopDraft == null) {
+                return ProcessStatus.TODO;
+            }
             return InfoStatus.AUDIT.equals(shopDraft.getStatus()) ? ProcessStatus.AUDITING :
                                                                                                     ProcessStatus.TODO;
         }
