@@ -24,6 +24,7 @@ import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.ProductHandler;
 import com.baidu.bce.mkt.iac.common.handler.QualityHandler;
 import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
+import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorDepositMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
@@ -61,6 +62,7 @@ public class VendorService {
     private final ProductHandler productHandler;
     private final IacClientFactory iacClientFactory;
     private final SyncHandler syncHandler;
+    private final AccountMapper accountMapper;
 
     @Transactional
     public void submitShopDraft(String vendorId, VendorShopAuditContent content) {
@@ -191,9 +193,14 @@ public class VendorService {
         return vendorCountMap;
     }
 
+    @Transactional
     public void updateVendorStatus(String vendorId, String status) {
         VendorStatus vendorStatus = VendorStatus.valueOf(status);
         vendorInfoMapper.updateVendorStatus(vendorId, vendorStatus);
+        if (VendorStatus.HOSTED.equals(vendorStatus)) {
+            VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+            accountMapper.updateAccountRole(vendorInfo.getBceUserId(), IacConstants.ROLE_VENDOR);
+        }
     }
 
     public VendorListModel getVendorList(String bceUserId, String companyName,

@@ -13,7 +13,7 @@ INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 ('UUAP:wujinlin', 'UUAP', 'OP', '');
 
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
-('f168739fc9c5473ab798a39c3db446b6', 'BCE', 'VENDOR', '999608cc-d257-48af-99d2-27c983be8201');
+('f168739fc9c5473ab798a39c3db446b6', 'BCE', 'INIT_VENDOR', '999608cc-d257-48af-99d2-27c983be8201');
 
 INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
 ('product', 'read', '获取商品', NOW()),
@@ -49,4 +49,14 @@ INSERT INTO mkt_resource_system (resource, system) VALUES
 ('audit', 'MKT_AUDIT'),
 ('vendorprocess', 'MKT_AUDIT'),
 ('product', 'MKT_PRODUCT');
+
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('INIT_VENDOR', 'vendorOverview', 'read', 'ALLOW', NOW()),
+('INIT_VENDOR', 'vendorInfo', 'read', 'ALLOW', NOW()),
+('INIT_VENDOR', 'vendorShop', 'read', 'ALLOW', NOW()),
+('INIT_VENDOR', 'vendorShop', 'submitDraft', 'ALLOW', NOW()),
+('INIT_VENDOR', 'vendorShop', 'saveDraft', 'ALLOW', NOW()),
+('INIT_VENDOR', 'audit', 'submit', 'ALLOW', NOW()),
+('INIT_VENDOR', 'audit', 'read', 'ALLOW', NOW()),
+('INIT_VENDOR', 'audit', 'cancel', 'ALLOW', NOW());
 

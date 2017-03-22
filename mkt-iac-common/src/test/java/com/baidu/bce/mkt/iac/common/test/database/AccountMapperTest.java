@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.AccountType;
@@ -39,5 +40,15 @@ public class AccountMapperTest extends BaseMapperTest {
         int ret = accountMapper.save(account);
         Assert.assertEquals(1, ret);
         Assert.assertTrue(account.getId() > 0);
+    }
+
+    @Test
+    public void testUpdateAccountRole() {
+        Account account = accountMapper.getByAccountId("normal_vendor_1");
+        Assert.assertEquals("VENDOR", account.getRole());
+        accountMapper.updateAccountRole(account.getAccountId(), IacConstants.RESOURCE_VENDOR_INFO);
+        account = accountMapper.getByAccountId("normal_vendor_1");
+        Assert.assertNotNull(account);
+        Assert.assertEquals(IacConstants.RESOURCE_VENDOR_INFO, account.getRole());
     }
 }

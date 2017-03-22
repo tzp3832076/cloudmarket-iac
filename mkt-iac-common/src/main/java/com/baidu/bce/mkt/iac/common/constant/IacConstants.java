@@ -20,5 +20,6 @@ public class IacConstants {
 
     public static final String AUDIT_VENDOR_SHOP = "VENDOR_SHOP";
 
+    public static final String ROLE_INIT_VENDOR = "INIT_VENDOR";
     public static final String ROLE_VENDOR = "VENDOR";
 }

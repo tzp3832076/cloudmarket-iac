@@ -47,11 +47,14 @@ public class NoticeService {
             VendorInfo temp = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
             if (temp == null) {
                 vendorInfoMapper.add(vendorInfo);
-                accountMapper.save(new Account(vendorInfo.getBceUserId(), AccountType.BCE,
-                                                      IacConstants.ROLE_VENDOR, vendorInfo
-                                                                                        .getVendorId()));
             } else {
                 log.warn("auditNoticeApplication is exist. vendorId {}", vendorInfo.getVendorId());
+            }
+            if (accountMapper.getByAccountId(vendorInfo.getBceUserId()) == null) {
+                accountMapper.save(new Account(vendorInfo.getBceUserId(), AccountType.BCE,
+                                                      IacConstants.ROLE_INIT_VENDOR, vendorInfo
+                                                                                             .getVendorId()));
+
             }
         }
     }
