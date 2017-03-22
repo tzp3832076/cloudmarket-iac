@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
+import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
 import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
+import com.baidu.bce.mkt.iac.common.model.db.Account;
+import com.baidu.bce.mkt.iac.common.model.db.AccountType;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
@@ -31,10 +35,13 @@ public class NoticeService {
     @Autowired
     private VendorInfoMapper vendorInfoMapper;
     @Autowired
+    private AccountMapper accountMapper;
+    @Autowired
     private VendorShopDraftMapper shopDraftMapper;
     @Autowired
     private VendorShopMapper vendorShopMapper;
 
+    @Transactional
     public void auditNoticeApplication(String status, VendorInfo vendorInfo) {
         if (InfoStatus.PASS.name().equals(status) && vendorInfo != null) {
             VendorInfo temp = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
@@ -42,6 +49,12 @@ public class NoticeService {
                 vendorInfoMapper.add(vendorInfo);
             } else {
                 log.warn("auditNoticeApplication is exist. vendorId {}", vendorInfo.getVendorId());
+            }
+            if (accountMapper.getByAccountId(vendorInfo.getBceUserId()) == null) {
+                accountMapper.save(new Account(vendorInfo.getBceUserId(), AccountType.BCE,
+                                                      IacConstants.ROLE_INIT_VENDOR, vendorInfo
+                                                                                             .getVendorId()));
+
             }
         }
     }

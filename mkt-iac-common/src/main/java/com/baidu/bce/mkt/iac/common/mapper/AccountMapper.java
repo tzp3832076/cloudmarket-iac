@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 
@@ -34,4 +35,7 @@ public interface AccountMapper {
 
     @Select(SELECT_SQL_PREFIX + "WHERE account_id = @{accountId}")
     Account getByAccountId(@Param("accountId") String accountId);
+
+    @Update(UPDATE_SQL_PREFIX + "SET role = @{role} WHERE account_id = @{accountId}")
+    int updateAccountRole(@Param("accountId") String accountId, @Param("role") String role);
 }

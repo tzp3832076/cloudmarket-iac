@@ -15,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
+import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
+import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
@@ -45,6 +47,8 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
     private VendorShopMapper vendorShopMapper;
     @Autowired
     private VendorShopDraftMapper vendorShopDraftMapper;
+    @Autowired
+    private AccountMapper accountMapper;
 
     @Test
     public void auditNotice() throws Exception {
@@ -53,8 +57,10 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
                                                       "tel", "test-test", "hotline", "othermarket",
                                                       "contact_info");
         noticeService.auditNoticeApplication("PASS", vendorInfo);
-        VendorInfo test = vendorInfoMapper.getVendorInfoByVendorId("vendor_test_1");
-        Assert.assertNull(test);
+        VendorInfo test = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
+        Assert.assertNotNull(test);
+        Account account = accountMapper.getByAccountId(test.getBceUserId());
+        Assert.assertNotNull(account);
     }
 
     @Test
