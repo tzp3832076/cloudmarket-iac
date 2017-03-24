@@ -9,8 +9,9 @@ import static org.mockito.Mockito.when;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.baidu.bce.internalsdk.mkt.iac.model.GetAccountRoleResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
 import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
+import com.baidu.bce.mkt.iac.common.model.RoleMenu;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 /**
@@ -21,8 +22,9 @@ public class AccountControllerTest extends ApiMockMvcTest {
     @Test
     @CurrentUser(isServiceAccount = true)
     public void getAccountRole() throws Exception {
-        when(accountService.getAccountRole(anyString())).thenReturn("USER");
-        GetAccountRoleResponse roleResponse = mktIacClient.getAccountRole("test");
-        Assert.assertEquals(roleResponse.getRole(), "USER");
+        when(accountService.getShowMenu(anyString())).thenReturn(RoleMenu.USER);
+        GetShowMenuResponse roleResponse = mktIacClient.getAccountShowMenu("test");
+        Assert.assertEquals(roleResponse.isShowVendor(), false);
+        Assert.assertEquals(roleResponse.isShowProduct(), false);
     }
 }

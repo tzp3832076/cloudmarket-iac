@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
+import com.baidu.bce.mkt.iac.common.model.RoleMenu;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AccountService {
     private final AccountMapper accountMapper;
 
-    public String getAccountRole(String bceUserId) {
+    public RoleMenu getShowMenu(String bceUserId) {
         Account account = accountMapper.getByAccountId(bceUserId);
-        return (account == null) ? "USER" : account.getRole();
+        if (account == null) {
+            return RoleMenu.USER;
+        } else {
+            return RoleMenu.getRoleMenu(account.getRole());
+        }
     }
 }

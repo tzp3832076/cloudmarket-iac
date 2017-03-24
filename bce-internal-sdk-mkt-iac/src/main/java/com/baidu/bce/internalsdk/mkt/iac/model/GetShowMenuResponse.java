@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAccountRoleResponse {
-    private String role;
+public class GetShowMenuResponse {
+    private boolean showVendor;
+    private boolean showProduct;
 }
