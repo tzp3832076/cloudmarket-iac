@@ -24,9 +24,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class MktIacClientTest {
+//    private MktIacClient mktIacClient = new MktIacClient("http://10.99.206.142:8105",
+//                                                                "00d3ffe2a47d4ddb83c8144b84230aae",
+//                                                                "15b3a284ee0245689776b1b1af63178c");
+
     private MktIacClient mktIacClient = new MktIacClient("http://10.99.206.142:8105",
-                                                                "00d3ffe2a47d4ddb83c8144b84230aae",
-                                                                "15b3a284ee0245689776b1b1af63178c");
+                                                                "9c535320a79d4903aca96e6ea739e36c",
+                                                                "c68dc782e86c44c699619bfd3752fd68");
 
     @Test
     public void getVendorInfo() {
@@ -66,6 +70,11 @@ public class MktIacClientTest {
     @Test
     public void getVendorOverview() {
         mktIacClient.getVendorOverview();
+    }
+
+    @Test
+    public void cancelAudit() {
+        mktIacClient.cancelShopDraftAudit();
     }
 
     @Test
