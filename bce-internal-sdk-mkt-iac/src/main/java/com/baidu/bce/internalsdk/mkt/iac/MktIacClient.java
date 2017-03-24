@@ -7,6 +7,7 @@ import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
@@ -166,5 +167,12 @@ public class MktIacClient extends BaseClient {
 
     public void signAgreement() {
         createMktAuthorizedRequest().path("/v1/vendor/agreement").put();
+    }
+
+    public GetShowMenuResponse getAccountShowMenu(String accountId) {
+        return createMktAuthorizedRequest()
+                .path("/v1/account")
+                .path("/menu/")
+                .path(accountId).get(GetShowMenuResponse.class);
     }
 }
