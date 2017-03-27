@@ -10,7 +10,7 @@ import com.baidu.bce.plat.webframework.exception.BceException;
  */
 public class MktIacExceptions {
     public static BceException noPermission() {
-        return new BceException("没有相应权限", 403, "NoPermission");
+        return new BceException("没有权限", 403, "NoPermission");
     }
 
     public static BceException statusInAudit() {
