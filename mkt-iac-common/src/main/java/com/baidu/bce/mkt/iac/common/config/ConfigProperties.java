@@ -19,4 +19,7 @@ public class ConfigProperties {
     private String mktServiceAk;
     @Value("${mkt.service.sk:}")
     private String mktServiceSk;
+
+    @Value("${mkt.vendor.product.menu.show:true}")
+    private Boolean showProduct;
 }
