@@ -10,7 +10,7 @@ import com.baidu.bce.plat.webframework.exception.BceException;
  */
 public class MktIacExceptions {
     public static BceException noPermission() {
-        return new BceException("No Permission", 403, "NoPermission");
+        return new BceException("没有相应权限", 403, "NoPermission");
     }
 
     public static BceException statusInAudit() {
@@ -18,10 +18,10 @@ public class MktIacExceptions {
     }
 
     public static BceException noVendorInfo() {
-        return new BceException("No Vendor Info", 403, "NoVendorInfo");
+        return new BceException("无服务商信息", 403, "NoVendorInfo");
     }
 
     public static BceException notJsonFormat() {
-        return new BceException("JSON transform failed", 403, "NotJsonFormat");
+        return new BceException("JSON 转化失败", 403, "NotJsonFormat");
     }
 }
