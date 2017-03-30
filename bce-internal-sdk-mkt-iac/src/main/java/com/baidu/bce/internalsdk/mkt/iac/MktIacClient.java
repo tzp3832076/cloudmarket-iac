@@ -143,7 +143,6 @@ public class MktIacClient extends BaseClient {
     public void updateVendorStatus(String vendorId, String status) {
         createMktAuthorizedRequest().path("/v1/vendor/")
                 .path(vendorId)
-                .keyOnlyQueryParam("status")
                 .queryParam("status", status)
                 .put();
     }
