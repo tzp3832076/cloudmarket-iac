@@ -21,6 +21,10 @@ public class MktIacExceptions {
         return new BceException("无服务商信息", 403, "NoVendorInfo");
     }
 
+    public static BceException noVendorShopInfo() {
+        return new BceException("无服务商店铺信息", 403, "NoVendorShopInfo");
+    }
+
     public static BceException notJsonFormat() {
         return new BceException("JSON 转化失败", 403, "NotJsonFormat");
     }
