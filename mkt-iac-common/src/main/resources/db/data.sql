@@ -60,3 +60,31 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('INIT_VENDOR', 'audit', 'read', 'ALLOW', NOW()),
 ('INIT_VENDOR', 'audit', 'cancel', 'ALLOW', NOW());
 
+# 服务商商品相关权限数据
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorProduct', 'readList', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readNewDraft', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readDetail', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readForEdit', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'saveDraft', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'submitAudit', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'productToOffline', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'cancelAudit', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'readList', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'readDetail', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'productToOffline', 'ALLOW', NOW());
+
+INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
+('vendorProduct', 'readList', '获取商品列表', NOW()),
+('vendorProduct', 'readNewDraft', '读取草稿', NOW()),
+('vendorProduct', 'readDetail', '读取商品详情', NOW()),
+('vendorProduct', 'readForEdit', '读取商品编辑详情', NOW()),
+('vendorProduct', 'saveDraft', '保存草稿', NOW()),
+('vendorProduct', 'submitAudit', '提交审核', NOW()),
+('vendorProduct', 'productToOnline', '商品上架', NOW()),
+('vendorProduct', 'productToOffline', '商品下架', NOW()),
+('vendorProduct', 'cancelAudit', '商品撤销审核', NOW());
+
+INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
