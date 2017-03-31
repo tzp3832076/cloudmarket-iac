@@ -26,6 +26,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditSdkConstant;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
@@ -35,6 +36,7 @@ import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.audit.internal.sdk.model.common.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
+import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
@@ -169,6 +171,29 @@ public class VendorControllerHelper {
         VendorBaseContactResponse response = new VendorBaseContactResponse();
         if (shop != null) {
             response.setEmail(shop.getEmail());
+        }
+        return response;
+    }
+
+    public VendorShopResponse toVendorShopResponse(VendorShop shop) {
+        VendorShopResponse response = new VendorShopResponse();
+        if (shop == null) {
+            return response;
+        }
+        response.setEmail(shop.getEmail());
+        response.setHotline(shop.getCellphone());
+        response.setIntro(shop.getIntro());
+        response.setVendorName(shop.getName());
+        VendorServiceInfoModel vendorServiceInfoModel = JsonUtils.fromJson(shop.getServiceInfo(),
+                VendorServiceInfoModel.class);
+        if (vendorServiceInfoModel != null) {
+            response.setServiceTime(vendorServiceInfoModel.getServiceAvailTime());
+            List<VendorShopResponse.OnlineSupport> onlineSupports = new ArrayList<>();
+            for (OnlineSupport onlineSupport : vendorServiceInfoModel.getOnlineSupports()) {
+                onlineSupports.add(new VendorShopResponse.OnlineSupport(
+                        onlineSupport.getName(), onlineSupport.getLink()));
+            }
+            response.setOnlineSupports(onlineSupports);
         }
         return response;
     }

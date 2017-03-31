@@ -158,6 +158,10 @@ public class VendorService {
         return vendorShopMapper.getVendorShopByVendorId(vendorInfo.getVendorId());
     }
 
+    public VendorShop getVendorShopByVendorId(String vendorId) {
+        return vendorShopMapper.getVendorShopByVendorId(vendorId);
+    }
+
     /**
      * vendorInfo
      */

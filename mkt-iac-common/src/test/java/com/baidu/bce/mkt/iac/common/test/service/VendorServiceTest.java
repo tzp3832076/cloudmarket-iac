@@ -122,6 +122,12 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
+    public void getVendorShopByVendorId() {
+        VendorShop vendorShop = vendorService.getVendorShopByVendorId("vendor_1");
+        Assert.assertNotNull(vendorShop);
+    }
+
+    @Test
     public void getVendorOverview() {
         EnterpriseInfoResponse response = new EnterpriseInfoResponse();
         response.setStatus(AuditStatus.PASS);

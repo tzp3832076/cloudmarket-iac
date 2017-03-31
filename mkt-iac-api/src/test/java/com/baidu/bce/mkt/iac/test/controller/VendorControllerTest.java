@@ -32,6 +32,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
@@ -43,6 +44,7 @@ import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
+import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
@@ -231,6 +233,27 @@ public class VendorControllerTest extends ApiMockMvcTest {
         when(vendorService.getVendorShopByBceUserId(anyString())).thenReturn(vendorShop);
         VendorBaseContactResponse response = mktIacClient.getVendorBaseContactByBceId("test");
         log.info("getVendorBaseContactByBceId {} ", response);
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void getVendorShopByVendorId() {
+        VendorShop vendorShop = new VendorShop();
+        vendorShop.setEmail("test");
+        vendorShop.setCellphone("test");
+        vendorShop.setVendorId("test");
+        vendorShop.setServiceInfo("test");
+        vendorShop.setName("test");
+        VendorServiceInfoModel serviceInfoModel = new VendorServiceInfoModel();
+        List<OnlineSupport> onlineSupportList = new ArrayList<>();
+        onlineSupportList.add(new OnlineSupport("test", "test"));
+        serviceInfoModel.setOnlineSupports(onlineSupportList);
+        serviceInfoModel.setServiceAvailTime("9:00-18:00");
+        serviceInfoModel.setOnlineSupports(onlineSupportList);
+        vendorShop.setServiceInfo(JsonUtils.toJson(serviceInfoModel));
+        when(vendorService.getVendorShopByVendorId(anyString())).thenReturn(vendorShop);
+        VendorShopResponse response = mktIacClient.getVendorShopResponse("test");
+        log.info("getVendorShopByVendorId {} ", response);
     }
 
     @Test

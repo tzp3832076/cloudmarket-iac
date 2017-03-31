@@ -16,6 +16,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.sdk.BaseClient;
 import com.baidu.bce.mkt.framework.sdk.utils.RequestUtils;
 
@@ -162,6 +163,13 @@ public class MktIacClient extends BaseClient {
                        .path(vendorId)
                        .path("/contract")
                        .get(VendorContractResponse.class);
+    }
+
+    public VendorShopResponse getVendorShopResponse(String vendorId) {
+        return createMktAuthorizedRequest()
+                       .path("/v1/vendor/")
+                       .path(vendorId)
+                       .path("/shopInfo").get(VendorShopResponse.class);
     }
 
     public void signAgreement() {

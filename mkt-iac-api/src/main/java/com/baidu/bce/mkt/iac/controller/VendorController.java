@@ -23,6 +23,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
@@ -178,6 +179,15 @@ public class VendorController {
     @UnknownExceptionResponse(message = "服务商确认签署电子协议状态同步失败")
     public void signAgreement(@VendorId String vendorId) {
         vendorService.signAgreement(vendorId);
+    }
+
+    @ApiOperation(value = "服务商店铺信息线上接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopInfo")
+    @BceAuth(role = {BceRole.SERVICE})
+    @UnknownExceptionResponse(message = "服务商线上店铺信息获取")
+    public VendorShopResponse getVendorShopInfo(@PathVariable("vendorId") String vendorId) {
+        VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
+        return helper.toVendorShopResponse(vendorShop);
     }
 }
 
