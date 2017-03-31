@@ -34,6 +34,7 @@ import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
+import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
@@ -122,12 +123,25 @@ public class VendorService {
         VendorShopAuditContent.ShopDraft content;
         if (shopDraft == null) {
             content = new VendorShopAuditContent.ShopDraft();
-            content.setCompanyName(vendorInfo.getCompany());
-            content.setBceAccount(vendorInfo.getBceUserId());
+            content.setBaiduWalletAccount(vendorInfo.getWalletId());
+            VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
+            if (vendorShop != null) {
+                content.setServicePhone(vendorShop.getServiceInfo());
+                content.setServiceEmail(vendorShop.getEmail());
+                content.setCompanyDescription(vendorShop.getIntro());
+                VendorServiceInfoModel serviceInfoModel = JsonUtils.fromJson(
+                        vendorShop.getServiceInfo(), VendorServiceInfoModel.class);
+                if (serviceInfoModel != null) {
+                    content.setServiceAvailTime(serviceInfoModel.getServiceAvailTime());
+                    content.setBaiduQiaos(serviceInfoModel.getOnlineSupports());
+                }
+            }
         } else {
             content = JsonUtils.fromJson(shopDraft.getContent(),
                     VendorShopAuditContent.ShopDraft.class);
         }
+        content.setCompanyName(vendorInfo.getCompany());
+        content.setBceAccount(vendorInfo.getBceUserId());
         contentAndStatus.setContent(content);
         contentAndStatus.setStatus(shopDraft == null ? InfoStatus.EDIT : shopDraft.getStatus());
         return contentAndStatus;

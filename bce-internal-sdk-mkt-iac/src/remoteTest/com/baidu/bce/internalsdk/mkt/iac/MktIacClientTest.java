@@ -58,7 +58,10 @@ public class MktIacClientTest {
         ShopDraftSaveRequest request = new ShopDraftSaveRequest();
         request.setBaiduWalletAccount("test");
         List<OnlineSupport> onlineSupportList = new ArrayList<>();
-        onlineSupportList.add(new OnlineSupport("test", "test"));
+        onlineSupportList.add(new OnlineSupport(
+                "咨询01", "http://p.qiao.baidu.com/cps/chat?siteId=9846450&userId=22204980"));
+        onlineSupportList.add(new OnlineSupport(
+                "咨询01", "http://p.qiao.baidu.com/cps/chat?siteId=9846450&userId=22204980"));
         request.setBaiduQiaos(onlineSupportList);
         request.setServiceEmail("test@baidu.com");
         request.setServiceAvailTime("周一到周二");
