@@ -69,6 +69,36 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('INIT_VENDOR', 'audit', 'read', 'ALLOW', NOW()),
 ('INIT_VENDOR', 'audit', 'cancel', 'ALLOW', NOW());
 
+# 服务商商品相关权限数据
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorProduct', 'readList', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readNewDraft', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readDetail', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'readForEdit', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'saveDraft', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'submitAudit', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'productToOffline', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'cancelAudit', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'readList', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'readDetail', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'productToOffline', 'ALLOW', NOW());
+
+INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
+('vendorProduct', 'readList', '获取商品列表', NOW()),
+('vendorProduct', 'readNewDraft', '读取草稿', NOW()),
+('vendorProduct', 'readDetail', '读取商品详情', NOW()),
+('vendorProduct', 'readForEdit', '读取商品编辑详情', NOW()),
+('vendorProduct', 'saveDraft', '保存草稿', NOW()),
+('vendorProduct', 'submitAudit', '提交审核', NOW()),
+('vendorProduct', 'productToOnline', '商品上架', NOW()),
+('vendorProduct', 'productToOffline', '商品下架', NOW()),
+('vendorProduct', 'cancelAudit', '商品撤销审核', NOW());
+
+INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
+
+
 # 服务商店铺信息的导入
 #vendor 上海英方软件股份有限公司
 INSERT INTO mkt_vendor_shop_draft (vendor_id, status, audit_id, content)
@@ -169,7 +199,6 @@ VALUES ('f6781f00-7e8b-493a-ac43-75eb369927e7', '常州市青之峰网络科技�
 'bce@myqingfeng.cn','18637363300',
 '青峰公司成立于2002年9月10日，是国内早先以网站建设和推广为主营业务的高科技公司，专业从事网站制作、网络营销策划、软件开发。总部设在江苏常州，旗下目前设有河南、浙江、江苏有9家分公司。公司自主研发的智美云网站建设系统，获得了高新技术产品认证，目前有3万多家企业、政府机构、事业单位使用。',
 '{\"serviceAvailTime\":\"08：30~17：30（周一至周五）\",\"onlineSupports\":[{\"name\":\"售前咨询\",\"link\":\"http://p.qiao.baidu.com/cps/chat?siteId=9830716&userId=22165696\"},{\"name\":\"售前咨询\",\"link\":\"http://p.qiao.baidu.com/cps/chat?siteId=9830597&userId=22165467\"}]}');
-
 
 
 
