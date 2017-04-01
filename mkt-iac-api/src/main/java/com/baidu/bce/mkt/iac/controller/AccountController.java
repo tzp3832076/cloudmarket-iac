@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
-import com.baidu.bce.mkt.iac.common.model.RoleMenu;
+import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.service.AccountService;
 import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
 import com.baidu.bce.plat.webframework.iam.model.BceRole;
@@ -36,7 +36,9 @@ public class AccountController {
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "获取用户菜单栏显示的控制的接口")
     public GetShowMenuResponse getAccountShowMenu(@PathVariable String bceUserId) {
-        RoleMenu.MenuShowModel showModel = accountService.getShowMenu(bceUserId).getMenuShowModel();
-        return new GetShowMenuResponse(showModel.isShowVendor(), showModel.isShowProduct());
+        Account account = accountService.getAccount(bceUserId);
+        log.info("current account = {}", account);
+        return account == null ? new GetShowMenuResponse() :
+                new GetShowMenuResponse(account.isVendor(), account.isHostedVendor());
     }
 }

@@ -6,6 +6,7 @@ package com.baidu.bce.mkt.iac.common.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 
 import lombok.Getter;
@@ -15,15 +16,13 @@ import lombok.Getter;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class UserIdentity {
-    public static final String DEFAULT_ACCOUNT_TYPE = "BCE";
-    public static final String DEFAULT_ROLE = "USER";
-    public static final String ROLE_OP = "OP";
+
 
     @Getter
     private String userId;
     private Account account;
     @Getter
-    private String role = DEFAULT_ROLE;
+    private String role = IacConstants.DEFAULT_ROLE;
 
     public UserIdentity(String userId, Account account) {
         this.userId = userId;
@@ -42,11 +41,11 @@ public class UserIdentity {
     }
 
     public boolean isOp() {
-        return ROLE_OP.equals(role);
+        return IacConstants.ROLE_OP.equals(role);
     }
 
     public String getAccountType() {
-        return account == null ? DEFAULT_ACCOUNT_TYPE : account.getAccountType().name();
+        return account == null ? IacConstants.DEFAULT_ACCOUNT_TYPE : account.getAccountType().name();
     }
 
     public String getMainUserId() {
