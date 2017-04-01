@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
 import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
-import com.baidu.bce.mkt.iac.common.model.RoleMenu;
+import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 /**
@@ -22,7 +22,9 @@ public class AccountControllerTest extends ApiMockMvcTest {
     @Test
     @CurrentUser(isServiceAccount = true)
     public void getAccountRole() throws Exception {
-        when(accountService.getShowMenu(anyString())).thenReturn(RoleMenu.USER);
+        Account account = new Account();
+        account.setRole("OP");
+        when(accountService.getAccount(anyString())).thenReturn(account);
         GetShowMenuResponse roleResponse = mktIacClient.getAccountShowMenu("test");
         Assert.assertEquals(roleResponse.isShowVendor(), false);
         Assert.assertEquals(roleResponse.isShowProduct(), false);

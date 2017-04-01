@@ -4,6 +4,8 @@ package com.baidu.bce.mkt.iac.common.model.db;
 
 import java.security.Timestamp;
 
+import com.baidu.bce.mkt.iac.common.constant.IacConstants;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +31,13 @@ public class Account {
         this.accountType = type;
         this.role = role;
         this.vendorId = vendorId;
+    }
+
+    public boolean isVendor() {
+        return IacConstants.ROLE_VENDOR.equals(role) || IacConstants.ROLE_INIT_VENDOR.equals(role);
+    }
+
+    public boolean isHostedVendor() {
+        return IacConstants.ROLE_VENDOR.equals(role);
     }
 }

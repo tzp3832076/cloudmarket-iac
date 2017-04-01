@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.baidu.bce.mkt.iac.common.model.RoleMenu;
+import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.service.AccountService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 
@@ -20,15 +20,14 @@ public class AccountServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void getAccountRole() {
-        RoleMenu role = accountService.getShowMenu("normal_vendor_1");
-        Assert.assertEquals(role.getMenuShowModel().isShowProduct(), true);
-        Assert.assertEquals(role.getMenuShowModel().isShowVendor(), true);
-        role = accountService.getShowMenu("XX_1");
-        Assert.assertEquals(role.getMenuShowModel().isShowProduct(), false);
-        Assert.assertEquals(role.getMenuShowModel().isShowVendor(), false);
-        role = accountService.getShowMenu("op_user_1");
-        Assert.assertEquals(role.getMenuShowModel().isShowProduct(), false);
-        Assert.assertEquals(role.getMenuShowModel().isShowVendor(), false);
+        Account account = accountService.getAccount("normal_vendor_1");
+        Assert.assertEquals(true, account.isHostedVendor());
+        Assert.assertEquals(true, account.isVendor());
+        account = accountService.getAccount("XX_1");
+        Assert.assertNull(account);
+        account = accountService.getAccount("op_user_1");
+        Assert.assertEquals(false, account.isHostedVendor());
+        Assert.assertEquals(false, account.isVendor());
     }
 
 }

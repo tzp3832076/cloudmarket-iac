@@ -71,10 +71,12 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('VENDOR', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
 ('VENDOR', 'vendorProduct', 'productToOffline', 'ALLOW', NOW()),
 ('VENDOR', 'vendorProduct', 'cancelAudit', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'getUploadInfo', 'ALLOW', NOW()),
 ('OP', 'vendorProduct', 'readList', 'ALLOW', NOW()),
 ('OP', 'vendorProduct', 'readDetail', 'ALLOW', NOW()),
 ('OP', 'vendorProduct', 'productToOnline', 'ALLOW', NOW()),
-('OP', 'vendorProduct', 'productToOffline', 'ALLOW', NOW());
+('OP', 'vendorProduct', 'productToOffline', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'getUploadInfo', 'ALLOW', NOW());
 
 INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
 ('vendorProduct', 'readList', '获取商品列表', NOW()),
@@ -85,6 +87,7 @@ INSERT INTO mkt_permission (resource, operation, description, create_time) VALUE
 ('vendorProduct', 'submitAudit', '提交审核', NOW()),
 ('vendorProduct', 'productToOnline', '商品上架', NOW()),
 ('vendorProduct', 'productToOffline', '商品下架', NOW()),
-('vendorProduct', 'cancelAudit', '商品撤销审核', NOW());
+('vendorProduct', 'cancelAudit', '商品撤销审核', NOW()),
+('vendorProduct', 'getUploadInfo', '上传文件', NOW());
 
 INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
