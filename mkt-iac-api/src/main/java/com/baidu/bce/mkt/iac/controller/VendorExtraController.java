@@ -13,20 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baidu.bce.internalsdk.iam.model.BceUserInfo;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.common.service.ContractAndDepositService;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorExtraHepler;
 import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
 import com.baidu.bce.plat.webframework.iam.model.BceRole;
+import com.baidu.bce.plat.webframework.iam.service.IAMService;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +47,7 @@ public class VendorExtraController {
     private final ContractAndDepositService service;
     private final VendorService vendorService;
     private final VendorExtraHepler hepler;
+    private final IAMService iamService;
 
 
     @ApiOperation(value = "合同list和保证金更新接口 -- osp调用")
@@ -79,5 +84,16 @@ public class VendorExtraController {
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
         VendorDeposit deposit = service.getVendorDeposit(vendorId);
         return hepler.toContractAndDepositResponse(vendorInfo, vendorContractList, deposit);
+    }
+
+    @ApiOperation(value = "获取服务商合同信息和保证金信息")
+    @RequestMapping(value = "/{vendorId}/phoneAndEmail", method = RequestMethod.GET)
+    @BceAuth(role = {BceRole.SERVICE})
+    @UnknownExceptionResponse(message = "获取服务商电话和邮箱供发送短信和邮件")
+    public VendorPhoneAndEmailResponse getPhoneAndEmail(@PathVariable("vendorId") String vendorId) {
+        VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
+        VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
+        BceUserInfo bceUserInfo = iamService.getBceUserInfo(vendorInfo.getBceUserId());
+        return new VendorPhoneAndEmailResponse(vendorId, bceUserInfo.getMobilePhone(), vendorShop.getEmail());
     }
 }

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
@@ -23,12 +24,14 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -95,6 +98,22 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         when(contractAndDepositService.getVendorDeposit(anyString())).thenReturn(null);
         ContractAndDepositResponse response = mktIacClient.getContractsAndDeposit("test");
         log.info("getVendorContractsAndDeposit {}", response);
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void testGetPhoneAndEmail() {
+        String vendorId = "test";
+        VendorInfo vendorInfo = new VendorInfo();
+        vendorInfo.setBceUserId(IdUtils.generateShortUUID());
+        when(vendorService.getValidVendorInfo(vendorId)).thenReturn(vendorInfo);
+        VendorShop vendorShop = new VendorShop();
+        vendorShop.setEmail("123@baidu.com");
+        when(vendorService.getVendorShopByVendorId(vendorId)).thenReturn(vendorShop);
+        VendorPhoneAndEmailResponse response = mktIacClient.getPhoneAndEmail(vendorId);
+        log.info("response = {}", response);
+        Assert.assertEquals("13012345678", response.getPhone());
+        Assert.assertEquals("123@baidu.com", response.getEmail());
     }
 
 }

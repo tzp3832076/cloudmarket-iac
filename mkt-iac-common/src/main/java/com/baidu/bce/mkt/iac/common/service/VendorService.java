@@ -173,6 +173,14 @@ public class VendorService {
         return vendorInfoMapper.getVendorInfoByVendorId(vendorId);
     }
 
+    public VendorInfo getValidVendorInfo(String vendorId) {
+        VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
+        if (vendorInfo == null) {
+            throw MktIacExceptions.noVendorInfo();
+        }
+        return vendorInfo;
+    }
+
     public VendorInfo getVendorInfoByUserId(String userId) {
         return vendorInfoMapper.getVendorInfoByBceUserId(userId);
     }
