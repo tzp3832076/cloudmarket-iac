@@ -86,10 +86,11 @@ public class VendorExtraController {
         return hepler.toContractAndDepositResponse(vendorInfo, vendorContractList, deposit);
     }
 
-    @ApiOperation(value = "获取服务商合同信息和保证金信息")
+    @ApiOperation(value = "获取服务商电话和邮箱供发送短信和邮件")
     @RequestMapping(value = "/{vendorId}/phoneAndEmail", method = RequestMethod.GET)
     @BceAuth(role = {BceRole.SERVICE})
-    @UnknownExceptionResponse(message = "获取服务商电话和邮箱供发送短信和邮件")
+    @UnknownExceptionResponse(message = "获取信息失败")
+    // TODO 考虑和vendorController中的接口合并处理
     public VendorPhoneAndEmailResponse getPhoneAndEmail(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
