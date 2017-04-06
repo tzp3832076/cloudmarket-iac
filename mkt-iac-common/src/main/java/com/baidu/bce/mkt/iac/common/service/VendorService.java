@@ -247,6 +247,11 @@ public class VendorService {
         return vendorListModel;
     }
 
+    public List<VendorInfo> getAllSearchVendor(String bceUserId, String companyName) {
+        companyName = StringUtils.isEmpty(companyName) ? null : companyName;
+        return vendorInfoMapper.getVendorList(null, bceUserId, companyName, 0, 0);
+    }
+
     private ProcessStatus getVendorShopAuditStatus(VendorShop vendorShop,
                                                    VendorShopDraft shopDraft) {
         if (vendorShop != null) {

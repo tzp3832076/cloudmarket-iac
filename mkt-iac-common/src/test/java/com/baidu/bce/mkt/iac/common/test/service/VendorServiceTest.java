@@ -10,6 +10,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -119,6 +120,19 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(vendorInfo);
         vendorInfo = vendorService.getVendorInfoByVendorId("XXXXX");
         Assert.assertNull(vendorInfo);
+    }
+
+    @Test
+    public void getAllSearchVendor() {
+        List<VendorInfo> vendorInfos = vendorService.getAllSearchVendor(null, "");
+        Assert.assertNotNull(vendorInfos);
+        Assert.assertFalse(vendorInfos.isEmpty());
+        vendorInfos = vendorService.getAllSearchVendor(null, "2");
+        Assert.assertNotNull(vendorInfos);
+        Assert.assertFalse(vendorInfos.isEmpty());
+        vendorInfos = vendorService.getAllSearchVendor(null, "XX");
+        Assert.assertNotNull(vendorInfos);
+        Assert.assertTrue(vendorInfos.isEmpty());
     }
 
     @Test

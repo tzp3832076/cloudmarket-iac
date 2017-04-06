@@ -32,6 +32,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
@@ -280,6 +281,19 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 .thenReturn(vendorListModel);
         VendorListResponse response = mktIacClient.getVendorList("test", "test", 1, 1);
         log.info("getVendorList {}", response);
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void getVendorSearchMap() {
+        List<VendorInfo> vendorInfoList = new ArrayList<>();
+        vendorInfoList.add(new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                                 "test", "website", 1000, "address",
+                                                 "tel", "test-test", "hotline", "othermarket",
+                                                 "contact_info"));
+        when(vendorService.getAllSearchVendor(anyString(), anyString())).thenReturn(vendorInfoList);
+        VendorSearchMapResponse response = mktIacClient.getVendorSearchMap("test");
+        log.info("get vendor map {}", response);
     }
 
     @Test

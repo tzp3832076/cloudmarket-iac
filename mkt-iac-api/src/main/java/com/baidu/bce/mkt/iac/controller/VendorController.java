@@ -4,6 +4,7 @@
 
 package com.baidu.bce.mkt.iac.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.Min;
@@ -23,6 +24,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
@@ -161,6 +163,16 @@ public class VendorController {
         VendorListModel vendorListModel = vendorService.getVendorList(bceUserId, companyName,
                 start, limit);
         return helper.toVendorListResponse(vendorListModel);
+    }
+
+    @ApiOperation(value = "oss上获取服务商信息map获取接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/infoMap")
+    @UnknownExceptionResponse(message = "服务商信息获取失败")
+    @BceAuth(role = {BceRole.SERVICE})
+    public VendorSearchMapResponse getVendorMap(@RequestParam(value = "companyName") String
+                                                            companyName) {
+        List<VendorInfo> vendorListModel = vendorService.getAllSearchVendor(null, companyName);
+        return helper.toVendorSearchMapResponse(vendorListModel);
     }
 
     @ApiOperation(value = "服务商是否已入驻(兼容一期的服务商)-接口判断")

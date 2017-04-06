@@ -26,6 +26,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditSdkConstant;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
@@ -209,6 +210,15 @@ public class VendorControllerHelper {
         }
         vendorListResponse.setVendorBaseInfoList(vendorBaseInfoList);
         return vendorListResponse;
+    }
+
+    public VendorSearchMapResponse toVendorSearchMapResponse(List<VendorInfo> vendorInfos) {
+        VendorSearchMapResponse.VendorMap vendorMap = new VendorSearchMapResponse.VendorMap();
+        for (VendorInfo vendorInfo : vendorInfos) {
+            vendorMap.put(vendorInfo.getVendorId(), new VendorSearchMapResponse.VendorSearchModel(
+                    vendorInfo.getVendorId(), vendorInfo.getCompany()));
+        }
+        return new VendorSearchMapResponse(vendorMap);
     }
 
     public void checkShopDraftSaveRequest(ShopDraftSaveRequest request, boolean canBeEmpty) {

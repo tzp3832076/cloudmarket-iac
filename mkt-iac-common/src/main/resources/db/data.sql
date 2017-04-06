@@ -9,8 +9,10 @@ values
 ('b3799622-5f1f-4506-ba85-83bf6cfa0565' , 'bb6f4308-12be-11e7-b635-6c0b8483288e' , 'HOSTED', '上海美橙科技信息发展有限公司','www.cndns.com' , 0 , '', '18017288801' ,'101001', '400-892-9900'  , 'other_mkt' ,'',''),
 ('cab62e18-816a-11e6-b605-f80f41f769c2' , 'bb6f4316-12be-11e7-b635-6c0b8483288e' , 'HOSTED', '北京云梦网络科技有限公司',  'www.clouddream.net' , 0 , '', '18600769651' ,'101001', '400-6655-312'  , 'other_mkt' ,'',''),
 ('ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae' , 'bb6f4323-12be-11e7-b635-6c0b8483288e' , 'HOSTED', '百度云测试服务商', 'cloud.baidu.com'    , 0 , '', '13000000000' ,'101001,101002,101003', '13000000000', 'other_mkt' ,'',''),
-('f6781f00-7e8b-493a-ac43-75eb369927e7' , 'bb6f4331-12be-11e7-b635-6c0b8483288e' , 'HOSTED', '常州市青之峰网络科技有限公司','http://www.jsmyqingfeng.cn/' , 0 , '101001', '18637363300' ,'', '0519-68020394' ,'other_mkt','','');
+('f6781f00-7e8b-493a-ac43-75eb369927e7' , 'bb6f4331-12be-11e7-b635-6c0b8483288e' , 'HOSTED', '常州市青之峰网络科技有限公司','http://www.jsmyqingfeng.cn/' , 0 , '', '18637363300' ,'101001', '0519-68020394' ,'other_mkt','','');
 
+UPDATE bce_cloudmarket_iac.mkt_vendor_info SET address = '', service_category = '101001' WHERE
+vendor_id = 'f6781f00-7e8b-493a-ac43-75eb369927e7';
 
 UPDATE bce_cloudmarket_iac.mkt_vendor_info  SET bce_user_id = 'b1f91fbe6fe54d2eaf70ef0025f1c3c2' WHERE  vendor_id = 'ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae';
 

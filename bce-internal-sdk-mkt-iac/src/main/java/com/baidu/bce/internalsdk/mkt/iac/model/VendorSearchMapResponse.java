@@ -4,7 +4,7 @@
 
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
-import java.util.List;
+import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,22 +14,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created on 2017/3/6 by sunfangyuan@baidu.com .
+ * Created on 2017/4/6 by sunfangyuan@baidu.com .
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VendorContractResponse {
-    private String vendorName;
-    private List<ContractInfo> contractInfoList;
+@NoArgsConstructor
+@AllArgsConstructor
+public class VendorSearchMapResponse {
+    private VendorMap vendorMap;
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @AllArgsConstructor
+    public static class VendorMap extends HashMap<String, VendorSearchModel> {
+    }
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @NoArgsConstructor
-    public static class ContractInfo {
-        private String contractNum;
-        private String contractDigest;
+    @AllArgsConstructor
+    public static class VendorSearchModel {
+        private String vendorId;
+        private String vendorName;
     }
 }

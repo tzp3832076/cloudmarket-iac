@@ -17,6 +17,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.sdk.BaseClient;
 import com.baidu.bce.mkt.framework.sdk.utils.RequestUtils;
@@ -140,6 +141,13 @@ public class MktIacClient extends BaseClient {
         RequestUtils.safeAddQueryParam(request, "companyName", company);
         RequestUtils.safeAddQueryParam(request, "bceUserId", bceUserId);
         return request.get(VendorListResponse.class);
+    }
+
+    public VendorSearchMapResponse getVendorSearchMap(String company) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor")
+                                             .path("/infoMap");
+        RequestUtils.safeAddQueryParam(request, "companyName", company);
+        return request.get(VendorSearchMapResponse.class);
     }
 
     public void updateVendorStatus(String vendorId, String status) {

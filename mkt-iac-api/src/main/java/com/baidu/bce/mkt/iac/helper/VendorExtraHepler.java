@@ -44,7 +44,8 @@ public class VendorExtraHepler {
         response.setVendorName(vendorInfo.getCompany());
         List<VendorContractResponse.ContractInfo> contractInfoNumList = new ArrayList<>();
         for (VendorContract contract : contracts) {
-            contractInfoNumList.add(new VendorContractResponse.ContractInfo(contract.getContractNum()));
+            contractInfoNumList.add(new VendorContractResponse.ContractInfo(
+                    contract.getContractNum(), contract.getContractDigest()));
         }
         response.setContractInfoList(contractInfoNumList);
         return response;
