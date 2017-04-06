@@ -10,7 +10,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -26,6 +25,7 @@ import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorShopAuditContent;
 import com.baidu.bce.mkt.iac.common.model.db.InfoStatus;
@@ -124,15 +124,15 @@ public class VendorServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void getAllSearchVendor() {
-        List<VendorInfo> vendorInfos = vendorService.getAllSearchVendor(null, "");
+        VendorListModel vendorInfos = vendorService.getVendorList(null, "", 0, 0, null);
+        Assert.assertNotNull(vendorInfos.getVendorInfoList());
+        Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
+        vendorInfos = vendorService.getVendorList(null, "2", 0, 0, null);
+        Assert.assertNotNull(vendorInfos.getVendorInfoList());
+        Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
+        vendorInfos = vendorService.getVendorList(null, "XX", 0, 0, null);
         Assert.assertNotNull(vendorInfos);
-        Assert.assertFalse(vendorInfos.isEmpty());
-        vendorInfos = vendorService.getAllSearchVendor(null, "2");
-        Assert.assertNotNull(vendorInfos);
-        Assert.assertFalse(vendorInfos.isEmpty());
-        vendorInfos = vendorService.getAllSearchVendor(null, "XX");
-        Assert.assertNotNull(vendorInfos);
-        Assert.assertTrue(vendorInfos.isEmpty());
+        Assert.assertTrue(vendorInfos.getVendorInfoList().isEmpty());
     }
 
     @Test

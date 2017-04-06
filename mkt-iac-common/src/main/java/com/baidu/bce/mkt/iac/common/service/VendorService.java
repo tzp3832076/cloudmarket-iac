@@ -234,22 +234,17 @@ public class VendorService {
     }
 
     public VendorListModel getVendorList(String bceUserId, String companyName,
-                                         int start, int limit) {
+                                         int start, int limit, VendorStatus vendorStatus) {
         bceUserId = StringUtils.isEmpty(bceUserId) ? null : bceUserId;
         companyName = StringUtils.isEmpty(companyName) ? null : companyName;
-        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.HOSTED,
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(vendorStatus,
                 bceUserId, companyName, start, limit);
-        int totalCount = vendorInfoMapper.getVendorCount(VendorStatus.HOSTED,
+        int totalCount = vendorInfoMapper.getVendorCount(vendorStatus,
                 bceUserId, companyName);
         VendorListModel vendorListModel = new VendorListModel();
         vendorListModel.setTotalCount(totalCount);
         vendorListModel.setVendorInfoList(vendorInfos);
         return vendorListModel;
-    }
-
-    public List<VendorInfo> getAllSearchVendor(String bceUserId, String companyName) {
-        companyName = StringUtils.isEmpty(companyName) ? null : companyName;
-        return vendorInfoMapper.getVendorList(null, bceUserId, companyName, 0, 0);
     }
 
     private ProcessStatus getVendorShopAuditStatus(VendorShop vendorShop,
