@@ -164,7 +164,7 @@ public class VendorController {
     }
 
     @ApiOperation(value = "oss上获取服务商信息map获取接口")
-    @RequestMapping(method = RequestMethod.GET, value = "/list", params = "oss")
+    @RequestMapping(method = RequestMethod.GET, value = "/searchList")
     @UnknownExceptionResponse(message = "服务商信息获取失败")
     @BceAuth(role = {BceRole.SERVICE}) // todo @BceAuth的兼容 可以直接用上面的接口
     public VendorListResponse getVendorOssSearch(@RequestParam(value = "companyName") String

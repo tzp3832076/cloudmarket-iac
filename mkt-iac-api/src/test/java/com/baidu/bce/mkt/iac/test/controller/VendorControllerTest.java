@@ -295,7 +295,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         vendorListModel.setVendorInfoList(vendorInfoList);
         when(vendorService.getVendorList(anyString(), anyString(), anyInt(), anyInt(), any()))
                 .thenReturn(vendorListModel);
-        VendorListResponse response = mktIacClient.getVendorOssSearch("test");
+        VendorListResponse response = mktIacClient.getSearchVendor("test");
         log.info("get vendor map {}", response);
     }
 

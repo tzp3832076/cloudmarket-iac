@@ -142,10 +142,9 @@ public class MktIacClient extends BaseClient {
         return request.get(VendorListResponse.class);
     }
 
-    public VendorListResponse getVendorOssSearch(String company) {
+    public VendorListResponse getSearchVendor(String company) {
         BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor")
-                                             .path("/list")
-                                             .keyOnlyQueryParam("oss");
+                                             .path("/searchList");
         RequestUtils.safeAddQueryParam(request, "companyName", company);
         return request.get(VendorListResponse.class);
     }
