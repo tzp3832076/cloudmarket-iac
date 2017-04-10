@@ -2,6 +2,8 @@
 
 package com.baidu.bce.mkt.framework.iac.model;
 
+import java.util.List;
+
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 
@@ -33,5 +35,10 @@ public class ReceivedAuthorizedToken implements AuthorizedToken {
     @Override
     public String getVendorId() {
         return mktToken.getVendorId();
+    }
+
+    @Override
+    public List<String> getTargetVendorList() {
+        return mktToken.getTargetVendorList();
     }
 }

@@ -2,8 +2,13 @@
 
 package com.baidu.bce.mkt.framework.iac.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -32,12 +37,35 @@ public class VendorIdMethodArgumentResolver implements HandlerMethodArgumentReso
                                   WebDataBinderFactory webDataBinderFactory) throws Exception {
         AuthorizedToken authorizedToken = TokenHolder.getAuthorizedToken();
         if (authorizedToken != null) {
-            String vendorId = authorizedToken.getVendorId();
-            if (StringUtils.isNotEmpty(vendorId)) {
-                return vendorId;
+            VendorId vendorId = methodParameter.getParameterAnnotation(VendorId.class);
+            Class clazz = methodParameter.getParameterType();
+            if (clazz.equals(String.class)) {
+                return vendorId.required() ? authorizedToken.getValidVendorId() : authorizedToken.getVendorId();
+            } else {
+                List<String> vendors = mergeVendorIds(authorizedToken, vendorId.required());
+                if (clazz.equals(List.class)) {
+                    return vendors;
+                } else if (clazz.isArray()) {
+                    return CollectionUtils.isEmpty(vendors) ? null : vendors.toArray();
+                }
             }
         }
         throw new MissingServletRequestParameterException(methodParameter.getParameterName(),
                 methodParameter.getParameterType().getName());
+    }
+
+    private List<String> mergeVendorIds(AuthorizedToken authorizedToken, boolean required) {
+        List<String> vendors = authorizedToken.getTargetVendorList();
+        if (CollectionUtils.isEmpty(vendors)) {
+            String vendorId = authorizedToken.getVendorId();
+            if (StringUtils.isBlank(vendorId)) {
+                if (required) {
+                    throw new IllegalArgumentException("no target vendor list or vendor id found");
+                }
+            } else {
+                vendors = Arrays.asList(vendorId);
+            }
+        }
+        return vendors;
     }
 }

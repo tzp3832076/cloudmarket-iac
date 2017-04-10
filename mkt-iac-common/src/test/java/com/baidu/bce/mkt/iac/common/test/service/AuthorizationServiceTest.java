@@ -31,7 +31,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeNormalUserSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
-                null, false, null, "audit",
+                null, false, null, null, "audit",
                 "read", null);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
         Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
@@ -42,7 +42,44 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeOpUserSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
-                null, true, "op_user_1", "audit",
+                null, true, "op_user_1", null, "audit",
+                "read", null);
+        UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
+        Assert.assertEquals("op_user_1", userIdentity.getUserId());
+        Assert.assertNull(userIdentity.getVendorId());
+        Assert.assertEquals("OP", userIdentity.getRole());
+    }
+
+    @Test
+    public void testAuthorizeVendorUserWithVendorListSuccess() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
+                null, false, null, Arrays.asList("vendor111"), "audit",
+                "read", null);
+        UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
+        Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
+        Assert.assertEquals("vendor111", userIdentity.getVendorId());
+        Assert.assertEquals("VENDOR", userIdentity.getRole());
+    }
+
+    @Test
+    public void testAuthorizeVendorUserWithVendorListFailed() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
+                null, false, null, Arrays.asList("vendor111", "vendor122"), "audit",
+                "read", null);
+        try {
+            authorizationService.authorize(authorizeCommand);
+            Assert.fail();
+        } catch (BceException e) {
+            Assert.assertEquals("NoPermission", e.getCode());
+            Assert.assertTrue(outputCapture.toString().contains("target vendor list"
+                    + "  = [vendor111, vendor122] not valid when vendor id = vendor111"));
+        }
+    }
+
+    @Test
+    public void testAuthorizeOpUserWithVendorListSuccess() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
+                null, true, "op_user_1", Arrays.asList("vendor111"), "audit",
                 "read", null);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
         Assert.assertEquals("op_user_1", userIdentity.getUserId());
@@ -53,7 +90,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeNormalUserWithResourceSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
-                null, false, null, "audit",
+                null, false, null, null, "audit",
                 "read", Arrays.asList("audit_id_1"));
         when(authClient.checkInstanceOwner(any(CheckInstanceOwnerRequest.class)))
                 .thenReturn(new CheckInstanceOwnerResponse(true));
@@ -66,7 +103,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeOpUserWithResourceSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
-                null, true, "op_user_1", "audit",
+                null, true, "op_user_1", null, "audit",
                 "read", Arrays.asList("audit_id_1"));
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
         Assert.assertEquals("op_user_1", userIdentity.getUserId());
@@ -79,7 +116,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeNormalUserFailed() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_user_not_exists",
-                null, false, null, "audit",
+                null, false, null, null, "audit",
                 "read", null);
         try {
             authorizationService.authorize(authorizeCommand);
@@ -94,7 +131,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeNormalUserWithResourceFailed() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
-                null, false, null, "audit",
+                null, false, null, null, "audit",
                 "read", Arrays.asList("audit_id_1"));
         when(authClient.checkInstanceOwner(any(CheckInstanceOwnerRequest.class)))
                 .thenReturn(new CheckInstanceOwnerResponse(false));
@@ -111,7 +148,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeOpUserFailed() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
-                null, true, "op_user_1", "order",
+                null, true, "op_user_1", null, "order",
                 "create", null);
         try {
             authorizationService.authorize(authorizeCommand);
@@ -126,7 +163,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeLocalResourceSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
-                null, false, null, "vendorShop",
+                null, false, null, null, "vendorShop",
                 "read", Arrays.asList("vendor111"));
         authorizationService.authorize(authorizeCommand);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
@@ -138,7 +175,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Test
     public void testAuthorizeLocalResourceFailed() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
-                null, false, null, "vendorShop",
+                null, false, null, null, "vendorShop",
                 "read", Arrays.asList(IdUtils.generateUUID()));
         try {
             authorizationService.authorize(authorizeCommand);

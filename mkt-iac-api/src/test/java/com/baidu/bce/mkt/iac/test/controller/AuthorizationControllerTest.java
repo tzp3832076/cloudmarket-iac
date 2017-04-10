@@ -40,11 +40,15 @@ public class AuthorizationControllerTest extends ApiMockMvcTest {
         bceToken.setUserId("normal_vendor_1");
         bceToken.setServiceAccount(false);
         request.setBceToken(bceToken);
+        AuthorizationRequest.HeaderUser headerUser = new AuthorizationRequest.HeaderUser();
+        headerUser.setTargetVendorList(Arrays.asList("vendor111"));
+        request.setHeaderUser(headerUser);
         request.setResource("audit");
         request.setOperation("read");
         request.setInstances(Arrays.asList("audit_1"));
         AuthorizationResponse response = mktIacAuthorizationClient.checkAuth(request);
         Assert.assertEquals("normal_vendor_1", response.getMktToken().getUserId());
         Assert.assertEquals("VENDOR", response.getMktToken().getRole());
+        Assert.assertEquals("vendor111", response.getMktToken().getTargetVendorList().get(0));
     }
 }

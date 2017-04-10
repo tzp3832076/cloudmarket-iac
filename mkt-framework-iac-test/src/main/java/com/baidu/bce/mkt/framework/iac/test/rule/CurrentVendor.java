@@ -17,4 +17,5 @@ import java.lang.annotation.Target;
 public @interface CurrentVendor {
     String vendorId() default "";
     boolean hasId() default true;
+    String[] targetVendors() default {};
 }

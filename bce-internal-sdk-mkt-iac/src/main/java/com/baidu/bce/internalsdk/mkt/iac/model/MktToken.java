@@ -2,6 +2,8 @@
 
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -21,6 +23,7 @@ public class MktToken {
     // BCE | UUAP
     private String type;
     private String vendorId;
+    private List<String> targetVendorList;
     // bce账号的主账号，不是子用户时或是uuap账号时，该值和userId相同
     private String mainUserId;
     private String role;

@@ -35,6 +35,6 @@ public class AuthorizationController {
     public AuthorizationResponse checkAuth(@RequestBody AuthorizationRequest request) {
         AuthorizeCommand command = helper.toAuthorizeCommand(request);
         UserIdentity userIdentity = authorizationService.authorize(command);
-        return helper.toAuthorizationResponse(userIdentity);
+        return helper.toAuthorizationResponse(userIdentity, command.getTargetVendorList());
     }
 }

@@ -2,8 +2,11 @@
 
 package com.baidu.bce.mkt.framework.iac.model;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -39,8 +42,13 @@ public class ModelUtils {
 
     public static HeadUser createHeaderUser(HttpServletRequest httpServletRequest) {
         String userId = httpServletRequest.getHeader(HeaderConstants.CURRENT_USER_ID);
+        String targetVendor = httpServletRequest.getHeader(HeaderConstants.TARGET_VENDOR);
         HeadUser headUser = new HeadUser();
         headUser.setUserId(userId);
+        if (StringUtils.isNotBlank(targetVendor)) {
+            String[] vendors = targetVendor.split(",");
+            headUser.setTargetVendorList(Arrays.asList(vendors));
+        }
         return headUser;
     }
 }

@@ -2,6 +2,8 @@
 
 package com.baidu.bce.mkt.framework.iac.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -11,4 +13,5 @@ import lombok.Data;
 @Data
 public class HeadUser {
     private String userId;
+    private List<String> targetVendorList;
 }

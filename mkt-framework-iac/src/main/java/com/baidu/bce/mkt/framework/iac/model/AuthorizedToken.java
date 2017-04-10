@@ -2,6 +2,10 @@
 
 package com.baidu.bce.mkt.framework.iac.model;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 
@@ -20,4 +24,14 @@ public interface AuthorizedToken {
     String getMainUserId();
 
     String getVendorId();
+
+    List<String> getTargetVendorList();
+
+    default String getValidVendorId() {
+        String vendorId = getVendorId();
+        if (StringUtils.isBlank(vendorId)) {
+            throw new InvalidVendorException();
+        }
+        return vendorId;
+    }
 }

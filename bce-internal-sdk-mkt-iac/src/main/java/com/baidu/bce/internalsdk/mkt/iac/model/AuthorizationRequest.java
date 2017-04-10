@@ -48,7 +48,6 @@ public class AuthorizationRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class HeaderUser {
         private String userId;
-        private String targetId;
-        private String targetType;
+        private List<String> targetVendorList;
     }
 }

@@ -2,6 +2,8 @@
 
 package com.baidu.bce.mkt.iac.common.model;
 
+import java.util.List;
+
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LocalAuthorizedToken implements AuthorizedToken {
     private UserIdentity userIdentity;
+    private List<String> targetVendorList;
 
     @Override
     public String getUserId() {
@@ -27,5 +30,10 @@ public class LocalAuthorizedToken implements AuthorizedToken {
     @Override
     public String getVendorId() {
         return userIdentity.getVendorId();
+    }
+
+    @Override
+    public List<String> getTargetVendorList() {
+        return targetVendorList;
     }
 }

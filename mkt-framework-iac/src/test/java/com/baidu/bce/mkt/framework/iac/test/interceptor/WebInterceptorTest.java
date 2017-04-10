@@ -7,6 +7,9 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,6 +35,7 @@ import com.baidu.bce.mkt.framework.bootstrap.ServiceApp;
 import com.baidu.bce.mkt.framework.iac.EnableMktAuthorization;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.Subject;
+import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
@@ -69,6 +73,7 @@ public class WebInterceptorTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
+        mktToken.setTargetVendorList(Arrays.asList(IdUtils.generateUUID()));
         AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
         when(checkAuthService.checkAuth(any(), any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
@@ -78,6 +83,9 @@ public class WebInterceptorTest {
         Assert.assertEquals(3, result.getResult());
         Assert.assertTrue(outputCapture.toString().contains("user id in calculate add = "
                 + mktToken.getUserId()));
+        Assert.assertTrue(outputCapture.toString().contains("target vendor list in calculate add = ["
+                + mktToken.getTargetVendorList().get(0)));
+        Assert.assertTrue(outputCapture.toString().contains("vendors = [" + mktToken.getTargetVendorList().get(0)));
     }
 
     @RestController
@@ -85,8 +93,10 @@ public class WebInterceptorTest {
         @RequestMapping(value = "/v1/calculate/add/{a}/{b}", method = RequestMethod.POST)
         @CheckAuth(resource = "calculate", operation = "add", instanceParameterName = "a")
         public Result calculateAdd(@PathVariable int a, @PathVariable int b,
-                                   @Subject AuthorizedToken authorizedToken) {
+                                   @Subject AuthorizedToken authorizedToken, @VendorId List<String> vendors) {
             log.info("user id in calculate add = {}", authorizedToken.getUserId());
+            log.info("target vendor list in calculate add = {}", authorizedToken.getTargetVendorList());
+            log.info("vendors = {}", vendors);
             return new Result(a + b);
         }
     }

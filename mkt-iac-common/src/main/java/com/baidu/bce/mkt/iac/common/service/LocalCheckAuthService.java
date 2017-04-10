@@ -30,8 +30,9 @@ public class LocalCheckAuthService implements CheckAuthService {
                                      String operation, List<String> instances) {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand(bceAuthContextWrapper.getUserName(),
                 bceAuthContextWrapper.getUserId(), bceAuthContextWrapper.getDomainId(),
-                bceAuthContextWrapper.isServiceAccount(), headUser.getUserId(), resource, operation, instances);
+                bceAuthContextWrapper.isServiceAccount(), headUser.getUserId(), headUser.getTargetVendorList(),
+                resource, operation, instances);
         UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
-        return new LocalAuthorizedToken(userIdentity);
+        return new LocalAuthorizedToken(userIdentity, headUser.getTargetVendorList());
     }
 }

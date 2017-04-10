@@ -2,6 +2,8 @@
 
 package com.baidu.bce.mkt.framework.iac.test.rule;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -55,5 +57,10 @@ public class MockedAuthorizedToken implements AuthorizedToken {
             }
             return vendorId;
         }
+    }
+
+    @Override
+    public List<String> getTargetVendorList() {
+        return Arrays.asList(currentVendor.targetVendors());
     }
 }

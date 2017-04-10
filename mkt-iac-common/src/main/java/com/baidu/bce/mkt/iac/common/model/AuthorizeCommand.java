@@ -19,6 +19,7 @@ public class AuthorizeCommand {
     private String bceMainUserId;
     private boolean serviceAccount;
     private String requestedUserId;
+    private List<String> targetVendorList;
     private String resource;
     private String operation;
     private List<String> instances;

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -62,6 +63,7 @@ public class AuthorizationService {
         Account account = accountMapper.getByAccountId(userId);
         UserIdentity userIdentity = new UserIdentity(userId, account);
         checkResourceOperation(userIdentity, authorizeCommand.getResource(), authorizeCommand.getOperation());
+        checkTargetVendorList(userIdentity, authorizeCommand.getTargetVendorList());
         checkResourceInstances(userIdentity, authorizeCommand.getResource(), authorizeCommand.getInstances());
         return userIdentity;
     }
@@ -71,6 +73,26 @@ public class AuthorizationService {
                 rolePermissionMapper.getByRoleResourceOperation(userIdentity.getRole(), resource, operation);
         if (rolePermission == null || PermissionAction.ALLOW != rolePermission.getAction()) {
             log.info("reject by role permission = {}", rolePermission);
+            throw MktIacExceptions.noPermission();
+        }
+    }
+
+    private void checkTargetVendorList(UserIdentity userIdentity, List<String> targetVendorList) {
+        if (CollectionUtils.isEmpty(targetVendorList)) {
+            log.info("no target vendor list, skip");
+            return;
+        }
+        if (userIdentity.isOp()) {
+            log.info("current user has op role, check target vendor list pass directly");
+            return;
+        }
+        String vendorId = userIdentity.getVendorId();
+        if (StringUtils.isBlank(vendorId)) {
+            log.info("no vendor id in user identity");
+            throw MktIacExceptions.noPermission();
+        }
+        if (targetVendorList.size() > 1 || !vendorId.equals(targetVendorList.get(0))) {
+            log.info("target vendor list  = {} not valid when vendor id = {}", targetVendorList, vendorId);
             throw MktIacExceptions.noPermission();
         }
     }
