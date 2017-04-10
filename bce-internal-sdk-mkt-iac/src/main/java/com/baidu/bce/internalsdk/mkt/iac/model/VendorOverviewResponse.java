@@ -32,4 +32,5 @@ public class VendorOverviewResponse {
 
     private int productsOnSale;
     private int productsAuditing;
+    private int  productsOffSale;
 }

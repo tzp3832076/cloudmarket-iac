@@ -35,6 +35,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorShopDraft;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
+import com.baidu.bce.mkt.internalsdk.model.response.StatVendorProductCountResponse;
 import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.extern.slf4j.Slf4j;

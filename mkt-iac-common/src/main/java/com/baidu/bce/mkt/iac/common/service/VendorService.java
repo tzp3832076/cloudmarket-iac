@@ -21,7 +21,6 @@ import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
-import com.baidu.bce.mkt.iac.common.handler.ProductHandler;
 import com.baidu.bce.mkt.iac.common.handler.QualityHandler;
 import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
@@ -60,7 +59,6 @@ public class VendorService {
     private final VendorContractMapper contractMapper;
     private final VendorDepositMapper depositMapper;
     private final QualityHandler qualityHandler;
-    private final ProductHandler productHandler;
     private final IacClientFactory iacClientFactory;
     private final SyncHandler syncHandler;
     private final AccountMapper accountMapper;
@@ -199,13 +197,11 @@ public class VendorService {
         VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
         List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
-
         AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
-        int productsOnSaleCount = productHandler.getProductsOnSaleCount(vendorId);
-        int productsAuditingCount = productHandler.getProductsAuditingCount(vendorId);
         vendorOverview.setVendorInfo(vendorInfo);
-        vendorOverview.setProductsAuditing(productsAuditingCount);
-        vendorOverview.setProductsOnSale(productsOnSaleCount);
+        vendorOverview.setProductsAuditing(0);
+        vendorOverview.setProductsOffSale(0);
+        vendorOverview.setProductsOnSale(0); // 在 osp 和 console 上分别处理 赋值
         vendorOverview.setQualityStatus(qualityStatus);
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE); // 在console页面的一定是完成入驻
         vendorOverview.setVendorShopAuditStatus(getVendorShopAuditStatus(vendorShop, vendorShopDraft));

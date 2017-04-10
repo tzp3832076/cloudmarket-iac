@@ -11,6 +11,7 @@ import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.iac.common.config.ConfigProperties;
 import com.baidu.bce.mkt.internalsdk.model.MktInternalClient;
 import com.baidu.bce.plat.webframework.endpoint.SDKEndpointConfiguration;
+import com.baidu.bce.plat.webframework.iam.service.IAMService;
 
 import endpoint.EndpointManager;
 
@@ -27,6 +28,9 @@ public class IacClientFactory implements InitializingBean {
     private MktAuditClient mktAuditClient;
     private QualifyClient qualifyClient;
     private MktInternalClient mktInternalClient;
+
+    @Autowired
+    private IAMService iamService;
 
     public AuthClient createAuthClient(String system) {
         return new AuthClient(EndpointManager.getEndpoint(system),
