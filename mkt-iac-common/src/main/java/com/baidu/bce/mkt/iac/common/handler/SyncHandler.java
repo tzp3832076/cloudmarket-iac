@@ -32,4 +32,8 @@ public class SyncHandler {
         String status = isSign ? PROCESS_DONE : PROCESS_TODO;
         clientFactory.createAuditClient().syncVendorContract(vendorId, status);
     }
+
+    public void noticeProductToSyncVendor(String vendorId) {
+        clientFactory.createMktServiceInternalClient().syncVendorInfo(vendorId);
+    }
 }

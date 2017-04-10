@@ -4,6 +4,8 @@
 package com.baidu.bce.mkt.iac.common.test.service;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
@@ -66,6 +70,13 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
     @Test
     public void auditNoticeVendorShop() {
         String vendorId = "vendor_2";
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                Assert.assertEquals(vendorId, invocationOnMock.getArguments()[0].toString());
+                return null;
+            }
+        }).when(mktInternalClient).syncVendorInfo(anyString());
         VendorShopAuditContent content = new VendorShopAuditContent();
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setCompanyName("test");

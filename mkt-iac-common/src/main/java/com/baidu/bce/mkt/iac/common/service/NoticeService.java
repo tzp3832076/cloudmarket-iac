@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
+import com.baidu.bce.mkt.iac.common.handler.SyncHandler;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
@@ -40,6 +41,8 @@ public class NoticeService {
     private VendorShopDraftMapper shopDraftMapper;
     @Autowired
     private VendorShopMapper vendorShopMapper;
+    @Autowired
+    private SyncHandler syncHandler;
 
     @Transactional
     public void auditNoticeApplication(String status, VendorInfo vendorInfo) {
@@ -78,6 +81,7 @@ public class NoticeService {
         }
         shopDraftMapper.updateShopAuditIdAndStatus(vendorId, vendorShopDraft.getAuditId(),
                 InfoStatus.valueOf(status));
+        syncHandler.noticeProductToSyncVendor(vendorId);
     }
 
     private VendorShop getVendorShopFromContent(VendorShopAuditContent.ShopDraft shopDraft,

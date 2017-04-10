@@ -39,6 +39,11 @@
         </dependency>
         <dependency>
             <groupId>com.baidu.bce</groupId>
+            <artifactId>bce-internal-sdk-mkt</artifactId>
+            <version>${bce-internal-sdk-mkt-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.bce</groupId>
             <artifactId>mkt-framework-test</artifactId>
             <scope>test</scope>
         </dependency>

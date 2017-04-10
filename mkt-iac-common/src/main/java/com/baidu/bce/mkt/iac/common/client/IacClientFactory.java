@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.baidu.bce.internalsdk.qualify.QualifyClient;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.iac.common.config.ConfigProperties;
+import com.baidu.bce.mkt.internalsdk.model.MktInternalClient;
 import com.baidu.bce.plat.webframework.endpoint.SDKEndpointConfiguration;
 
 import endpoint.EndpointManager;
@@ -25,6 +26,7 @@ public class IacClientFactory implements InitializingBean {
     private ConfigProperties configProperties;
     private MktAuditClient mktAuditClient;
     private QualifyClient qualifyClient;
+    private MktInternalClient mktInternalClient;
 
     public AuthClient createAuthClient(String system) {
         return new AuthClient(EndpointManager.getEndpoint(system),
@@ -47,6 +49,10 @@ public class IacClientFactory implements InitializingBean {
         return qualifyClient;
     }
 
+    public MktInternalClient createMktServiceInternalClient() {
+        return mktInternalClient;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         qualifyClient = new QualifyClient(configProperties.getMktServiceAk(),
@@ -54,6 +60,7 @@ public class IacClientFactory implements InitializingBean {
         mktAuditClient = new MktAuditClient(EndpointManager.getEndpoint("MKT_AUDIT"),
                                                    configProperties.getMktServiceAk(),
                                                    configProperties.getMktServiceSk());
-
+        mktInternalClient = new MktInternalClient(EndpointManager.getEndpoint("MKT"),
+                configProperties.getMktServiceAk(), configProperties.getMktServiceSk());
     }
 }
