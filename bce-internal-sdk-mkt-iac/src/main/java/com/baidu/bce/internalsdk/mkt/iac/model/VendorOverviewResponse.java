@@ -29,8 +29,4 @@ public class VendorOverviewResponse {
     private String vendorShopAuditStatus;
     private String agreementAuditStatus;
     private String depositAuditStatus;
-
-    private int productsOnSale;
-    private int productsAuditing;
-    private int  productsOffSale;
 }

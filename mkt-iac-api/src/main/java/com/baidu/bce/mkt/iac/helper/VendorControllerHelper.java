@@ -156,9 +156,6 @@ public class VendorControllerHelper {
         response.setVendorShopAuditStatus(vendorOverview.getVendorShopAuditStatus().name());
         response.setAgreementAuditStatus(vendorOverview.getAgreementAuditStatus().name());
         response.setDepositAuditStatus(vendorOverview.getDepositAuditStatus().name());
-        response.setProductsOnSale(vendorOverview.getProductsOnSale());
-        response.setProductsAuditing(vendorOverview.getProductsAuditing());
-        response.setProductsOffSale(vendorOverview.getProductsOffSale());
         return response;
     }
 

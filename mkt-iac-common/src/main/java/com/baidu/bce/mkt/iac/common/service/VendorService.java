@@ -199,9 +199,6 @@ public class VendorService {
         List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
         AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
         vendorOverview.setVendorInfo(vendorInfo);
-        vendorOverview.setProductsAuditing(0);
-        vendorOverview.setProductsOffSale(0);
-        vendorOverview.setProductsOnSale(0); // 在 osp 和 console 上分别处理 赋值
         vendorOverview.setQualityStatus(qualityStatus);
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE); // 在console页面的一定是完成入驻
         vendorOverview.setVendorShopAuditStatus(getVendorShopAuditStatus(vendorShop, vendorShopDraft));

@@ -21,7 +21,4 @@ public class VendorOverview {
     private ProcessStatus depositAuditStatus;
     private AuditStatus qualityStatus;
     private String categoryInfo;
-    private int productsOnSale;
-    private int productsAuditing;
-    private int productsOffSale;
 }
