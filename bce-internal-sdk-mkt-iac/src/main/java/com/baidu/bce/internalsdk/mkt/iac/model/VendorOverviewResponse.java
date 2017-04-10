@@ -20,19 +20,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VendorOverviewResponse {
-    protected String companyName;
+    private String companyName;
     // 'NONE|AUDIT|PASS|RETURN 未认证、认证中、认证成功、认证失败'
-    protected String verifyStatus;
-    protected String userId;
+    private String verifyStatus;
+    private String userId;
 
     // 'PROCESSING|HOSTED|FROZEN' 流程中、已入驻、已冻结
-    protected String vendorStatus;
+    private String vendorStatus;
 
     // 'VENDOR_DONE|VENDOR_SHOP_DONE|AGREEMENT_DONE|DEPOSIT_DONE'
-    protected String vendorAuditStatus;
-    protected String vendorShopAuditStatus;
-    protected String agreementAuditStatus;
-    protected String depositAuditStatus;
+    private String vendorAuditStatus;
+    private String vendorShopAuditStatus;
+    private String agreementAuditStatus;
+    private String depositAuditStatus;
 
     public VendorOverviewResponse (VendorOverviewResponse response) {
         this.companyName = response.getCompanyName();
