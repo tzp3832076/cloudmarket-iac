@@ -101,6 +101,12 @@ INSERT INTO mkt_permission (resource, operation, description, create_time) VALUE
 ('vendorProduct', 'cancelAudit', '商品撤销审核', NOW()),
 ('vendorProduct', 'getUploadInfo', '上传文件', NOW());
 
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('INIT_VENDOR', 'vendorProduct', 'statCount', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'statCount', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'statCount', 'ALLOW', NOW()),
+('OP', 'order', 'statCount', 'ALLOW', NOW());
+
 INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
 
 
