@@ -203,8 +203,8 @@ public class VendorControllerHelper {
         List<VendorListResponse.VendorBaseInfo> vendorBaseInfoList = new ArrayList<>();
         for (VendorInfo vendorInfo : listModel.getVendorInfoList()) {
             vendorBaseInfoList.add(new VendorListResponse.VendorBaseInfo(
-                    vendorInfo.getCompany(), vendorInfo.getBceUserId(), vendorInfo.getVendorId()
-            ));
+                    vendorInfo.getCompany(), vendorInfo.getBceUserId(), vendorInfo.getVendorId(),
+                     vendorInfo.getCreateTime()));
         }
         vendorListResponse.setVendorBaseInfoList(vendorBaseInfoList);
         return vendorListResponse;

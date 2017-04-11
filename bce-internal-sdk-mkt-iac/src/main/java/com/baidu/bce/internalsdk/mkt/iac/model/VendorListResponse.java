@@ -4,8 +4,11 @@
 
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
+import java.util.Date;
 import java.util.List;
 
+import com.baidu.bce.internalsdk.core.BceConstant;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -32,5 +35,8 @@ public class VendorListResponse {
         private String companyName;
         private String bceAccount;
         private String vendorId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT,
+                timezone = "UTC")
+        private Date hostedTime;
     }
 }

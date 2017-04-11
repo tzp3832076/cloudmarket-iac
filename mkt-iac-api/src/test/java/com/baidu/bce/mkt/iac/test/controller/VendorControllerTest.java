@@ -11,6 +11,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,6 +203,23 @@ public class VendorControllerTest extends ApiMockMvcTest {
         vendorOverview.setQualityStatus(AuditStatus.NONE);
         when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
         VendorOverviewResponse response = mktIacClient.getVendorOverview();
+        log.info("getVendorOverview {} ", response);
+    }
+
+    @Test
+    public void getVendorOverviewVendorId() {
+        VendorOverview vendorOverview =  new VendorOverview();
+        vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                                            "test", "companySite", 1000, "address", "tel", "test-test",
+                                                            "hotline", "othermarket", "contact_info"));
+        vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
+        vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
+        vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITING);
+        vendorOverview.setAgreementAuditStatus(ProcessStatus.DONE);
+        vendorOverview.setQualityStatus(AuditStatus.NONE);
+        when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
+        String vendorId = "test";
+        VendorOverviewResponse response = mktIacClient.getVendorOverview(Arrays.asList(vendorId));
         log.info("getVendorOverview {} ", response);
     }
 
