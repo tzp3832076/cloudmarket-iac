@@ -198,7 +198,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         vendorOverview.setQualityStatus(AuditStatus.NONE);
         when(vendorService.getVendorOverview(anyString())).thenReturn(vendorOverview);
         String vendorId = "test";
-        VendorOverviewResponse response = mktIacClient.getVendorOverview(Arrays.asList(vendorId));
+        VendorOverviewResponse response = mktIacClient.getVendorOverview(vendorId);
         log.info("getVendorOverview {} ", response);
     }
 
