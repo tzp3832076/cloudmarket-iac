@@ -3,7 +3,6 @@
 package com.baidu.bce.internalsdk.mkt.iac;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
@@ -95,6 +94,14 @@ public class MktIacClient extends BaseClient {
                        .path("/vendorInfo").get(VendorInfoDetailResponse.class);
     }
 
+    public VendorInfoDetailResponse getVendorInfoDetail(String vendorId) {
+        BceInternalRequest request = createMktAuthorizedRequest()
+                       .path("/v1/vendor")
+                       .path("/vendorInfo");
+        addHeaderTargetVendor(request, Arrays.asList(vendorId));
+        return request.get(VendorInfoDetailResponse.class);
+    }
+
     public VendorInfoDetailResponse getVendorInfoByUserId(String userId) {
         BceInternalRequest request = createMktAuthorizedRequest()
                                              .path("/v1/vendor")
@@ -128,11 +135,11 @@ public class MktIacClient extends BaseClient {
                        .get(VendorOverviewResponse.class);
     }
 
-    public VendorOverviewResponse getVendorOverview(List<String> targetVendorId) {
+    public VendorOverviewResponse getVendorOverview(String targetVendorId) {
         BceInternalRequest request =  createMktAuthorizedRequest()
                        .path("/v1/vendor")
                        .path("/overview");
-        addHeaderTargetVendor(request, targetVendorId);
+        addHeaderTargetVendor(request, Arrays.asList(targetVendorId));
         return request.get(VendorOverviewResponse.class);
     }
 
