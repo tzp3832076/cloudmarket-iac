@@ -40,7 +40,7 @@ public class VendorIdMethodArgumentResolver implements HandlerMethodArgumentReso
             VendorId vendorId = methodParameter.getParameterAnnotation(VendorId.class);
             Class clazz = methodParameter.getParameterType();
             if (clazz.equals(String.class)) {
-                return vendorId.required() ? authorizedToken.getValidVendorId() : authorizedToken.getVendorId();
+                return mergeOneVendorId(authorizedToken, vendorId.required());
             } else {
                 List<String> vendors = mergeVendorIds(authorizedToken, vendorId.required());
                 if (clazz.equals(List.class)) {
@@ -52,6 +52,26 @@ public class VendorIdMethodArgumentResolver implements HandlerMethodArgumentReso
         }
         throw new MissingServletRequestParameterException(methodParameter.getParameterName(),
                 methodParameter.getParameterType().getName());
+    }
+
+    private String mergeOneVendorId(AuthorizedToken authorizedToken, boolean required) {
+        String vendorId = authorizedToken.getVendorId();
+        if (StringUtils.isBlank(vendorId)) {
+            List<String> vendors = authorizedToken.getTargetVendorList();
+            if (CollectionUtils.isEmpty(vendors)) {
+                if (required) {
+                    throw new IllegalArgumentException("no target vendor list or vendor id found");
+                } else {
+                    vendorId = null;
+                }
+            } else {
+                if (vendors.size() > 1) {
+                    throw new IllegalArgumentException("target vendor list more than 1");
+                }
+                vendorId = vendors.get(0);
+            }
+        }
+        return vendorId;
     }
 
     private List<String> mergeVendorIds(AuthorizedToken authorizedToken, boolean required) {
