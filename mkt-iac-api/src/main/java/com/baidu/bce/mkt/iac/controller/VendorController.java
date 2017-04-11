@@ -23,6 +23,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
@@ -193,12 +194,23 @@ public class VendorController {
 
     @ApiOperation(value = "服务商店铺信息线上接口")
     @RequestMapping(method = RequestMethod.GET, value = "/{vendorId}/shopInfo")
-    @BceAuth(role = {BceRole.SERVICE})
+    @BceAuth(role = {BceRole.SERVICE}) // todo 和下面的接口同步
     @UnknownExceptionResponse(message = "服务商线上店铺信息获取")
     public VendorShopResponse getVendorShopInfo(@PathVariable("vendorId") String vendorId) {
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
         return helper.toVendorShopResponse(vendorShop);
     }
+
+    @ApiOperation(value = "服务商店铺信息线上接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/shopInfo")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "read")
+    @UnknownExceptionResponse(message = "服务商线上店铺信息获取")
+    public VendorShopInfoDetailResponse getOnlineVendorShopInfo(@VendorId String vendorId) {
+        VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        return helper.toShopInfoResponse(vendorShop, vendorInfo);
+    }
+
 }
 
 

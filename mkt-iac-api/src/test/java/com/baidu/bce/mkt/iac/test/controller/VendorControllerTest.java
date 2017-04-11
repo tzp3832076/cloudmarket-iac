@@ -33,6 +33,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
@@ -167,25 +168,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     public void getVendorInfoDetail() throws Exception {
-        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(
-                new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                      "test", "companySite", 1000, "address", "tel", "test-test",
-                                      "hotline", "othermarket", "{\"contactList\":"
-                                                                        +
-                                                                        "[{\"type\":\"Business\","
-                                                                        + "\"name\":\"test\","
-                                                                        +
-                                                                        "\"phone\":\"17710655544\"},"
-                                                                        +
-                                                                        "{\"type\":\"Emergency\","
-                                                                        + "\"name\":\"test\","
-                                                                        +
-                                                                        "\"phone\":\"17710655544\"},"
-                                                                        +
-                                                                        "{\"type\":\"Technical\","
-                                                                        + "\"name\":\"test\","
-                                                                        +
-                                                                        "\"phone\":\"17710655544\"}]}"));
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(generateVendorInfo());
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
     }
@@ -193,9 +176,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorOverview() {
         VendorOverview vendorOverview =  new VendorOverview();
-        vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                            "test", "companySite", 1000, "address", "tel", "test-test",
-                                                            "hotline", "othermarket", "contact_info"));
+        vendorOverview.setVendorInfo(generateVendorInfo());
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
         vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
         vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITING);
@@ -209,9 +190,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorOverviewVendorId() {
         VendorOverview vendorOverview =  new VendorOverview();
-        vendorOverview.setVendorInfo( new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                            "test", "companySite", 1000, "address", "tel", "test-test",
-                                                            "hotline", "othermarket", "contact_info"));
+        vendorOverview.setVendorInfo(generateVendorInfo());
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
         vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
         vendorOverview.setVendorShopAuditStatus(ProcessStatus.AUDITING);
@@ -254,22 +233,18 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     @CurrentUser(isServiceAccount = true)
     public void getVendorShopByVendorId() {
-        VendorShop vendorShop = new VendorShop();
-        vendorShop.setEmail("test");
-        vendorShop.setCellphone("test");
-        vendorShop.setVendorId("test");
-        vendorShop.setServiceInfo("test");
-        vendorShop.setName("test");
-        VendorServiceInfoModel serviceInfoModel = new VendorServiceInfoModel();
-        List<OnlineSupport> onlineSupportList = new ArrayList<>();
-        onlineSupportList.add(new OnlineSupport("test", "test"));
-        serviceInfoModel.setOnlineSupports(onlineSupportList);
-        serviceInfoModel.setServiceAvailTime("9:00-18:00");
-        serviceInfoModel.setOnlineSupports(onlineSupportList);
-        vendorShop.setServiceInfo(JsonUtils.toJson(serviceInfoModel));
-        when(vendorService.getVendorShopByVendorId(anyString())).thenReturn(vendorShop);
+        when(vendorService.getVendorShopByVendorId(anyString())).thenReturn(generateVendorShop());
         VendorShopResponse response = mktIacClient.getVendorShopResponse("test");
         log.info("getVendorShopByVendorId {} ", response);
+    }
+
+    @Test
+    public void getVendorShopOnlineInfo() {
+        when(vendorService.getVendorShopByVendorId(anyString())).thenReturn(generateVendorShop());
+        when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(generateVendorInfo());
+        VendorShopInfoDetailResponse response = mktIacClient.getVendorShopOnlineInfo("test");
+        Assert.assertNotNull(response);
+        log.info("getVendorShopOnlineInfo {}", response);
     }
 
     @Test
@@ -287,10 +262,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         VendorListModel vendorListModel = new VendorListModel();
         vendorListModel.setTotalCount(10);
         List<VendorInfo> vendorInfoList = new ArrayList<>();
-        vendorInfoList.add(new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                 "test", "website", 1000, "address",
-                                                 "tel", "test-test", "hotline", "othermarket",
-                                                 "contact_info"));
+        vendorInfoList.add(generateVendorInfo());
         vendorListModel.setVendorInfoList(vendorInfoList);
         when(vendorService.getVendorList(anyString(), anyString(), anyInt(), anyInt(), any()))
                 .thenReturn(vendorListModel);
@@ -304,10 +276,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         VendorListModel vendorListModel = new VendorListModel();
         vendorListModel.setTotalCount(10);
         List<VendorInfo> vendorInfoList = new ArrayList<>();
-        vendorInfoList.add(new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                 "test", "website", 1000, "address",
-                                                 "tel", "test-test", "hotline", "othermarket",
-                                                 "contact_info"));
+        vendorInfoList.add(generateVendorInfo());
         vendorListModel.setVendorInfoList(vendorInfoList);
         when(vendorService.getVendorList(anyString(), anyString(), anyInt(), anyInt(), any()))
                 .thenReturn(vendorListModel);
@@ -330,13 +299,8 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     @CurrentUser(isServiceAccount = true)
     public void getVendorInfoByUserId() {
-        when(vendorService.getVendorInfoByUserId(anyString())).thenReturn(
-                new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                      "test", "companySite", 1000, "address", "tel", "test-test",
-                                      "hotline", "othermarket", "{\"contactList\":"
-                                     + "[{\"type\":\"Business\",\"name\":\"test\",\"phone\":\"17710655544\"},"
-                                     + "{\"type\":\"Emergency\",\"name\":\"test\",\"phone\":\"17710655544\"},"
-                                     + "{\"type\":\"Technical\",\"name\":\"test\",\"phone\":\"17710655544\"}]}"));
+        when(vendorService.getVendorInfoByUserId(anyString())).thenReturn(generateVendorInfo());
+
         mktIacClient.getVendorInfoByUserId("test");
     }
 
@@ -350,5 +314,40 @@ public class VendorControllerTest extends ApiMockMvcTest {
             }
         }).when(vendorService).signAgreement(any());
         mktIacClient.signAgreement();
+    }
+
+    private VendorInfo generateVendorInfo() {
+        return new VendorInfo("test", "test", VendorStatus.FROZEN,
+                                     "test", "companySite", 1000, "address", "tel", "test-test",
+                                     "hotline", "othermarket", "{\"contactList\":"
+                                                                       +
+                                                                       "[{\"type\":\"Business\","
+                                                                       + "\"name\":\"test\","
+                                                                       + "\"phone\":\"17710655544\"},"
+                                                                       +
+                                                                       "{\"type\":\"Emergency\","
+                                                                       + "\"name\":\"test\","
+                                                                       + "\"phone\":\"17710655544\"},"
+                                                                       +
+                                                                       "{\"type\":\"Technical\","
+                                                                       + "\"name\":\"test\","
+                                                                       + "\"phone\":\"17710655544\"}]}");
+    }
+
+    private VendorShop generateVendorShop() {
+        VendorShop vendorShop = new VendorShop();
+        vendorShop.setEmail("test");
+        vendorShop.setCellphone("test");
+        vendorShop.setVendorId("test");
+        vendorShop.setServiceInfo("test");
+        vendorShop.setName("test");
+        VendorServiceInfoModel serviceInfoModel = new VendorServiceInfoModel();
+        List<OnlineSupport> onlineSupportList = new ArrayList<>();
+        onlineSupportList.add(new OnlineSupport("test", "test"));
+        serviceInfoModel.setOnlineSupports(onlineSupportList);
+        serviceInfoModel.setServiceAvailTime("9:00-18:00");
+        serviceInfoModel.setOnlineSupports(onlineSupportList);
+        vendorShop.setServiceInfo(JsonUtils.toJson(serviceInfoModel));
+        return vendorShop;
     }
 }

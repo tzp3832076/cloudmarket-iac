@@ -2,6 +2,7 @@
 
 package com.baidu.bce.internalsdk.mkt.iac;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
@@ -19,6 +20,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.framework.sdk.BaseClient;
 import com.baidu.bce.mkt.framework.sdk.utils.RequestUtils;
@@ -188,6 +190,12 @@ public class MktIacClient extends BaseClient {
                        .path("/v1/vendor/")
                        .path(vendorId)
                        .path("/shopInfo").get(VendorShopResponse.class);
+    }
+
+    public VendorShopInfoDetailResponse getVendorShopOnlineInfo(String vendorId) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor/shopInfo");
+        addHeaderTargetVendor(request, Arrays.asList(vendorId));
+        return request.get(VendorShopInfoDetailResponse.class);
     }
 
     public void signAgreement() {

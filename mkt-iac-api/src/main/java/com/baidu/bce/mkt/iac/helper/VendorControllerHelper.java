@@ -27,14 +27,15 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditSdkConstant;
+import com.baidu.bce.mkt.audit.internal.sdk.model.common.VendorInfoContacts;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
-import com.baidu.bce.mkt.audit.internal.sdk.model.common.VendorInfoContacts;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
@@ -193,6 +194,32 @@ public class VendorControllerHelper {
                         onlineSupport.getName(), onlineSupport.getLink()));
             }
             response.setOnlineSupports(onlineSupports);
+        }
+        return response;
+    }
+
+    public VendorShopInfoDetailResponse toShopInfoResponse(VendorShop shop, VendorInfo
+                                                                                          vendorInfo) {
+        VendorShopInfoDetailResponse response = new VendorShopInfoDetailResponse();
+        if (shop == null || vendorInfo == null) {
+            return response;
+        }
+        response.setBceAccount(vendorInfo.getBceUserId());
+        response.setBaiduWalletAccount(vendorInfo.getWalletId());
+        response.setCompanyDescription(shop.getIntro());
+        response.setCompanyName(vendorInfo.getCompany());
+        response.setServiceEmail(shop.getEmail());
+        response.setServicePhone(shop.getCellphone());
+        response.setVendorId(vendorInfo.getVendorId());
+        VendorServiceInfoModel vendorServiceInfoModel = JsonUtils.fromJson(shop.getServiceInfo(),
+                VendorServiceInfoModel.class);
+        if (vendorServiceInfoModel != null) {
+            response.setServiceAvailTime(vendorServiceInfoModel.getServiceAvailTime());
+            List<OnlineSupport> onlineSupports = new ArrayList<>();
+            for (OnlineSupport onlineSupport : vendorServiceInfoModel.getOnlineSupports()) {
+                onlineSupports.add(new OnlineSupport(onlineSupport.getName(), onlineSupport.getLink()));
+            }
+            response.setBaiduQiaos(onlineSupports);
         }
         return response;
     }
