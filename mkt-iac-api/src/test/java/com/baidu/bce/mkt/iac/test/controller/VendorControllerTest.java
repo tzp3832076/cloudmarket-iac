@@ -77,7 +77,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
         onlineSupports.add(new OnlineSupport("test", "test"));
         request.setBaiduQiaos(onlineSupports);
         request.setCompanyDescription("test");
-        request.setServicePhone("12345678901");
+        request.setServicePhone("123");
         request.setServiceEmail("sfy@baidu.com");
         request.setBaiduWalletAccount("test");
         doAnswer(new Answer() {
@@ -87,7 +87,14 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
-        mktIacClient.saveVendorShopDraft(request);
+        try {
+            mktIacClient.saveVendorShopDraft(request);
+            Assert.fail("no exception");
+        } catch (BceInternalResponseException e) {
+            log.info("exception {}", e.getMessage());
+            Assert.assertEquals(e.getCode(), "BceValidationException");
+            Assert.assertTrue(e.getMessage().contains("长度必须在"));
+        }
 
         request.setServicePhone("17710655544");
         doAnswer(new Answer() {
