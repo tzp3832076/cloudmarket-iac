@@ -253,7 +253,7 @@ public class VendorControllerHelper {
                 fieldMap.put("serviceEmail", IacConstants.FORMAT_ERROR);
             }
         }
-        checkString("servicePhone", request.getServicePhone(), 5,18, fieldMap, canBeEmpty, true);
+        checkString("servicePhone", request.getServicePhone(), 5, 18, fieldMap, canBeEmpty, true);
         if (!CollectionUtils.isEmpty(fieldMap)) {
             log.debug(" fieldMap {}", fieldMap);
             throw new BceValidationException(fieldMap);
@@ -300,8 +300,8 @@ public class VendorControllerHelper {
 
     private void checkString(String paramName, String paramValue, int minLength, int maxLength,
                              Map<String, String> validationMap, boolean isDraft, boolean required) {
-        if(StringUtils.isEmpty(paramValue)) {
-            if(isDraft || !required) {
+        if (StringUtils.isEmpty(paramValue)) {
+            if (isDraft || !required) {
                 return;
             } else {
                 validationMap.put(paramName, "不能为空");
