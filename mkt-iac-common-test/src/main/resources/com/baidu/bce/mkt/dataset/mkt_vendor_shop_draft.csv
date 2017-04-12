@@ -1,2 +1,3 @@
 id, vendor_id, content, status, audit_id, create_time, update_time
 1, vendor_1, content, EDIT, test, 2017-02-20 00:00:00, 2017-02-20 00:00:00
+2, vendor_pass, content, PASS, test, 2017-02-20 00:00:00, 2017-02-20 00:00:00

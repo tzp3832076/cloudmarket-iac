@@ -110,6 +110,18 @@ public class VendorService {
         }
     }
 
+    public void editAuditShopDraft(String vendorId) {
+        VendorShopDraft shopDraft = getVendorShopDraft(vendorId);
+        if (shopDraft == null) {
+            log.warn("cancelAuditShopDraft shop draft is null. vendorId {}", vendorId);
+        } else {
+            if (InfoStatus.AUDIT.equals(shopDraft.getStatus())) {
+                throw MktIacExceptions.statusInAudit();
+            }
+            shopDraftMapper.updateShopAuditIdAndStatus(vendorId, "", InfoStatus.EDIT);
+        }
+    }
+
     public VendorShopDraft getVendorShopDraft(String vendorId) {
         return shopDraftMapper.getShopDraftByVendorId(vendorId);
     }

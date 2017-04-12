@@ -77,6 +77,14 @@ public class VendorController {
         vendorService.cancelAuditShopDraft(vendorId);
     }
 
+    @ApiOperation(value = "商铺信息编辑更新状态")
+    @RequestMapping(method = RequestMethod.PUT, value = "/shopDraft", params = "edit")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "edit")
+    @UnknownExceptionResponse(message = "商铺信息编辑更新状态")
+    public void editShopDraft(@VendorId String vendorId) {
+        vendorService.editAuditShopDraft(vendorId);
+    }
+
     @ApiOperation(value = "商铺信息提交接口")
     @RequestMapping(method = RequestMethod.POST, value = "/shopDraft", params = "submit")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "submitDraft")

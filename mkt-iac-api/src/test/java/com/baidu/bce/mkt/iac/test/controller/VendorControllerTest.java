@@ -295,6 +295,18 @@ public class VendorControllerTest extends ApiMockMvcTest {
     }
 
     @Test
+    public void editShopDraft() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("edit  success");
+                return null;
+            }
+        }).when(vendorService).editAuditShopDraft(anyString());
+        mktIacClient.editShopDraft();
+    }
+
+    @Test
     @CurrentUser(isServiceAccount = true)
     public void getVendorInfoByUserId() {
         when(vendorService.getVendorInfoByUserId(anyString())).thenReturn(generateVendorInfo());

@@ -88,6 +88,14 @@ public class MktIacClient extends BaseClient {
                 .put();
     }
 
+    public void editShopDraft() {
+        createMktAuthorizedRequest()
+                .path("/v1/vendor")
+                .path("/shopDraft")
+                .keyOnlyQueryParam("edit")
+                .put();
+    }
+
     public VendorInfoDetailResponse getVendorInfoDetail() {
         return createMktAuthorizedRequest()
                        .path("/v1/vendor")

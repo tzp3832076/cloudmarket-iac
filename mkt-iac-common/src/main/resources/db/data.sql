@@ -107,6 +107,10 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('OP', 'vendorProduct', 'statCount', 'ALLOW', NOW()),
 ('OP', 'order', 'statCount', 'ALLOW', NOW());
 
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('INIT_VENDOR', 'vendorShop', 'edit', 'ALLOW', NOW()),
+('VENDOR', 'vendorShop', 'edit', 'ALLOW', NOW()),;
+
 INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
 
 
