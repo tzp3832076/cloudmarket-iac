@@ -253,11 +253,6 @@ public class VendorControllerHelper {
                 fieldMap.put("serviceEmail", IacConstants.FORMAT_ERROR);
             }
         }
-        if (!(canBeEmpty && StringUtils.isEmpty(request.getServicePhone()))) {
-            if (!CheckUtils.checkMobileNumber(request.getServicePhone())) {
-                fieldMap.put("servicePhone", IacConstants.FORMAT_ERROR);
-            }
-        }
         if (!CollectionUtils.isEmpty(fieldMap)) {
             log.debug(" fieldMap {}", fieldMap);
             throw new BceValidationException(fieldMap);

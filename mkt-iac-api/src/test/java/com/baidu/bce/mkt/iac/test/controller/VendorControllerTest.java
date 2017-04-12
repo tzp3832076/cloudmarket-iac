@@ -11,7 +11,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,15 +87,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(vendorService).saveShopDraft(anyString(), any());
-        try {
-            mktIacClient.saveVendorShopDraft(request);
-            Assert.fail("no exception");
-        } catch (BceInternalResponseException e) {
-            log.info("exception {}", e.getMessage());
-            Assert.assertEquals(e.getCode(), "BceValidationException");
-            Assert.assertTrue(e.getMessage().contains("servicePhone="
-                                                              + IacConstants.FORMAT_ERROR));
-        }
+        mktIacClient.saveVendorShopDraft(request);
 
         request.setServicePhone("17710655544");
         doAnswer(new Answer() {
