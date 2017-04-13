@@ -225,8 +225,12 @@ update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='
 update mkt_vendor_info set create_time = '2016-12-26 19:59:38' where vendor_id='ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae';
 update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='f6781f00-7e8b-493a-ac43-75eb369927e7';
 
+# 添加服务账号 和权限
+INSERT INTO mkt_role (role, description, create_time) VALUES ('SERVICE', '服务账户', NOW());
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 ('53bc63587f2642e4897ac3305873a956', 'BCE', 'SERVICE', '');
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW()),
 
 
 

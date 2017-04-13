@@ -159,7 +159,7 @@ public class VendorController {
     @ApiOperation(value = "通过服务商ID列表获取服务信息接口")
     @RequestMapping(method = RequestMethod.GET, value = "/listByIds")
     @UnknownExceptionResponse(message = "服务商信息获取失败")
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "readListByIds")
     public VendorListResponse getVendorListByIds(@VendorId List<String> vendorIds) {
         VendorListModel vendorListModel = vendorService.getVendorListByIds(vendorIds);
         return helper.toVendorListResponse(vendorListModel);
