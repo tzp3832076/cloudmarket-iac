@@ -180,7 +180,7 @@ public class MktIacClient extends BaseClient {
     public VendorListResponse getVendorListByIds(List<String> vendorIds) {
         BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor")
                                              .path("/listByIds");
-        request.queryParam("vendorIds", vendorIds);
+        addHeaderTargetVendor(request, vendorIds);
         return request.get(VendorListResponse.class);
     }
 
