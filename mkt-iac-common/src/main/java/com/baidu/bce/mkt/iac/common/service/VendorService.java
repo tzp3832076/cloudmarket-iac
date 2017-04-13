@@ -12,6 +12,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
@@ -250,6 +251,14 @@ public class VendorService {
         vendorListModel.setTotalCount(totalCount);
         vendorListModel.setVendorInfoList(vendorInfos);
         return vendorListModel;
+    }
+
+    public VendorListModel getVendorListByIds(List<String> vendorIds) {
+        if (CollectionUtils.isEmpty(vendorIds)) {
+            return new VendorListModel(new ArrayList<>(), 0);
+        }
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorListByIds(vendorIds);
+        return new VendorListModel(vendorInfos, vendorInfos.size());
     }
 
     private ProcessStatus getVendorShopAuditStatus(VendorShop vendorShop,

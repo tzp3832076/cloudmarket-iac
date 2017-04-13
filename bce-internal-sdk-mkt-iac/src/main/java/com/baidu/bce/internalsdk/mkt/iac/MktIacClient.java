@@ -3,6 +3,7 @@
 package com.baidu.bce.internalsdk.mkt.iac;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
@@ -173,6 +174,13 @@ public class MktIacClient extends BaseClient {
         BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor")
                                              .path("/searchList");
         RequestUtils.safeAddQueryParam(request, "companyName", company);
+        return request.get(VendorListResponse.class);
+    }
+
+    public VendorListResponse getVendorListByIds(List<String> vendorIds) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor")
+                                             .path("/listByIds");
+        request.queryParam("vendorIds", vendorIds);
         return request.get(VendorListResponse.class);
     }
 

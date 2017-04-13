@@ -3,6 +3,7 @@
  */
 package com.baidu.bce.mkt.iac.common.test.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -108,4 +109,11 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.DONE);
     }
 
+    @Test
+    public void getVendorListByIds() {
+        List<String> vendorIds = new ArrayList<>();
+        vendorIds.add("vendor_1");
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorListByIds(vendorIds);
+        Assert.assertNotNull(vendorInfos);
+    }
 }

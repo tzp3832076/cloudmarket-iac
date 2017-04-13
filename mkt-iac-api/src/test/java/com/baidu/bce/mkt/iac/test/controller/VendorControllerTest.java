@@ -270,6 +270,25 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     @CurrentUser(isServiceAccount = true)
+    public void getVendorListByIds() {
+        VendorListModel vendorListModel = new VendorListModel();
+        vendorListModel.setTotalCount(10);
+        List<VendorInfo> vendorInfoList = new ArrayList<>();
+        vendorInfoList.add(generateVendorInfo());
+        vendorListModel.setVendorInfoList(vendorInfoList);
+        when(vendorService.getVendorListByIds(any()))
+                .thenReturn(vendorListModel);
+        List<String> vendorIds = new ArrayList<>();
+        vendorIds.add("test");
+        vendorIds.add("test_11");
+        VendorListResponse response = mktIacClient.getVendorListByIds(vendorIds);
+        log.info("getVendorList {}", response);
+        Assert.assertNotNull(response.getVendorBaseInfoList());
+        Assert.assertEquals(response.getVendorBaseInfoList().size(), 1);
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
     public void getVendorSearchMap() {
         VendorListModel vendorListModel = new VendorListModel();
         vendorListModel.setTotalCount(10);

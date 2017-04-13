@@ -10,6 +10,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -124,15 +125,30 @@ public class VendorServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void getAllSearchVendor() {
-        VendorListModel vendorInfos = vendorService.getVendorList(null, "", 0, 0, null);
+        VendorListModel vendorInfos = vendorService.getVendorList("", "", 0, 0, null);
         Assert.assertNotNull(vendorInfos.getVendorInfoList());
         Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
+        log.info("getAllSearchVendor {}", vendorInfos);
         vendorInfos = vendorService.getVendorList(null, "2", 0, 0, null);
         Assert.assertNotNull(vendorInfos.getVendorInfoList());
         Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
         vendorInfos = vendorService.getVendorList(null, "XX", 0, 0, null);
         Assert.assertNotNull(vendorInfos);
         Assert.assertTrue(vendorInfos.getVendorInfoList().isEmpty());
+    }
+
+    @Test
+    public void getVendorListByIds() {
+        List<String> vendorIds = new ArrayList<>();
+        vendorIds.add("vendor_1");
+        VendorListModel listModel = vendorService.getVendorListByIds(vendorIds);
+        Assert.assertEquals(listModel.getVendorInfoList().size(), 1);
+        vendorIds.add("vendor_2");
+        listModel = vendorService.getVendorListByIds(vendorIds);
+        Assert.assertEquals(listModel.getVendorInfoList().size(), 2);
+        vendorIds.add("vendor_XXX");
+        listModel = vendorService.getVendorListByIds(vendorIds);
+        Assert.assertEquals(listModel.getVendorInfoList().size(), 2);
     }
 
     @Test

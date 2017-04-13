@@ -109,7 +109,7 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('INIT_VENDOR', 'vendorShop', 'edit', 'ALLOW', NOW()),
-('VENDOR', 'vendorShop', 'edit', 'ALLOW', NOW()),;
+('VENDOR', 'vendorShop', 'edit', 'ALLOW', NOW());
 
 INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorProduct', 'MKT');
 
@@ -214,6 +214,16 @@ VALUES ('f6781f00-7e8b-493a-ac43-75eb369927e7', '常州市青之峰网络科技�
 'bce@myqingfeng.cn','18637363300',
 '青峰公司成立于2002年9月10日，是国内早先以网站建设和推广为主营业务的高科技公司，专业从事网站制作、网络营销策划、软件开发。总部设在江苏常州，旗下目前设有河南、浙江、江苏有9家分公司。公司自主研发的智美云网站建设系统，获得了高新技术产品认证，目前有3万多家企业、政府机构、事业单位使用。',
 '{\"serviceAvailTime\":\"08：30~17：30（周一至周五）\",\"onlineSupports\":[{\"name\":\"售前咨询\",\"link\":\"http://p.qiao.baidu.com/cps/chat?siteId=9830716&userId=22165696\"},{\"name\":\"售前咨询\",\"link\":\"http://p.qiao.baidu.com/cps/chat?siteId=9830597&userId=22165467\"}]}');
+
+update mkt_vendor_info set create_time = '2017-03-24 09:29:34' where vendor_id='11cb92aa-03be-49f3-b746-e0c0a1617502';
+update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='17b74c0f-f140-406f-a165-10643baf2c03';
+update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='5ff0543e-2d65-420b-a6cc-d40c119733bf';
+update mkt_vendor_info set create_time = '2016-12-14 11:41:50' where vendor_id='641bc961-8807-43c4-92a1-e432ca6719e4';
+update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='a513f315-b746-485a-9fc6-e4192ff10b94';
+update mkt_vendor_info set create_time = '2017-01-03 16:17:45' where vendor_id='b3799622-5f1f-4506-ba85-83bf6cfa0565';
+update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='cab62e18-816a-11e6-b605-f80f41f769c2';
+update mkt_vendor_info set create_time = '2016-12-26 19:59:38' where vendor_id='ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae';
+update mkt_vendor_info set create_time = '2016-10-11 16:45:01' where vendor_id='f6781f00-7e8b-493a-ac43-75eb369927e7';
 
 
 

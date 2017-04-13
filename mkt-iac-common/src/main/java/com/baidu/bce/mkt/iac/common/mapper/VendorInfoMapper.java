@@ -87,6 +87,13 @@ public interface VendorInfoMapper {
                                    @Param("start") int start,
                                    @Param("limit") int limit);
 
+    @Select(SELECT_SQL_PREFIX + " #where()"
+                    + "  #in( $_parameter.vendorIds $vendorId \"vendor_id\")"
+                    + "   @{vendorId}"
+                    + "  #end"
+                    + " #end")
+    List<VendorInfo> getVendorListByIds(@Param("vendorIds") List<String> vendorIds);
+
     @Select(COUNT_SQL_PREFIX + DYNAMIC_SEARCH_SQL)
     int getVendorCount(@Param("status") VendorStatus status,
                        @Param("bceUserId") String bceUserId,
