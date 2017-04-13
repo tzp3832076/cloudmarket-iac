@@ -41,7 +41,7 @@ public class UserIdentity {
     }
 
     public boolean isOp() {
-        return IacConstants.ROLE_OP.equals(role);
+        return IacConstants.ROLE_OP.equals(role) || IacConstants.ROLE_SERVICE.equals(role);
     }
 
     public String getAccountType() {

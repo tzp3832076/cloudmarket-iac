@@ -23,6 +23,7 @@ public class IacConstants {
     public static final String ROLE_INIT_VENDOR = "INIT_VENDOR";
     public static final String ROLE_VENDOR = "VENDOR";
     public static final String ROLE_OP = "OP";
+    public static final String ROLE_SERVICE = "SERVICE";
 
     public static final String DEFAULT_ACCOUNT_TYPE = "BCE";
     public static final String DEFAULT_ROLE = "USER";
