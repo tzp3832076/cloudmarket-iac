@@ -82,8 +82,8 @@ public class AuthorizationService {
             log.info("no target vendor list, skip");
             return;
         }
-        if (userIdentity.isOp()) {
-            log.info("current user has op role, check target vendor list pass directly");
+        if (userIdentity.hasPrivilege()) {
+            log.info("current user has privilege, check target vendor list pass directly");
             return;
         }
         String vendorId = userIdentity.getVendorId();
@@ -99,8 +99,8 @@ public class AuthorizationService {
 
     private void checkResourceInstances(UserIdentity userIdentity, String resource, List<String> instances) {
         if (!CollectionUtils.isEmpty(instances)) {
-            if (userIdentity.isOp()) {
-                log.info("current user has op role, check resource instance pass directly");
+            if (userIdentity.hasPrivilege()) {
+                log.info("current user has privilege, check resource instance pass directly");
                 return;
             }
             LocalInstanceChecker localInstanceChecker = checkerMap.get(resource);

@@ -40,7 +40,7 @@ public class UserIdentity {
         return StringUtils.isEmpty(vendorId) ? null : vendorId;
     }
 
-    public boolean isOp() {
+    public boolean hasPrivilege() {
         return IacConstants.ROLE_OP.equals(role) || IacConstants.ROLE_SERVICE.equals(role);
     }
 
