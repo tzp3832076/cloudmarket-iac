@@ -230,7 +230,12 @@ INSERT INTO mkt_role (role, description, create_time) VALUES ('SERVICE', '服务
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
 ('53bc63587f2642e4897ac3305873a956', 'BCE', 'SERVICE', '');
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
-('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW()),
+('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW());
+
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('OP', 'vendorOverview', 'read', 'ALLOW', NOW());
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('OP', 'vendorShop', 'read', 'ALLOW', NOW());
 
 
 

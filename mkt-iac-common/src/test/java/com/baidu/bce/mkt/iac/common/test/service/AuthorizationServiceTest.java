@@ -110,7 +110,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
         Assert.assertNull(userIdentity.getVendorId());
         Assert.assertEquals("OP", userIdentity.getRole());
         Assert.assertTrue(outputCapture.toString()
-                .contains("current user has op role, check resource instance pass directly"));
+                .contains("current user has privilege, check resource instance pass directly"));
     }
 
     @Test
