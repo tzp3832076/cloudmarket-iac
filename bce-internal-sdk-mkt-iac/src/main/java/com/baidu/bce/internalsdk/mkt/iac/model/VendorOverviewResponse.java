@@ -36,7 +36,7 @@ public class VendorOverviewResponse {
 
     public VendorOverviewResponse (VendorOverviewResponse response) {
         this.companyName = response.getCompanyName();
-        this.vendorStatus = response.getVendorStatus();
+        this.verifyStatus = response.getVerifyStatus();
         this.userId = response.getUserId();
         this.vendorStatus = response.getVendorStatus();
         this.vendorAuditStatus = response.getVendorAuditStatus();
