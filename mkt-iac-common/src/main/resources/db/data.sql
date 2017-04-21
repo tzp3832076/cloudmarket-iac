@@ -19,13 +19,7 @@ UPDATE bce_cloudmarket_iac.mkt_vendor_info  SET bce_user_id = 'b1f91fbe6fe54d2ea
 INSERT INTO mkt_role (role, description, create_time) VALUES ('OP', '运营', NOW()),('VENDOR','服务商',
  NOW());
 INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
-('b1f91fbe6fe54d2eaf70ef0025f1c3c2', 'BCE', 'VENDOR', 'ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae');
-INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
-('UUAP:wujinlin', 'UUAP', 'OP', '');
-
-INSERT INTO mkt_account (account_id, account_type, role, vendor_id ) VALUES
-('f168739fc9c5473ab798a39c3db446b6', 'BCE', 'INIT_VENDOR', '999608cc-d257-48af-99d2-27c983be8201');
-
+('b1f91fbe6fe54d2eaf70ef0025f1c3c2', 'BCE', 'VENDOR', 'ec282cd2-3ca3-4ca0-8c5d-f1d7c8c0abae'
 INSERT INTO mkt_permission (resource, operation, description, create_time) VALUES
 ('product', 'read', '获取商品', NOW()),
 ('vendorOverview', 'read', '服务商概览', NOW()),
@@ -237,6 +231,12 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('OP', 'vendorShop', 'read', 'ALLOW', NOW());
 
-
+update mkt_vendor_info set bce_user_id = '623c570048d24211a2e7eafb9ef0f1c4' where vendor_id='11cb92aa-03be-49f3-b746-e0c0a1617502';
+update mkt_vendor_info set bce_user_id = 'fed1b9c0ec7649a386565517636d2890' where vendor_id='17b74c0f-f140-406f-a165-10643baf2c03';
+update mkt_vendor_info set bce_user_id = '1e8a99184f0a4c2bbd6673f63002ab60' where vendor_id='5ff0543e-2d65-420b-a6cc-d40c119733bf';
+update mkt_vendor_info set bce_user_id = 'c058360dba6742c1b67db5af7fa5333a' where vendor_id='641bc961-8807-43c4-92a1-e432ca6719e4';
+update mkt_vendor_info set bce_user_id = '93ee94f3a37a4c33aa368de35c6f0e1f' where vendor_id='a513f315-b746-485a-9fc6-e4192ff10b94';
+update mkt_vendor_info set bce_user_id = '7d39f0a00c1a458d851f11390e0c7d80' where vendor_id='b3799622-5f1f-4506-ba85-83bf6cfa0565';
+update mkt_vendor_info set bce_user_id = '0abcc27b8a8342c6ab39b2cb3dd1d4f7' where vendor_id='f6781f00-7e8b-493a-ac43-75eb369927e7';
 
 
