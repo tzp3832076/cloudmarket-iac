@@ -23,6 +23,8 @@ public interface AuthorizedToken {
 
     String getMainUserId();
 
+    String getUserType();
+
     String getVendorId();
 
     List<String> getTargetVendorList();

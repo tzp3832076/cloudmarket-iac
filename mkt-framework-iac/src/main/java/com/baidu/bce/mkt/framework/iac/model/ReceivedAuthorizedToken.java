@@ -4,6 +4,8 @@ package com.baidu.bce.mkt.framework.iac.model;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 
@@ -30,6 +32,15 @@ public class ReceivedAuthorizedToken implements AuthorizedToken {
     @Override
     public String getMainUserId() {
         return mktToken != null ? mktToken.getMainUserId() : token.getUser().getDomain().getId();
+    }
+
+    @Override
+    public String getUserType() {
+        String type = mktToken.getType();
+        if (StringUtils.isBlank(type)) {
+            throw new InvalidUserTypeException();
+        }
+        return type;
     }
 
     @Override

@@ -47,6 +47,12 @@ public class MockedAuthorizedToken implements AuthorizedToken {
     }
 
     @Override
+    public String getUserType() {
+        String userId = getUserId();
+        return userId.startsWith("UUAP") ? "UUAP" : "BCE";
+    }
+
+    @Override
     public String getVendorId() {
         if (currentVendor == null || !currentVendor.hasId()) {
             return null;

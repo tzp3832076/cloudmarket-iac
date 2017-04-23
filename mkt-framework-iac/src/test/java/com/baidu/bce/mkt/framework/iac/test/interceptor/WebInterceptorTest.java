@@ -74,6 +74,7 @@ public class WebInterceptorTest {
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
         mktToken.setTargetVendorList(Arrays.asList(IdUtils.generateUUID()));
+        mktToken.setType("BCE");
         AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
         when(checkAuthService.checkAuth(any(), any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
         String ret = mockMvc.perform(MockMvcRequestBuilders
@@ -86,6 +87,7 @@ public class WebInterceptorTest {
         Assert.assertTrue(outputCapture.toString().contains("target vendor list in calculate add = ["
                 + mktToken.getTargetVendorList().get(0)));
         Assert.assertTrue(outputCapture.toString().contains("vendors = [" + mktToken.getTargetVendorList().get(0)));
+        Assert.assertTrue(outputCapture.toString().contains("user type = BCE"));
     }
 
     @RestController
@@ -97,6 +99,7 @@ public class WebInterceptorTest {
             log.info("user id in calculate add = {}", authorizedToken.getUserId());
             log.info("target vendor list in calculate add = {}", authorizedToken.getTargetVendorList());
             log.info("vendors = {}", vendors);
+            log.info("user type = {}", authorizedToken.getUserType());
             return new Result(a + b);
         }
     }

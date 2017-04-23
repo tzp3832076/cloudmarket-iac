@@ -28,6 +28,11 @@ public class LocalAuthorizedToken implements AuthorizedToken {
     }
 
     @Override
+    public String getUserType() {
+        return userIdentity.getAccountType();
+    }
+
+    @Override
     public String getVendorId() {
         return userIdentity.getVendorId();
     }

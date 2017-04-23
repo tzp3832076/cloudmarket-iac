@@ -237,6 +237,7 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('OP', 'vendorShop', 'read', 'ALLOW', NOW());
 
-
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('SERVICE', 'vendorInfo', 'read', 'ALLOW', NOW());
 
 

@@ -8,13 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
+import com.baidu.bce.mkt.iac.common.model.db.AccountType;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * user identity model for authorized user info
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
+@Slf4j
 public class UserIdentity {
 
 
@@ -29,6 +32,11 @@ public class UserIdentity {
         if (account != null) {
             this.account = account;
             this.role = account.getRole();
+            // 加个账号类型的检查，避免人为添加数据库的记录的时候出错
+            if (userId.startsWith(AccountType.UUAP.name())
+                    && AccountType.UUAP != account.getAccountType()) {
+                log.warn("current user id = {}, type not uuap, need manual check", userId);
+            }
         }
     }
 
@@ -45,7 +53,15 @@ public class UserIdentity {
     }
 
     public String getAccountType() {
-        return account == null ? IacConstants.DEFAULT_ACCOUNT_TYPE : account.getAccountType().name();
+        if (account == null) {
+            if (userId.startsWith(AccountType.UUAP.name())) {
+                return AccountType.UUAP.name();
+            } else {
+                return AccountType.BCE.name();
+            }
+        } else {
+            return account.getAccountType().name();
+        }
     }
 
     public String getMainUserId() {
