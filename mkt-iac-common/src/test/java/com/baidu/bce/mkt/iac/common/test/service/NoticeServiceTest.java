@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
+import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
@@ -33,6 +34,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.service.NoticeService;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
+import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,6 +67,14 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
         Assert.assertNotNull(test);
         Account account = accountMapper.getByAccountId(test.getBceUserId());
         Assert.assertNotNull(account);
+
+        try {
+            vendorInfo.setBceUserId(IdUtils.generateUUID());
+            noticeService.auditNoticeApplication("PASS", vendorInfo);
+            Assert.fail("no exception");
+        } catch (BceException e) {
+            Assert.assertEquals(e.getCode(), "CompanyNameRepeat");
+        }
     }
 
     @Test

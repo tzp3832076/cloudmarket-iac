@@ -242,4 +242,9 @@ update mkt_vendor_info set bce_user_id = '0abcc27b8a8342c6ab39b2cb3dd1d4f7' wher
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('SERVICE', 'vendorInfo', 'read', 'ALLOW', NOW());
 
-
+// 云梦数据处理
+delete from mkt_vendor_info where bce_user_id = 'bb6f4316-12be-11e7-b635-6c0b8483288e';
+update mkt_vendor_info set vendor_id='cab62e18-816a-11e6-b605-f80f41f769c2', status = 'HOSTED' where
+bce_user_id = '834831af3a8d4804aa96035103fd49b8';
+update mkt_account SET  vendor_id='cab62e18-816a-11e6-b605-f80f41f769c2' where account_id =
+'834831af3a8d4804aa96035103fd49b8';
