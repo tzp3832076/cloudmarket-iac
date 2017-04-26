@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.BceAuthContextWrapper;
@@ -67,6 +68,9 @@ public class MockedAuthorizedToken implements AuthorizedToken {
 
     @Override
     public List<String> getTargetVendorList() {
+        if (currentVendor == null) {
+            return null;
+        }
         return Arrays.asList(currentVendor.targetVendors());
     }
 }
