@@ -67,6 +67,9 @@ public class MockedAuthorizedToken implements AuthorizedToken {
 
     @Override
     public List<String> getTargetVendorList() {
+        if (currentVendor == null || currentVendor.targetVendors().length == 0) {
+            return null;
+        }
         return Arrays.asList(currentVendor.targetVendors());
     }
 }

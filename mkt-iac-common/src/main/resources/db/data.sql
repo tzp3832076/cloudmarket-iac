@@ -240,7 +240,9 @@ update mkt_vendor_info set bce_user_id = '7d39f0a00c1a458d851f11390e0c7d80' wher
 update mkt_vendor_info set bce_user_id = '0abcc27b8a8342c6ab39b2cb3dd1d4f7' where vendor_id='f6781f00-7e8b-493a-ac43-75eb369927e7';
 
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
-('SERVICE', 'vendorInfo', 'read', 'ALLOW', NOW());
+('SERVICE', 'vendorInfo', 'read', 'ALLOW', NOW()),
+('OP', 'audit', 'listProduct', 'ALLOW', NOW()),
+('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW());
 
 // 云梦数据处理
 delete from mkt_vendor_info where bce_user_id = 'bb6f4316-12be-11e7-b635-6c0b8483288e';
