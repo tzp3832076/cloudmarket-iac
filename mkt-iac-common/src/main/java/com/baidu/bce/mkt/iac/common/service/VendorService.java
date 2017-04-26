@@ -32,6 +32,7 @@ import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopMapper;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorListFilter;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
 import com.baidu.bce.mkt.iac.common.model.VendorServiceInfoModel;
@@ -241,15 +242,14 @@ public class VendorService {
 
     public VendorListModel getVendorList(String bceUserId, String companyName,
                                          int start, int limit, VendorStatus vendorStatus) {
-        bceUserId = StringUtils.isEmpty(bceUserId) ? null : bceUserId;
-        companyName = StringUtils.isEmpty(companyName) ? null : companyName;
-        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(vendorStatus,
-                bceUserId, companyName, start, limit);
-        int totalCount = vendorInfoMapper.getVendorCount(vendorStatus,
-                bceUserId, companyName);
+        VendorListFilter filter = new VendorListFilter(bceUserId, companyName, vendorStatus);
+        int totalCount = vendorInfoMapper.getVendorCount(filter);
         VendorListModel vendorListModel = new VendorListModel();
-        vendorListModel.setTotalCount(totalCount);
-        vendorListModel.setVendorInfoList(vendorInfos);
+        if (totalCount > 0) {
+            List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(filter, start, limit);
+            vendorListModel.setTotalCount(totalCount);
+            vendorListModel.setVendorInfoList(vendorInfos);
+        }
         return vendorListModel;
     }
 

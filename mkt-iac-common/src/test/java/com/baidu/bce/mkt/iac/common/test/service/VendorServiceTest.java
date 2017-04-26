@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.EnterpriseInfoResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
@@ -134,7 +135,7 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
         vendorInfos = vendorService.getVendorList(null, "XX", 0, 0, null);
         Assert.assertNotNull(vendorInfos);
-        Assert.assertTrue(vendorInfos.getVendorInfoList().isEmpty());
+        Assert.assertTrue(CollectionUtils.isEmpty(vendorInfos.getVendorInfoList()));
     }
 
     @Test

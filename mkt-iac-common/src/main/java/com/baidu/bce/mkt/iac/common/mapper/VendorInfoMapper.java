@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorListFilter;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
@@ -29,15 +30,15 @@ public interface VendorInfoMapper {
     String COUNT_SQL_PREFIX = "SELECT count(1) FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
     String UPDATE_SQL_PREFIX = "UPDATE " + TABLE + " ";
-    String DYNAMIC_SEARCH_SQL = " #where() 1 = 1 "
-                                        + " #if ($_parameter.bceUserId)"
-                                        + " AND (bce_user_id = '$_parameter.bceUserId') "
+    String DYNAMIC_SEARCH_SQL = " #where()"
+                                        + " #if ($_parameter.filter.bceUserId)"
+                                        + " AND bce_user_id = @{filter.bceUserId} "
                                         + " #end "
-                                        + " #if ($_parameter.company)"
-                                        + " AND (company like '%$_parameter.company%') "
+                                        + " #if ($_parameter.filter.companyName)"
+                                        + " AND company like @{filter.companyName} "
                                         + " #end "
-                                        + " #if ($_parameter.status)"
-                                        + " AND (status = '$_parameter.status') "
+                                        + " #if ($_parameter.filter.status)"
+                                        + " AND status = @{filter.status} "
                                         + " #end "
                                         + " #end ";
 
@@ -81,9 +82,7 @@ public interface VendorInfoMapper {
                     + "  #if ($_parameter.start >= 0 && $_parameter.limit > 0)"
                     + "    LIMIT @{start}, @{limit}"
                     + "  #end")
-    List<VendorInfo> getVendorList(@Param("status") VendorStatus status,
-                                   @Param("bceUserId") String bceUserId,
-                                   @Param("company") String company,
+    List<VendorInfo> getVendorList(@Param("filter") VendorListFilter filter,
                                    @Param("start") int start,
                                    @Param("limit") int limit);
 
@@ -95,7 +94,5 @@ public interface VendorInfoMapper {
     List<VendorInfo> getVendorListByIds(@Param("vendorIds") List<String> vendorIds);
 
     @Select(COUNT_SQL_PREFIX + DYNAMIC_SEARCH_SQL)
-    int getVendorCount(@Param("status") VendorStatus status,
-                       @Param("bceUserId") String bceUserId,
-                       @Param("company") String company);
+    int getVendorCount(@Param("filter") VendorListFilter filter);
 }

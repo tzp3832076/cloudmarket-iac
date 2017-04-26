@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.model.ProcessStatus;
+import com.baidu.bce.mkt.iac.common.model.VendorListFilter;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
@@ -81,20 +82,34 @@ public class VendorInfoMapperTest extends BaseMapperTest {
 
     @Test
     public void getVendorList() {
-        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.PROCESSING,
-                null, null, 0, 10);
-        Assert.assertTrue(vendorInfos.size() > 0);
-        vendorInfos = vendorInfoMapper.getVendorList(VendorStatus.FROZEN,
-                null, null, 0, 10);
-        Assert.assertTrue(vendorInfos.size() == 0);
+        VendorListFilter filter = new VendorListFilter(null, null, VendorStatus.PROCESSING);
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
+        Assert.assertEquals(2, vendorInfos.size());
+        filter = new VendorListFilter(null, null, VendorStatus.FROZEN);
+        vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
+        Assert.assertEquals(0, vendorInfos.size());
+        filter = new VendorListFilter(null, "_2", null);
+        vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
+        Assert.assertEquals(1, vendorInfos.size());
+        filter = new VendorListFilter("bce_user_1", null, null);
+        vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
+        Assert.assertEquals(1, vendorInfos.size());
     }
 
     @Test
     public void getVendorCount() {
-        int res = vendorInfoMapper.getVendorCount(VendorStatus.FROZEN, null, null);
+        VendorListFilter filter = new VendorListFilter(null, null, VendorStatus.FROZEN);
+        int res = vendorInfoMapper.getVendorCount(filter);
         Assert.assertEquals(0, res);
-        res = vendorInfoMapper.getVendorCount(VendorStatus.PROCESSING, null, null);
-        Assert.assertTrue(res > 0);
+        filter = new VendorListFilter(null, null, VendorStatus.PROCESSING);
+        res = vendorInfoMapper.getVendorCount(filter);
+        Assert.assertEquals(2, res);
+        filter = new VendorListFilter(null, "_2", null);
+        res = vendorInfoMapper.getVendorCount(filter);
+        Assert.assertEquals(1, res);
+        filter = new VendorListFilter("bce_user_1", null, null);
+        res = vendorInfoMapper.getVendorCount(filter);
+        Assert.assertEquals(1, res);
     }
 
     @Test
