@@ -239,9 +239,15 @@ update mkt_vendor_info set bce_user_id = '93ee94f3a37a4c33aa368de35c6f0e1f' wher
 update mkt_vendor_info set bce_user_id = '7d39f0a00c1a458d851f11390e0c7d80' where vendor_id='b3799622-5f1f-4506-ba85-83bf6cfa0565';
 update mkt_vendor_info set bce_user_id = '0abcc27b8a8342c6ab39b2cb3dd1d4f7' where vendor_id='f6781f00-7e8b-493a-ac43-75eb369927e7';
 
+// 云梦数据处理
+delete from mkt_vendor_info where bce_user_id = 'bb6f4316-12be-11e7-b635-6c0b8483288e';
+update mkt_vendor_info set vendor_id='cab62e18-816a-11e6-b605-f80f41f769c2', status = 'HOSTED' where
+bce_user_id = '834831af3a8d4804aa96035103fd49b8';
+update mkt_account SET  vendor_id='cab62e18-816a-11e6-b605-f80f41f769c2' where account_id =
+'834831af3a8d4804aa96035103fd49b8';
+
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('SERVICE', 'vendorInfo', 'read', 'ALLOW', NOW()),
 ('OP', 'audit', 'listProduct', 'ALLOW', NOW()),
 ('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW()),
 ('OP', 'vendorInfo', 'readListByIds', 'ALLOW', NOW());
-

@@ -28,4 +28,8 @@ public class MktIacExceptions {
     public static BceException notJsonFormat() {
         return new BceException("JSON 转化失败", 403, "NotJsonFormat");
     }
+
+    public static BceException companyNameRepeat() {
+        return new BceException("您的公司名称已用别的账号注册", 400, "CompanyNameRepeat");
+    }
 }

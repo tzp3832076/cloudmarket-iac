@@ -43,6 +43,14 @@ public class VendorInfoMapperTest extends BaseMapperTest {
     }
 
     @Test
+    public void getVendorInfoByCompanyName() throws Exception {
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId("vendor_1");
+        List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorInfoByCompanyName(vendorInfo
+                                                                                           .getCompany());
+        Assert.assertNotNull(vendorInfos);
+    }
+
+    @Test
     public void updateVendorStatus() {
         String vendorId = "vendor_1";
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);

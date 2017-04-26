@@ -4,9 +4,12 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -47,6 +50,7 @@ public class NoticeService {
     @Transactional
     public void auditNoticeApplication(String status, VendorInfo vendorInfo) {
         if (InfoStatus.PASS.name().equals(status) && vendorInfo != null) {
+            checkCompanyRepeat(vendorInfo);
             VendorInfo temp = vendorInfoMapper.getVendorInfoByVendorId(vendorInfo.getVendorId());
             if (temp == null) {
                 vendorInfoMapper.add(vendorInfo);
@@ -97,5 +101,19 @@ public class NoticeService {
         serviceInfoModel.setOnlineSupports(shopDraft.getBaiduQiaos());
         shop.setServiceInfo(JsonUtils.toJson(serviceInfoModel));
         return shop;
+    }
+
+    private void checkCompanyRepeat(VendorInfo vendorInfo) {
+        List<VendorInfo> applicantList = vendorInfoMapper.getVendorInfoByCompanyName(vendorInfo
+                                                                                          .getCompany());
+        if (CollectionUtils.isEmpty(applicantList)) {
+            return;
+        }
+        if (applicantList.size() == 1) {
+            if (applicantList.get(0).getBceUserId().equals(vendorInfo.getBceUserId())) {
+                return;
+            }
+        }
+        throw MktIacExceptions.companyNameRepeat();
     }
 }
