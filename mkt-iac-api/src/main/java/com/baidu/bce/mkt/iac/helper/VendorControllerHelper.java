@@ -226,6 +226,10 @@ public class VendorControllerHelper {
 
     public VendorListResponse toVendorListResponse(VendorListModel listModel) {
         VendorListResponse vendorListResponse = new VendorListResponse();
+        if (listModel == null || CollectionUtils.isEmpty(listModel.getVendorInfoList())) {
+            vendorListResponse.setTotalCount(0);
+            return vendorListResponse;
+        }
         vendorListResponse.setTotalCount(listModel.getTotalCount());
         List<VendorListResponse.VendorBaseInfo> vendorBaseInfoList = new ArrayList<>();
         for (VendorInfo vendorInfo : listModel.getVendorInfoList()) {
