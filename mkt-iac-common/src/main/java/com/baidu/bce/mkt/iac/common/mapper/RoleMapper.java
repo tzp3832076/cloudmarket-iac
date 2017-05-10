@@ -16,8 +16,8 @@ import com.baidu.bce.mkt.iac.common.model.db.Role;
  */
 public interface RoleMapper {
     String TABLE = "mkt_role";
-    String SELECT_COLUMNS = "id, role, description, create_time, update_time";
-    String INSERT_COLUMNS = "role, description, create_time";
+    String SELECT_COLUMNS = "id, role, description, sub_roles, create_time, update_time";
+    String INSERT_COLUMNS = "role, description, sub_roles, create_time";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
 
@@ -25,6 +25,7 @@ public interface RoleMapper {
             + "("
             + "  @{role},"
             + "  @{description},"
+            + "  @{subRoles},"
             + "  NOW()"
             + ")")
     @Options(useGeneratedKeys = true)

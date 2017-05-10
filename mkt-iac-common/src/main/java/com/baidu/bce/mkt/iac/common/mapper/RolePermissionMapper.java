@@ -2,6 +2,8 @@
 
 package com.baidu.bce.mkt.iac.common.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -37,4 +39,19 @@ public interface RolePermissionMapper {
     RolePermission getByRoleResourceOperation(@Param("role") String role,
                                               @Param("resource") String resource,
                                               @Param("operation") String operation);
+
+    @Select(SELECT_SQL_PREFIX
+            + " WHERE"
+            + " #if($_parameter.roles.size() == 1)"
+            + "   role = @{roles[0]}"
+            + " #end"
+            + " #if($_parameter.roles.size() > 1)"
+            + "   #in($_parameter.roles $role \"role\")"
+            + "     @{role}"
+            + "   #end"
+            + " #end"
+            + " AND resource = @{resource} AND operation = @{operation}")
+    List<RolePermission> getByRoleListResourceOperation(@Param("roles") List<String> roles,
+                                                        @Param("resource") String resource,
+                                                        @Param("operation") String operation);
 }

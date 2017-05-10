@@ -25,6 +25,7 @@ public class RoleMapperTest extends BaseMapperTest {
         Role role = new Role();
         role.setRole("vendor");
         role.setDescription("服务商");
+        role.setSubRoles("");
         int ret = roleMapper.save(role);
         Assert.assertEquals(1, ret);
     }

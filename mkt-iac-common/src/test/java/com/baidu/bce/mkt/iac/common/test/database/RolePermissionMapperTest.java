@@ -2,6 +2,9 @@
 
 package com.baidu.bce.mkt.iac.common.test.database;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +40,15 @@ public class RolePermissionMapperTest extends BaseMapperTest {
                 rolePermissionMapper.getByRoleResourceOperation("OP", "audit", "audit");
         Assert.assertEquals(1, rolePermission.getId());
         Assert.assertEquals(PermissionAction.ALLOW, rolePermission.getAction());
+    }
+
+    @Test
+    public void testGetByRoles() {
+        List<RolePermission> rolePermissions = rolePermissionMapper
+                .getByRoleListResourceOperation(Arrays.asList("OP"), "audit", "read");
+        Assert.assertEquals(1, rolePermissions.size());
+        rolePermissions = rolePermissionMapper
+                .getByRoleListResourceOperation(Arrays.asList("OP", "VENDOR"), "audit", "read");
+        Assert.assertEquals(2, rolePermissions.size());
     }
 }

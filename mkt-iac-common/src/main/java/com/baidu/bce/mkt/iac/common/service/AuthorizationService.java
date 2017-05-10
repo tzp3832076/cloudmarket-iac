@@ -2,6 +2,9 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +17,14 @@ import org.springframework.util.CollectionUtils;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.handler.RemoteInstanceCheckHandler;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
+import com.baidu.bce.mkt.iac.common.mapper.RoleMapper;
 import com.baidu.bce.mkt.iac.common.mapper.RolePermissionMapper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.CurrentForAuthUser;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
+import com.baidu.bce.mkt.iac.common.model.db.Role;
 import com.baidu.bce.mkt.iac.common.model.db.RolePermission;
 import com.baidu.bce.mkt.iac.common.service.checker.LocalInstanceChecker;
 
@@ -37,6 +42,8 @@ public class AuthorizationService {
     private AccountMapper accountMapper;
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
+    @Autowired
+    private RoleMapper roleMapper;
     @Autowired
     private RemoteInstanceCheckHandler remoteInstanceCheckHandler;
 
@@ -69,11 +76,26 @@ public class AuthorizationService {
     }
 
     private void checkResourceOperation(UserIdentity userIdentity, String resource, String operation) {
-        RolePermission rolePermission =
-                rolePermissionMapper.getByRoleResourceOperation(userIdentity.getRole(), resource, operation);
-        if (rolePermission == null || PermissionAction.ALLOW != rolePermission.getAction()) {
-            log.info("reject by role permission = {}", rolePermission);
+        Role role = roleMapper.getByRole(userIdentity.getRole());
+        List<String> checkRoleList = role != null ? role.getSubRoleList() : null;
+        if (CollectionUtils.isEmpty(checkRoleList)) {
+            checkRoleList = Collections.singletonList(userIdentity.getRole());
+        }
+        List<RolePermission> rolePermissions =
+                rolePermissionMapper.getByRoleListResourceOperation(checkRoleList, resource, operation);
+        checkRolePermissions(rolePermissions);
+    }
+
+    private void checkRolePermissions(List<RolePermission> rolePermissions) {
+        if (CollectionUtils.isEmpty(rolePermissions)) {
+            log.info("reject by no role permission");
             throw MktIacExceptions.noPermission();
+        }
+        for (RolePermission rolePermission : rolePermissions) {
+            if (PermissionAction.ALLOW != rolePermission.getAction()) {
+                log.info("reject by role permission = {}", rolePermission);
+                throw MktIacExceptions.noPermission();
+            }
         }
     }
 

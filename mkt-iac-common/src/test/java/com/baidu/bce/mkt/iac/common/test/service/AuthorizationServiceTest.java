@@ -51,6 +51,17 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
+    public void testAuthorizeMultiRoleUserSuccess() {
+        AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "test",
+                null, true, "admin_user_1", null, "audit",
+                "read", null);
+        UserIdentity userIdentity = authorizationService.authorize(authorizeCommand);
+        Assert.assertEquals("admin_user_1", userIdentity.getUserId());
+        Assert.assertNull(userIdentity.getVendorId());
+        Assert.assertEquals("ADMIN", userIdentity.getRole());
+    }
+
+    @Test
     public void testAuthorizeVendorUserWithVendorListSuccess() {
         AuthorizeCommand authorizeCommand = new AuthorizeCommand("test", "normal_vendor_1",
                 null, false, null, Arrays.asList("vendor111"), "audit",
