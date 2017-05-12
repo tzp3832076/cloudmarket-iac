@@ -135,7 +135,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
         } catch (BceException e) {
             Assert.assertEquals("NoPermission", e.getCode());
             Assert.assertTrue(outputCapture.toString()
-                    .contains("reject by role permission"));
+                    .contains("reject by no role permission"));
         }
     }
 
@@ -167,7 +167,7 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
         } catch (BceException e) {
             Assert.assertEquals("NoPermission", e.getCode());
             Assert.assertTrue(outputCapture.toString()
-                    .contains("reject by role permission"));
+                    .contains("reject by no role permission"));
         }
     }
 
