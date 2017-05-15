@@ -49,7 +49,7 @@ public class UserIdentity {
     }
 
     public boolean hasPrivilege() {
-        return IacConstants.ROLE_OP.equals(role) || IacConstants.ROLE_SERVICE.equals(role);
+        return role.startsWith(IacConstants.ROLE_OP) || IacConstants.ROLE_SERVICE.equals(role);
     }
 
     public String getAccountType() {
