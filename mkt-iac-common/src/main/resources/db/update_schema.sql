@@ -6,3 +6,6 @@ INSERT INTO mkt_role (role, description, sub_roles, create_time) VALUES
 ('OP_ADMIN', '云市场管理员', 'OP,OP_FINANCE', NOW());
 
 UPDATE mkt_account SET role = 'OP_ADMIN' where account_id in ('UUAP:wujinlin','UUAP:zhangmengmeng01','UUAP:sunfangyuan','UUAP:pengliangyou','UUAP:zhanghui13');
+
+INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('OP', 'vendorProduct', 'productToPreOnline', 'ALLOW', NOW());
