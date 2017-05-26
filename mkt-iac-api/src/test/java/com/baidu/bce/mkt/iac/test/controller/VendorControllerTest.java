@@ -139,6 +139,15 @@ public class VendorControllerTest extends ApiMockMvcTest {
         request.setServiceAvailTime("test");
         request.setBaiduQiaos(onlineSupports);
         request.setCompanyDescription("test");
+        try {
+            mktIacClient.submitVendorShopDraft(request);
+            Assert.fail("no exception");
+        } catch (BceInternalResponseException e) {
+            Assert.assertTrue(e.getMessage().contains(
+                    "baiduQiaos=客服信息需要为夜莺平台：https://ikefu.baidu.com"));
+        }
+        onlineSupports.clear();
+        onlineSupports.add(new OnlineSupport("test", "https://ikefu.baidu.com/ddd"));
         mktIacClient.submitVendorShopDraft(request);
 
     }
