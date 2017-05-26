@@ -27,11 +27,6 @@ public class MapperConfiguration {
     }
 
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
-        return new CustomSqlSessionFactoryBean(dataSource);
-    }
-
-    @Bean
     public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
         return new TransactionTemplate(transactionManager);
     }
