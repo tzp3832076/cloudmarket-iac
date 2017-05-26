@@ -26,4 +26,5 @@ public class IacConstants {
     public static final String ROLE_SERVICE = "SERVICE";
 
     public static final String DEFAULT_ROLE = "USER";
+    public static final String SUPPORT_URL_PRE = "https://ikefu.baidu.com";
 }

@@ -289,6 +289,9 @@ public class VendorControllerHelper {
                             || StringUtils.isEmpty(support.getName())) {
                     fieldMap.put("baiduQiaos", IacConstants.INFO_EMPTY);
                 }
+                if (!support.getLink().startsWith(IacConstants.SUPPORT_URL_PRE)) {
+                    fieldMap.put("baiduQiaos", "客服信息需要为夜莺平台：" + IacConstants.SUPPORT_URL_PRE);
+                }
             }
         }
         return fieldMap;
