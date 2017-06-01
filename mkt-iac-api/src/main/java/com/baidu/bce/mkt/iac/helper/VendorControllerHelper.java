@@ -118,8 +118,8 @@ public class VendorControllerHelper {
         detail.setCompanySite(vendorInfo.getWebsite());
         detail.setCompanyAddress(vendorInfo.getAddress());
 
-        VendorInfoContacts contacts = JsonUtils.fromJson(vendorInfo.getContactInfo(),
-                VendorInfoContacts.class);
+        VendorInfoContacts contacts = StringUtils.isEmpty(vendorInfo.getContactInfo()) ? null :
+                                       JsonUtils.fromJson(vendorInfo.getContactInfo(), VendorInfoContacts.class);
         if (contacts != null) {
             Map<String, VendorInfoContacts.ContactWay> contactWayMap = contacts
                                                                                .getVendorContactMap();
