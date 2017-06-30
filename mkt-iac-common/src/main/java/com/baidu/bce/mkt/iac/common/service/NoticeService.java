@@ -85,7 +85,9 @@ public class NoticeService {
         }
         shopDraftMapper.updateShopAuditIdAndStatus(vendorId, vendorShopDraft.getAuditId(),
                 InfoStatus.valueOf(status));
-        syncHandler.noticeProductToSyncVendor(vendorId);
+        if (InfoStatus.PASS.equals(InfoStatus.valueOf(status))){
+            syncHandler.noticeProductToSyncVendor(vendorId);
+        }
     }
 
     private VendorShop getVendorShopFromContent(VendorShopAuditContent.ShopDraft shopDraft,
