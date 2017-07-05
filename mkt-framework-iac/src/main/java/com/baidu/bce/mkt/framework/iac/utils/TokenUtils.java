@@ -24,4 +24,14 @@ public class TokenUtils {
         }
         return authorizedToken;
     }
+
+    public static String getUserId() {
+        AuthorizedToken authorizedToken = getAuthorizedToken();
+        return authorizedToken == null ? null : authorizedToken.getUserId();
+    }
+
+    public static String getMainUserId() {
+        AuthorizedToken authorizedToken = getAuthorizedToken();
+        return authorizedToken == null ? null : authorizedToken.getMainUserId();
+    }
 }
