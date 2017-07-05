@@ -13,8 +13,7 @@ import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.mkt.framework.iac.annotation.Subject;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
-import com.baidu.bce.mkt.framework.iac.model.TokenHolder;
-import com.baidu.bce.plat.webframework.iam.service.UserService;
+import com.baidu.bce.mkt.framework.iac.utils.TokenUtils;
 
 /**
  * subject method argument resolver
@@ -32,13 +31,7 @@ public class SubjectMethodArgumentResolver implements HandlerMethodArgumentResol
                                   ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) throws Exception {
-        AuthorizedToken authorizedToken = TokenHolder.getAuthorizedToken();
-        if (authorizedToken == null) {
-            Token token = UserService.getSubjectToken();
-            if (token != null) {
-                authorizedToken = new ReceivedAuthorizedToken(token, null);
-            }
-        }
+        AuthorizedToken authorizedToken = TokenUtils.getAuthorizedToken();
         for (SupportedParameter supportedParameter : SupportedParameter.values()) {
             if (supportedParameter.supportsParameter(methodParameter)) {
                 Object value = supportedParameter.resolveArgument(methodParameter, authorizedToken);

@@ -17,7 +17,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface CheckAuth {
+    // 需要鉴权的资源名称
     String resource();
+    // 需要鉴权的操作名称，接口上线时，需要将资源名称 + 操作名称配置到iac模块中，添加permission
     String operation();
+    // 需要鉴权的实例对应的参数的名称，供框架从请求参数中提取对应的值
     String instanceParameterName() default "";
 }
