@@ -251,3 +251,18 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('OP', 'audit', 'listProduct', 'ALLOW', NOW()),
 ('SERVICE', 'vendorInfo', 'readListByIds', 'ALLOW', NOW()),
 ('OP', 'vendorInfo', 'readListByIds', 'ALLOW', NOW());
+
+#服务商订单相关权限
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorOrder', 'updateVendorRemark', 'ALLOW', NOW()),
+('VENDOR', 'vendorOrder', 'getDetailedInfo', 'ALLOW', NOW()),
+('VENDOR', 'vendorOrder', 'getOrderList', 'ALLOW', NOW()),
+('VENDOR', 'vendorOrder', 'getOrderListSum', 'ALLOW', NOW()),
+('VENDOR', 'vendorOrder', 'exportOrderList', 'ALLOW', NOW());
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('OP', 'vendorOrder', 'updateVendorRemark', 'ALLOW', NOW()),
+('OP', 'vendorOrder', 'getDetailedInfo', 'ALLOW', NOW()),
+('OP', 'vendorOrder', 'getOrderList', 'ALLOW', NOW()),
+('OP', 'vendorOrder', 'getOrderListSum', 'ALLOW', NOW()),
+('OP', 'vendorOrder', 'exportOrderList', 'ALLOW', NOW());
+INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorOrder', 'MKT_OSS');
