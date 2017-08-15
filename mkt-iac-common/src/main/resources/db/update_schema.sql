@@ -9,3 +9,7 @@ UPDATE mkt_account SET role = 'OP_ADMIN' where account_id in ('UUAP:wujinlin','U
 
 INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('OP', 'vendorProduct', 'productToPreOnline', 'ALLOW', NOW());
+
+INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorProduct', 'closeOrder', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'closeOrder', 'ALLOW', NOW());
