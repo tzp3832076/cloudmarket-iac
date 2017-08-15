@@ -11,5 +11,5 @@ INSERT INTO mkt_role_permission (role, resource, operation, action, create_time)
 ('OP', 'vendorProduct', 'productToPreOnline', 'ALLOW', NOW());
 
 INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
-('VENDOR', 'vendorProduct', 'closeOrder', 'ALLOW', NOW()),
-('OP', 'vendorProduct', 'closeOrder', 'ALLOW', NOW());
+('VENDOR', 'vendorOrder', 'closeOrder', 'ALLOW', NOW()),
+('OP', 'vendorOrder', 'closeOrder', 'ALLOW', NOW());
