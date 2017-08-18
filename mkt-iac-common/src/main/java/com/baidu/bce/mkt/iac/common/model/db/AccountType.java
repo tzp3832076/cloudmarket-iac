@@ -8,5 +8,6 @@ package com.baidu.bce.mkt.iac.common.model.db;
  */
 public enum AccountType {
     BCE,
-    UUAP;
+    UUAP,
+    SERVICE;
 }

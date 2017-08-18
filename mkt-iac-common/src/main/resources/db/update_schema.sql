@@ -13,3 +13,20 @@ INSERT INTO mkt_role_permission (role, resource, operation, action, create_time)
 INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('VENDOR', 'vendorOrder', 'closeOrder', 'ALLOW', NOW()),
 ('OP', 'vendorOrder', 'closeOrder', 'ALLOW', NOW());
+
+INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'produceTest', 'isExist', 'ALLOW', NOW()),
+('VENDOR', 'produceTest', 'apiList', 'ALLOW', NOW()),
+('VENDOR', 'produceTest', 'apiTest', 'ALLOW', NOW()),
+('VENDOR', 'produceTest', 'preOnline', 'ALLOW', NOW()),
+('OP', 'produceTest', 'isExist', 'ALLOW', NOW()),
+('OP', 'produceTest', 'apiList', 'ALLOW', NOW()),
+('OP', 'produceTest', 'apiTest', 'ALLOW', NOW()),
+('OP', 'produceTest', 'preOnline', 'ALLOW', NOW());
+
+INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorProduct', 'readStable', 'ALLOW', NOW()),
+('OP', 'vendorProduct', 'readStable', 'ALLOW', NOW()),
+('SERVICE', 'vendorProduct', 'productToPreOnline', 'ALLOW', NOW());
+
+UPDATE mkt_account SET account_type = 'SERVICE' where account_id = '53bc63587f2642e4897ac3305873a956';
