@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baidu.bce.internalsdk.iam.model.BceUserInfo;
+import com.baidu.bce.internalsdk.iam.model.AccountCrm;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
+import com.baidu.bce.mkt.framework.crm.CrmService;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
@@ -30,7 +31,6 @@ import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.VendorExtraHepler;
 import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
 import com.baidu.bce.plat.webframework.iam.model.BceRole;
-import com.baidu.bce.plat.webframework.iam.service.IAMService;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class VendorExtraController {
     private final ContractAndDepositService service;
     private final VendorService vendorService;
     private final VendorExtraHepler hepler;
-    private final IAMService iamService;
+    private final CrmService crmService;
 
 
     @ApiOperation(value = "合同list和保证金更新接口 -- osp调用")
@@ -94,7 +94,7 @@ public class VendorExtraController {
     public VendorPhoneAndEmailResponse getPhoneAndEmail(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
-        BceUserInfo bceUserInfo = iamService.getBceUserInfo(vendorInfo.getBceUserId());
-        return new VendorPhoneAndEmailResponse(vendorId, bceUserInfo.getMobilePhone(), vendorShop.getEmail());
+        AccountCrm accountCrm = crmService.getAccountInfo(vendorInfo.getBceUserId());
+        return new VendorPhoneAndEmailResponse(vendorId, accountCrm.getMobilePhone(), vendorShop.getEmail());
     }
 }
