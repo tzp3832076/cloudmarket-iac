@@ -36,5 +36,6 @@ public class VendorInfoDetailResponse {
         private String companySite;
         private int companyCapital;
         private String companyAddress;
+        private String bizContactEmail;
     }
 }

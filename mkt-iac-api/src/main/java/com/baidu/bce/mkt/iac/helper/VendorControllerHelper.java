@@ -128,6 +128,10 @@ public class VendorControllerHelper {
                         contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT).getName());
                 detail.setBizContactPhone(
                         contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT).getPhone());
+                String email = contactWayMap.get(MktAuditSdkConstant.BUSINESS_CONTACT).getEmail();
+                if (StringUtils.isNotBlank(email)) {
+                    detail.setBizContactEmail(email);
+                }
             }
             if (contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT) != null) {
                 detail.setEmerContact(
