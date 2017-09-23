@@ -27,12 +27,16 @@ public class VendorInfoDetailResponse {
         private String serviceHotline;
         private String bizContact;
         private String emerContact;
+        @Deprecated
         private String techContact;
+        @Deprecated
         private String companyPhone;
         private String joinedOtherMarkets;
         private String bizContactPhone;
         private String emerContactPhone;
+        @Deprecated
         private String techContactPhone;
+
         private String companySite;
         private int companyCapital;
         private String companyAddress;
