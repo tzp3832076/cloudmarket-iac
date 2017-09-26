@@ -268,3 +268,9 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('OP', 'vendorOrder', 'updateDeliveryContent', 'ALLOW', NOW()),
 ('OP', 'vendorOrder', 'exportOrderList', 'ALLOW', NOW());
 INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorOrder', 'MKT_OSS');
+
+# 服务商活动相关权限数据
+INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('VENDOR', 'vendorProduct', 'addActivity', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'getActivityPeriods', 'ALLOW', NOW()),
+('VENDOR', 'vendorProduct', 'activityAndAuditInfo', 'ALLOW', NOW());
