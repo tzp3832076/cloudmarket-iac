@@ -114,7 +114,6 @@ public class VendorControllerHelper {
         detail.setCompanyCapital(vendorInfo.getCapital());
         detail.setServiceHotline(vendorInfo.getHotline());
         detail.setJoinedOtherMarkets(vendorInfo.getOtherMarket());
-        detail.setCompanyPhone(vendorInfo.getTelephone());
         detail.setCompanySite(vendorInfo.getWebsite());
         detail.setCompanyAddress(vendorInfo.getAddress());
 
@@ -138,12 +137,6 @@ public class VendorControllerHelper {
                         contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT).getName());
                 detail.setEmerContactPhone(
                         contactWayMap.get(MktAuditSdkConstant.EMERGENCY_CONTACT).getPhone());
-            }
-            if (contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT) != null) {
-                detail.setTechContact(
-                        contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT).getName());
-                detail.setTechContactPhone(
-                        contactWayMap.get(MktAuditSdkConstant.TECHNICAL_CONTACT).getPhone());
             }
         }
         response.setData(detail);
