@@ -273,4 +273,4 @@ INSERT INTO mkt_resource_system (resource, system) VALUES ('vendorOrder', 'MKT_O
 INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('VENDOR', 'vendorProduct', 'addActivity', 'ALLOW', NOW()),
 ('VENDOR', 'vendorProduct', 'getActivityPeriods', 'ALLOW', NOW()),
-('VENDOR', 'vendorProduct', 'activityAndAuditInfo', 'ALLOW', NOW());
+('VENDOR', 'vendorProduct', 'getActivityInfo', 'ALLOW', NOW());
