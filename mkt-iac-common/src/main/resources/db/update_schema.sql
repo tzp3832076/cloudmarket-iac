@@ -30,3 +30,11 @@ INSERT INTO mkt_role_permission (role, resource, operation, action, create_time)
 ('SERVICE', 'vendorProduct', 'productToPreOnline', 'ALLOW', NOW());
 
 UPDATE mkt_account SET account_type = 'SERVICE' where account_id = '53bc63587f2642e4897ac3305873a956';
+
+# 10-09 op活动审核权限添加
+INSERT INTO mkt_role_permission(role,resource,operation,action) VALUES
+('OP','activity','getActivityList','ALLOW'),
+('SERVICE','activity','syncActivityAuditInfo','ALLOW'),
+('OP','activity','updateRecommend','ALLOW'),
+('OP','activity','stopActivity','ALLOW'),
+('SERVICE','audit','cancel','ALLOW');
