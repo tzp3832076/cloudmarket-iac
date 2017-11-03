@@ -2,10 +2,12 @@
 
 package com.baidu.bce.mkt.iac.common.exception;
 
+
 import com.baidu.bce.plat.webframework.exception.BceException;
 
 /**
  * exception collection for mkt iac
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 public class MktIacExceptions {
@@ -31,5 +33,9 @@ public class MktIacExceptions {
 
     public static BceException companyNameRepeat() {
         return new BceException("您的公司名称已用别的账号注册", 400, "CompanyNameRepeat");
+    }
+
+    public static BceException inValidCid() {
+        return new BceException("品类id不合法", 403, "InValidCid");
     }
 }

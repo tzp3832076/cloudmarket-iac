@@ -28,13 +28,14 @@ public class VendorInfoMapperTest extends BaseMapperTest {
     @Test
     public void add() throws Exception {
         VendorInfo vendorInfo = new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                                      "test", "website", 1000, "address",
-                                                      "tel", "test-test", "hotline", "othermarket",
-                                                      "contact_info");
+                                                      "test", "website", 1000, 100, "address",
+                                                      "tel", "test@baidu.com", "test", "test-test",
+                                                      "hotline", "othermarket", "contact_info");
         int res = vendorInfoMapper.add(vendorInfo);
         VendorInfo vendorInfo1 = vendorInfoMapper.getVendorInfoByVendorId("test");
         Assert.assertEquals(vendorInfo.getCompany(), vendorInfo1.getCompany());
     }
+
 
     @Test
     public void getVendorInfoByVendorId() throws Exception {

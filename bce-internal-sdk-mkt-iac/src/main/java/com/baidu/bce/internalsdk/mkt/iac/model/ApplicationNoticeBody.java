@@ -20,9 +20,11 @@ public class ApplicationNoticeBody {
     private String company;
     private String website;
     private int capital;
+    @Deprecated
     private String sale;
-    private String headcount;
+    private int headcount;
     private String address;
+    @Deprecated
     private String telephone;
     private String contactInfo;
     private String email;

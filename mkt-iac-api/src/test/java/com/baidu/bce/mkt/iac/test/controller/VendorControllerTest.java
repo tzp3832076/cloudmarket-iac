@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +63,7 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorControllerTest extends ApiMockMvcTest {
 
     @Before
-    public void  initVendorId() {
+    public void initVendorId() {
         MktToken mktToken = new MktToken();
         mktToken.setUserId(IdUtils.generateUUID());
         mktToken.setVendorId(IdUtils.generateUUID());
@@ -176,13 +177,14 @@ public class VendorControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorInfoDetail() throws Exception {
         when(vendorService.getVendorInfoByVendorId(anyString())).thenReturn(generateVendorInfo());
+        when(categoryHandler.getCategoryNameMap(anyString())).thenReturn(new HashedMap());
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
     }
 
     @Test
     public void getVendorOverview() {
-        VendorOverview vendorOverview =  new VendorOverview();
+        VendorOverview vendorOverview = new VendorOverview();
         vendorOverview.setVendorInfo(generateVendorInfo());
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
         vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
@@ -196,7 +198,7 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     @Test
     public void getVendorOverviewVendorId() {
-        VendorOverview vendorOverview =  new VendorOverview();
+        VendorOverview vendorOverview = new VendorOverview();
         vendorOverview.setVendorInfo(generateVendorInfo());
         vendorOverview.setVendorAuditStatus(ProcessStatus.DONE);
         vendorOverview.setDepositAuditStatus(ProcessStatus.TODO);
@@ -356,7 +358,8 @@ public class VendorControllerTest extends ApiMockMvcTest {
 
     private VendorInfo generateVendorInfo() {
         return new VendorInfo("test", "test", VendorStatus.FROZEN,
-                                     "test", "companySite", 1000, "address", "tel", "test-test",
+                                     "test", "companySite", 1000, 100, "address", "tel",
+                                     "test@baidu.com", "serviceIllustration", "test-test",
                                      "hotline", "othermarket", "{\"contactList\":"
                                                                        +
                                                                        "[{\"type\":\"Business\","

@@ -23,7 +23,7 @@ public interface VendorInfoMapper {
     String TABLE = "mkt_vendor_info";
     String INSERT_COLUMNS = " vendor_id, bce_user_id, status, company, website, "
                                     + "capital, address, telephone, service_category, hotline, "
-                                    + "other_market, contact_info, wallet_id, "
+                                    + "other_market, contact_info, wallet_id, headcount, email, service_illustration,"
                                     + "create_time ";
     String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time, agreement_status ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
@@ -56,6 +56,9 @@ public interface VendorInfoMapper {
                     + " @{otherMarket},"
                     + " @{contactInfo},"
                     + " @{walletId},"
+                    + " @{headcount},"
+                    + " @{email},"
+                    + " @{serviceIllustration},"
                     + " NOW() "
                     + " )")
     int add(VendorInfo vendorInfo);

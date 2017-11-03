@@ -36,7 +36,7 @@ public class NoticeControllerTest extends ApiMockMvcTest {
         body.setCapital(100);
         body.setContactInfo("test");
         body.setEmail("test");
-        body.setHeadcount("test");
+        body.setHeadcount(100);
         body.setHotline("test");
         body.setMarket("test");
         body.setSale("test");

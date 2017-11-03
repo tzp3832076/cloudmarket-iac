@@ -31,10 +31,7 @@ INSERT INTO mkt_role_permission (role, resource, operation, action, create_time)
 
 UPDATE mkt_account SET account_type = 'SERVICE' where account_id = '53bc63587f2642e4897ac3305873a956';
 
-# 10-09 op活动审核权限添加
-INSERT INTO mkt_role_permission(role,resource,operation,action) VALUES
-('OP','activity','getActivityList','ALLOW'),
-('SERVICE','activity','syncActivityAuditInfo','ALLOW'),
-('OP','activity','updateRecommend','ALLOW'),
-('OP','activity','stopActivity','ALLOW'),
-('SERVICE','audit','cancel','ALLOW');
+# 10-31 vnedorInfo数据库添加
+ALTER TABLE mkt_vendor_info ADD headcount BIGINT(20) NOT NULL DEFAULT 0 COMMENT '雇员人数' after capital,
+                            ADD email VARCHAR(64) NOT NULL DEFAULT '' COMMENT '联系人邮箱' after contact_info,
+                            ADD service_illustration VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '服务说明' after email;

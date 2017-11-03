@@ -18,6 +18,7 @@ import com.baidu.bce.mkt.framework.bootstrap.WorkerApp;
 import com.baidu.bce.mkt.framework.test.service.BaseServiceTest;
 import com.baidu.bce.mkt.iac.common.client.AuthClient;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
+import com.baidu.bce.mkt.internalsdk.model.MktClient;
 import com.baidu.bce.mkt.internalsdk.model.MktInternalClient;
 
 /**
@@ -36,6 +37,7 @@ public abstract class BaseCommonServiceTest extends BaseServiceTest {
     protected MktAuditClient auditClient;
     protected QualifyClient qualifyClient;
     protected MktInternalClient mktInternalClient;
+    protected MktClient mktClient;
 
     @Before
     public void initClient() {
@@ -48,6 +50,8 @@ public abstract class BaseCommonServiceTest extends BaseServiceTest {
         when(clientFactory.createMktAuditClient(anyString())).thenReturn(auditClient);
         mktInternalClient = mock(MktInternalClient.class);
         when(clientFactory.createMktServiceInternalClient()).thenReturn(mktInternalClient);
+        mktClient = mock(MktClient.class);
+        when(clientFactory.createMktClient()).thenReturn(mktClient);
     }
 
     @WorkerApp(scanBasePackages = "com.baidu.bce.mkt.iac.common")

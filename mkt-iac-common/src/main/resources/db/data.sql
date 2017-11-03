@@ -274,3 +274,11 @@ INSERT INTO  mkt_role_permission (role, resource, operation, action, create_time
 ('VENDOR', 'vendorProduct', 'addActivity', 'ALLOW', NOW()),
 ('VENDOR', 'vendorProduct', 'getActivityPeriods', 'ALLOW', NOW()),
 ('VENDOR', 'vendorProduct', 'getActivityInfo', 'ALLOW', NOW());
+
+# 10-09 op活动审核权限添加
+INSERT INTO mkt_role_permission(role,resource,operation,action) VALUES
+('OP','activity','getActivityList','ALLOW'),
+('SERVICE','activity','syncActivityAuditInfo','ALLOW'),
+('OP','activity','updateRecommend','ALLOW'),
+('OP','activity','stopActivity','ALLOW'),
+('SERVICE','audit','cancel','ALLOW');

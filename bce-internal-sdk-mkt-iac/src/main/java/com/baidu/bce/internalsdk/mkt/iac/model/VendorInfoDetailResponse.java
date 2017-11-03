@@ -4,6 +4,8 @@
 
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -24,15 +26,19 @@ public class VendorInfoDetailResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class VendorInfoDetail {
         private String companyName;
-        private String serviceHotline;
         private String bizContact;
-        private String emerContact;
-        private String joinedOtherMarkets;
+        private String companyAddress;
         private String bizContactPhone;
+        private int companyHeadcount;
+        private String bizContactEmail;
+        private int companyCapital;
+        private String emerContact;
+        private String companyEmail;
         private String emerContactPhone;
         private String companySite;
-        private int companyCapital;
-        private String companyAddress;
-        private String bizContactEmail;
+        private String serviceIllustration;
+        private List<String> serviceCategory;
+        private String serviceHotline;
+        private String joinedOtherMarkets;
     }
 }

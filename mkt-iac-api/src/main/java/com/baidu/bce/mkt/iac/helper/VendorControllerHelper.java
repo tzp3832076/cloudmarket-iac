@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
+import com.baidu.bce.mkt.iac.common.handler.CategoryHandler;
 import com.baidu.bce.mkt.iac.common.model.ShopDraftContentAndStatus;
 import com.baidu.bce.mkt.iac.common.model.VendorListModel;
 import com.baidu.bce.mkt.iac.common.model.VendorOverview;
@@ -57,6 +60,8 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorControllerHelper {
     @Autowired
     private ParamProperties paramProperties;
+    @Autowired
+    private CategoryHandler categoryHandler;
 
     public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
@@ -116,9 +121,14 @@ public class VendorControllerHelper {
         detail.setJoinedOtherMarkets(vendorInfo.getOtherMarket());
         detail.setCompanySite(vendorInfo.getWebsite());
         detail.setCompanyAddress(vendorInfo.getAddress());
+        detail.setCompanyHeadcount(vendorInfo.getHeadcount());
+        detail.setCompanyEmail(vendorInfo.getEmail());
+        detail.setServiceIllustration(vendorInfo.getServiceIllustration());
+        detail.setServiceCategory(getCategoryName(vendorInfo.getServiceCategory()));
+        log.debug("vendorId:{},serviceCategory:{}", vendorInfo.getVendorId(), detail.getServiceCategory());
 
         VendorInfoContacts contacts = StringUtils.isEmpty(vendorInfo.getContactInfo()) ? null :
-                                       JsonUtils.fromJson(vendorInfo.getContactInfo(), VendorInfoContacts.class);
+                                              JsonUtils.fromJson(vendorInfo.getContactInfo(), VendorInfoContacts.class);
         if (contacts != null) {
             Map<String, VendorInfoContacts.ContactWay> contactWayMap = contacts
                                                                                .getVendorContactMap();
@@ -188,7 +198,7 @@ public class VendorControllerHelper {
             List<VendorShopResponse.OnlineSupport> onlineSupports = new ArrayList<>();
             for (OnlineSupport onlineSupport : vendorServiceInfoModel.getOnlineSupports()) {
                 onlineSupports.add(new VendorShopResponse.OnlineSupport(
-                        onlineSupport.getName(), onlineSupport.getLink()));
+                                                                               onlineSupport.getName(), onlineSupport.getLink()));
             }
             response.setOnlineSupports(onlineSupports);
         }
@@ -196,7 +206,7 @@ public class VendorControllerHelper {
     }
 
     public VendorShopInfoDetailResponse toShopInfoResponse(VendorShop shop, VendorInfo
-                                                                                          vendorInfo) {
+                                                                                    vendorInfo) {
         VendorShopInfoDetailResponse response = new VendorShopInfoDetailResponse();
         if (shop == null || vendorInfo == null) {
             return response;
@@ -232,8 +242,8 @@ public class VendorControllerHelper {
         List<VendorListResponse.VendorBaseInfo> vendorBaseInfoList = new ArrayList<>();
         for (VendorInfo vendorInfo : listModel.getVendorInfoList()) {
             vendorBaseInfoList.add(new VendorListResponse.VendorBaseInfo(
-                    vendorInfo.getCompany(), vendorInfo.getBceUserId(), vendorInfo.getVendorId(),
-                     vendorInfo.getCreateTime()));
+                                                                                vendorInfo.getCompany(), vendorInfo.getBceUserId(), vendorInfo.getVendorId(),
+                                                                                vendorInfo.getCreateTime()));
         }
         vendorListResponse.setVendorBaseInfoList(vendorBaseInfoList);
         return vendorListResponse;
@@ -243,7 +253,7 @@ public class VendorControllerHelper {
         VendorSearchMapResponse.VendorMap vendorMap = new VendorSearchMapResponse.VendorMap();
         for (VendorInfo vendorInfo : vendorInfos) {
             vendorMap.put(vendorInfo.getVendorId(), new VendorSearchMapResponse.VendorSearchModel(
-                    vendorInfo.getVendorId(), vendorInfo.getCompany()));
+                                                                                                         vendorInfo.getVendorId(), vendorInfo.getCompany()));
         }
         return new VendorSearchMapResponse(vendorMap);
     }
@@ -268,7 +278,7 @@ public class VendorControllerHelper {
         for (int i = 0; i < fields.length; i++) {
             Object valueObj = getFieldValue(request, fields[i].getName()); // 获取属性值
             if (fields[i].getGenericType().equals(String.class)) {
-                String str =  SecurityUtils.stripSqlAndXss((String) valueObj);
+                String str = SecurityUtils.stripSqlAndXss((String) valueObj);
                 if (StringUtils.isEmpty(str)) {
                     fieldMap.put(fields[i].getName(), IacConstants.INFO_EMPTY);
                 } else {
@@ -318,5 +328,10 @@ public class VendorControllerHelper {
             validationMap.put(paramName, "长度必须在" + minLength + "到" + maxLength + "之间");
             return;
         }
+    }
+
+    private List<String> getCategoryName(String serviceCategory) {
+        Map<String, String> nameMap = categoryHandler.getCategoryNameMap(serviceCategory);
+        return nameMap.entrySet().stream().map(x -> x.getKey() + ":" + x.getValue()).collect(Collectors.toList());
     }
 }

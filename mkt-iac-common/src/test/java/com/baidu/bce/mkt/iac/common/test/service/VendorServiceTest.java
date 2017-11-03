@@ -120,8 +120,10 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     public void getVendorInfo() {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId("vendor_1");
         Assert.assertNotNull(vendorInfo);
+        log.info("vendorInfo:{}", vendorInfo);
         vendorInfo = vendorService.getVendorInfoByVendorId("XXXXX");
         Assert.assertNull(vendorInfo);
+
     }
 
     @Test

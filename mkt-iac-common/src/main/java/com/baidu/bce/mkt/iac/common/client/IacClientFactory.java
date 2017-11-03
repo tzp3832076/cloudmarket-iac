@@ -9,13 +9,16 @@ import org.springframework.stereotype.Component;
 import com.baidu.bce.internalsdk.qualify.QualifyClient;
 import com.baidu.bce.mkt.audit.internal.sdk.model.MktAuditClient;
 import com.baidu.bce.mkt.iac.common.config.ConfigProperties;
+import com.baidu.bce.mkt.internalsdk.model.MktClient;
 import com.baidu.bce.mkt.internalsdk.model.MktInternalClient;
+import com.baidu.bce.mkt.internalsdk.model.MktRequestSource;
 import com.baidu.bce.plat.webframework.endpoint.SDKEndpointConfiguration;
 
 import endpoint.EndpointManager;
 
 /**
  * client factory
+ *
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @Component
@@ -27,10 +30,11 @@ public class IacClientFactory implements InitializingBean {
     private MktAuditClient mktAuditClient;
     private QualifyClient qualifyClient;
     private MktInternalClient mktInternalClient;
+    private MktClient mktClient;
 
     public AuthClient createAuthClient(String system) {
         return new AuthClient(EndpointManager.getEndpoint(system),
-                configProperties.getMktServiceAk(), configProperties.getMktServiceSk());
+                                     configProperties.getMktServiceAk(), configProperties.getMktServiceSk());
     }
 
     public MktAuditClient createAuditClient() {
@@ -53,6 +57,10 @@ public class IacClientFactory implements InitializingBean {
         return mktInternalClient;
     }
 
+    public MktClient createMktClient() {
+        return mktClient;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         qualifyClient = new QualifyClient(configProperties.getMktServiceAk(),
@@ -61,6 +69,9 @@ public class IacClientFactory implements InitializingBean {
                                                    configProperties.getMktServiceAk(),
                                                    configProperties.getMktServiceSk());
         mktInternalClient = new MktInternalClient(EndpointManager.getEndpoint("MKT"),
-                configProperties.getMktServiceAk(), configProperties.getMktServiceSk());
+                                                         configProperties.getMktServiceAk(),
+                                                         configProperties.getMktServiceSk());
+        mktClient = new MktClient(configProperties.getMktServiceAk(),
+                                         configProperties.getMktServiceSk(), MktRequestSource.api);
     }
 }
