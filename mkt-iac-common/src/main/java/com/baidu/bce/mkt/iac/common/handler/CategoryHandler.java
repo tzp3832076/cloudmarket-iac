@@ -46,32 +46,35 @@ public class CategoryHandler {
         Map<Integer, CategoryTreeModel> categoryTreeModelMap = getCategoryTreeModelMap();
         Arrays.asList(cids.split(",")).forEach(cid -> {
             CategoryTreeModel treeModel = categoryTreeModelMap.get(Integer.valueOf(cid));
-            CategoryTreeModel parentTreeModel = getParentCategory(categoryTreeModelMap, treeModel);
-            if (parentTreeModel == null){
+            if (treeModel == null) {
                 log.warn("unvalid cid:{}",cid);
                 throw MktIacExceptions.inValidCid();
             }
-            String childrenNames = categoryNameMap.get(parentTreeModel.getName());
+            CategoryTreeModel rootCategory = getRootCategory(categoryTreeModelMap, categoryTreeModelMap.get(treeModel.getParentId()));
+            if (rootCategory == null){
+                log.warn("unvalid cid:{}",cid);
+                throw MktIacExceptions.inValidCid();
+            }
+            String childrenNames = categoryNameMap.get(rootCategory.getName());
             if (childrenNames == null) {
-                categoryNameMap.put(parentTreeModel.getName(), treeModel.getName());
+                categoryNameMap.put(rootCategory.getName(), treeModel.getName());
             } else {
                 childrenNames = childrenNames + "," + treeModel.getName();
-                categoryNameMap.put(parentTreeModel.getName(), childrenNames);
+                categoryNameMap.put(rootCategory.getName(), childrenNames);
             }
         });
-
         return categoryNameMap;
     }
 
 
-    public CategoryTreeModel getParentCategory(Map<Integer, CategoryTreeModel> categoryTreeModelMap, CategoryTreeModel treeModel) {
+    private CategoryTreeModel getRootCategory(Map<Integer, CategoryTreeModel> categoryTreeModelMap, CategoryTreeModel treeModel) {
         if (treeModel == null) {
             return null;
         }
         if (treeModel.getParentId() == 0) {
             return treeModel;
         }
-        return getParentCategory(categoryTreeModelMap, categoryTreeModelMap.get(treeModel.getParentId()));
+        return getRootCategory(categoryTreeModelMap, categoryTreeModelMap.get(treeModel.getParentId()));
     }
 
     public Map<Integer, CategoryTreeModel> getCategoryTreeModelMap() {
