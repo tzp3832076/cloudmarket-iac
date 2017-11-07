@@ -180,6 +180,8 @@ public class VendorControllerTest extends ApiMockMvcTest {
         when(categoryHandler.getCategoryNameMap(anyString())).thenReturn(new HashedMap());
         VendorInfoDetailResponse detailResponse = mktIacClient.getVendorInfoDetail();
         log.info("getVendorInfoDetail {}", JsonUtils.toJson(detailResponse));
+        Assert.assertEquals(detailResponse.getData().getIsJonedOtherMarkets(), true);
+        Assert.assertEquals(detailResponse.getData().getIsServiceHotlineSupported(), true);
     }
 
     @Test
