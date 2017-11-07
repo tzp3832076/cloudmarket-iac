@@ -38,7 +38,9 @@ public class VendorInfoDetailResponse {
         private String companySite;
         private String serviceIllustration;
         private List<String> serviceCategory;
+        private Boolean isServiceHotlineSupported;
         private String serviceHotline;
+        private Boolean isJonedOtherMarkets;
         private String joinedOtherMarkets;
     }
 }

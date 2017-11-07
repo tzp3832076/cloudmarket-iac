@@ -125,6 +125,8 @@ public class VendorControllerHelper {
         detail.setCompanyEmail(vendorInfo.getEmail());
         detail.setServiceIllustration(vendorInfo.getServiceIllustration());
         detail.setServiceCategory(getCategoryName(vendorInfo.getServiceCategory()));
+        detail.setIsServiceHotlineSupported(StringUtils.isEmpty(vendorInfo.getHotline()));
+        detail.setIsJonedOtherMarkets(StringUtils.isEmpty(vendorInfo.getOtherMarket()));
         log.debug("vendorId:{},serviceCategory:{}", vendorInfo.getVendorId(), detail.getServiceCategory());
 
         VendorInfoContacts contacts = StringUtils.isEmpty(vendorInfo.getContactInfo()) ? null :
