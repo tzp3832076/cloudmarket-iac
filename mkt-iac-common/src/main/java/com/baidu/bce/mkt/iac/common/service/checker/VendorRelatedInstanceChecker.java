@@ -33,6 +33,7 @@ public class VendorRelatedInstanceChecker implements LocalInstanceChecker {
     @Override
     public boolean doCheck(UserIdentity userIdentity, List<String> instances) {
         String vendorId = userIdentity.getVendorId();
+
         if (StringUtils.isEmpty(vendorId)) {
             log.info("no vendor id in user identity");
             return false;

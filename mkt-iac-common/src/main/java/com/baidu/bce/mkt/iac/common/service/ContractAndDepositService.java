@@ -5,11 +5,15 @@
 package com.baidu.bce.mkt.iac.common.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
@@ -24,6 +28,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import scala.collection.parallel.ParIterableLike;
 
 /**
  * Created on 2017/2/28 by sunfangyuan@baidu.com .
@@ -50,7 +55,7 @@ public class ContractAndDepositService {
     @Transactional
     public void updateVendorDeposit(String vendorId, BigDecimal payValue) {
         VendorDeposit vendorDeposit = new VendorDeposit(vendorId, IacConstants.DEFAULT_MARGIN,
-                                                               payValue);
+                payValue);
         if (getVendorDeposit(vendorId) == null) {
             depositMapper.add(vendorDeposit);
         } else {
@@ -77,7 +82,32 @@ public class ContractAndDepositService {
     }
 
     public List<VendorContract> getVendorContractList(String vendorId) {
-        return contractMapper.getVendorContractList(vendorId);
+        return contractMapper.getVendorContractListById(vendorId);
+    }
+
+    public List<VendorContract> getVendorContractList(List<String> vendorIds) {
+        if (CollectionUtils.isEmpty(vendorIds)) {
+            return new ArrayList<>();
+        }
+        return contractMapper.getVendorContractListByIds(vendorIds);
+    }
+
+    // 根据输入的vendorIds获取已经填写协议号的服务商ID
+    public List<String> getContractedVendorIdList(List<String> vendorIds) {
+        List<VendorContract> contractList = getVendorContractList(vendorIds);
+        return contractList.stream().map(vendorContract -> vendorContract.getVendorId())
+                .distinct().collect(Collectors.toList());
+    }
+
+    // 添加协议号时校验服务商的是否通过审核
+    public void addContract(String vendorId, String contract) {
+        VendorContract vendorContract = new VendorContract(vendorId, contract, "");
+        VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
+        if (ObjectUtils.isEmpty(vendorInfo)) {
+            log.warn("vendor is not valid vendor,vendorId:{}", vendorId);
+            throw MktIacExceptions.inValidVendorStatus();
+        }
+        addContract(vendorContract);
     }
 
     public void addContract(VendorContract contract) {

@@ -7,6 +7,8 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -15,6 +17,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.mapper.VendorContractMapper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
@@ -41,7 +44,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
                 log.info("confirmVendorDeposit success");
                 return null;
             }
-        }). when(auditClient).syncVendorContract(anyString(), anyString());
+        }).when(auditClient).syncVendorContract(anyString(), anyString());
         service.updateVendorDeposit("vendor_1", new BigDecimal(300));
         VendorDeposit deposit = service.getVendorDeposit("vendor_1");
         Assert.assertFalse(deposit.isPayOff());
@@ -61,13 +64,13 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
                 log.info("confirmVendorContract success");
                 return null;
             }
-        }). when(auditClient).syncVendorContract(anyString(), anyString());
+        }).when(auditClient).syncVendorContract(anyString(), anyString());
         String vendorId = "vendor_2";
-        List<VendorContract> vendorContractList = contractMapper.getVendorContractList(vendorId);
+        List<VendorContract> vendorContractList = contractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(vendorContractList.size(), 1);
         vendorContractList.add(new VendorContract(vendorId, "test", "test"));
         service.updateVendorContentList("vendor_1", vendorContractList);
-        vendorContractList = contractMapper.getVendorContractList(vendorId);
+        vendorContractList = contractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(vendorContractList.size(), 2);
     }
 
@@ -81,10 +84,51 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
+    public void testAddContract() throws Exception {
+        service.addContract("vendor_1", "test");
+        List<VendorContract> contracts = service.getVendorContractList("vendor_1");
+        Assert.assertNotNull(contracts);
+        Assert.assertEquals(contracts.size(), 3);
+        service.addContract("vendor_1", "test2");
+        contracts = service.getVendorContractList("vendor_1");
+        Assert.assertNotNull(contracts);
+        Assert.assertEquals(contracts.size(), 4);
+        try {
+            service.addContract("test", "test");
+            Assert.fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), MktIacExceptions.inValidVendorStatus().getMessage());
+        }
+    }
+
+    @Test
     public void getContractList() {
         List<VendorContract> vendorContractList = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(vendorContractList);
         vendorContractList = service.getVendorContractList("vendor_XX");
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 0);
+    }
+
+    @Test
+    public void testGetVendorContractLis() {
+        List<VendorContract> vendorContractList = service.getVendorContractList(Arrays.asList("vendor_1", "vendor_2"));
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 3);
+        vendorContractList = service.getVendorContractList(Arrays.asList("vendor_XX"));
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 0);
+    }
+
+    @Test
+    public void testGetDistinctVendorContractList() {
+        List<String> vendorContractList = service.getContractedVendorIdList(Arrays.asList("vendor_1", "vendor_2"));
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 2);
+        vendorContractList = service.getContractedVendorIdList(Arrays.asList("vendor_XX"));
+        Assert.assertNotNull(vendorContractList);
+        Assert.assertEquals(vendorContractList.size(), 0);
+        vendorContractList = service.getContractedVendorIdList(new ArrayList<>());
         Assert.assertNotNull(vendorContractList);
         Assert.assertEquals(vendorContractList.size(), 0);
     }

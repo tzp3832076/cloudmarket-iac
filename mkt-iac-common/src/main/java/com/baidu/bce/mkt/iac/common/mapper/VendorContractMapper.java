@@ -32,11 +32,20 @@ public interface VendorContractMapper {
                     + ")")
     int add(VendorContract vendorContract);
 
-    @Select(SELECT_SQL_PREFIX + "where vendor_id = @{vendorId} and is_delete = 0")
-    List<VendorContract> getVendorContractList(@Param("vendorId") String vendorId);
+    @Select(SELECT_SQL_PREFIX + " WHERE vendor_id = @{vendorId} AND is_delete = 0 "
+            + "ORDER BY create_time DESC")
+    List<VendorContract> getVendorContractListById(@Param("vendorId") String vendorId);
 
-    @Select(SELECT_SQL_PREFIX + "where vendor_id = @{vendorId} "
-                    + " and contract_num = @{contractNum}")
+
+    @Select(SELECT_SQL_PREFIX + " #where()"
+            + "  #in( $_parameter.vendorIds $vendorId \"vendor_id\")"
+            + "   @{vendorId}"
+            + "  #end"
+            + " #end")
+    List<VendorContract> getVendorContractListByIds(@Param("vendorIds") List<String> vendorIds);
+
+    @Select(SELECT_SQL_PREFIX + "WHERE vendor_id = @{vendorId} "
+                    + " AND contract_num = @{contractNum}")
     VendorContract getVendorContract(@Param("vendorId") String vendorId,
                                      @Param("contractNum") String contractNum);
 

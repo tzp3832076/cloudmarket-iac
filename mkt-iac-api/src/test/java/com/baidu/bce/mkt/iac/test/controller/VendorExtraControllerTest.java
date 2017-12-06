@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -22,6 +23,7 @@ import org.mockito.stubbing.Answer;
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
@@ -41,14 +43,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class VendorExtraControllerTest extends ApiMockMvcTest {
+
     @Before
-    public void  initOpId() {
+    public void initOpId() {
         MktToken mktToken = new MktToken();
         mktToken.setRole("OP");
         mktToken.setUserId(IdUtils.generateShortUUID());
         AuthorizedToken authorizedToken = new ReceivedAuthorizedToken(new Token(), mktToken);
         when(checkAuthService.checkAuth(any(), any(), anyString(), anyString(), anyList())).thenReturn(authorizedToken);
     }
+
     @Test
     public void contractAndDepositSubmit() throws Exception {
         doAnswer(new Answer() {
@@ -98,6 +102,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         when(contractAndDepositService.getVendorDeposit(anyString())).thenReturn(null);
         ContractAndDepositResponse response = mktIacClient.getContractsAndDeposit("test");
         log.info("getVendorContractsAndDeposit {}", response);
+
     }
 
     @Test
@@ -114,6 +119,30 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         log.info("response = {}", response);
         Assert.assertEquals("13012345678", response.getPhone());
         Assert.assertEquals("123@baidu.com", response.getEmail());
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void testGetContractVendorIds() {
+        when(contractAndDepositService.getContractedVendorIdList(anyList()))
+                .thenReturn(Arrays.asList("vendorId_1", "vendor_2"));
+        ContractVendorIdListResponse response = mktIacClient.getContractVendorIds(Arrays.asList("vendorId_1"));
+        Assert.assertNotNull(response);
+        log.info("response ={}", response);
+        Assert.assertEquals(response.getVendorIds().size(), 2);
+    }
+
+    @Test
+    @CurrentUser(isServiceAccount = true)
+    public void testAddVendorContract() {
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+                log.info("addContract success.");
+                return null;
+            }
+        }).when(contractAndDepositService).addContract(anyString(), any());
+        mktIacClient.addVendorContract("vendor_1", "test");
     }
 
 }

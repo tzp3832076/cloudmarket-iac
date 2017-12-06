@@ -4,8 +4,11 @@
 
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+import com.baidu.bce.internalsdk.core.BceConstant;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -30,6 +33,7 @@ public class VendorContractResponse {
     @NoArgsConstructor
     public static class ContractInfo {
         private String contractNum;
-        private String contractDigest;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
+        private Timestamp contractTime;
     }
 }

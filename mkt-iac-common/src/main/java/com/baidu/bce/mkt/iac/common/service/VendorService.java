@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.audit.internal.sdk.model.request.SubmitAuditRequest;
@@ -210,7 +209,7 @@ public class VendorService {
         VendorInfo vendorInfo = getVendorInfoByVendorId(vendorId);
         VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
-        List<VendorContract> contracts = contractMapper.getVendorContractList(vendorId);
+        List<VendorContract> contracts = contractMapper.getVendorContractListById(vendorId);
         AuditStatus qualityStatus = qualityHandler.getQualityStatus(vendorInfo.getBceUserId());
         vendorOverview.setVendorInfo(vendorInfo);
         vendorOverview.setQualityStatus(qualityStatus);

@@ -38,4 +38,8 @@ public class MktIacExceptions {
     public static BceException inValidCid() {
         return new BceException("品类id不合法", 403, "InValidCid");
     }
+
+    public static BceException inValidVendorStatus() {
+        return new BceException("服务商状态不合法", 403, "InValidVendorStatus");
+    }
 }

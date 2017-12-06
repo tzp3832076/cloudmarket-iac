@@ -8,8 +8,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
@@ -24,13 +27,13 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 public class VendorExtraHepler {
     public List<VendorContract> toVendorContractList(String vendorId,
                                                      List<ContractAndDepositSubmitRequest
-                                                                  .Contract> contractList) {
+                                                             .Contract> contractList) {
         List<VendorContract> vendorContractList = new ArrayList<>();
         for (ContractAndDepositSubmitRequest.Contract contract : contractList) {
             vendorContractList.add(new VendorContract(vendorId,
-                                                             SecurityUtils.stripSqlAndXss(contract.getNumber()),
-                                                             SecurityUtils.stripSqlAndXss(contract.getDigest()),
-                                                             contract.isDelete()));
+                    SecurityUtils.stripSqlAndXss(contract.getNumber()),
+                    SecurityUtils.stripSqlAndXss(contract.getDigest()),
+                    contract.isDelete()));
         }
         return vendorContractList;
     }
@@ -45,9 +48,19 @@ public class VendorExtraHepler {
         List<VendorContractResponse.ContractInfo> contractInfoNumList = new ArrayList<>();
         for (VendorContract contract : contracts) {
             contractInfoNumList.add(new VendorContractResponse.ContractInfo(
-                    contract.getContractNum(), contract.getContractDigest()));
+                    contract.getContractNum(), contract.getCreateTime()));
         }
         response.setContractInfoList(contractInfoNumList);
+        return response;
+    }
+
+    public ContractVendorIdListResponse toVendorContractListResponse(List<String> contractVendorIds) {
+        ContractVendorIdListResponse response = new ContractVendorIdListResponse();
+        List<String> vendorIds = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(contractVendorIds)) {
+            vendorIds = contractVendorIds;
+        }
+        response.setVendorIds(vendorIds);
         return response;
     }
 
