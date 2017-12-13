@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
 import redis.embedded.RedisExecProvider;
 import redis.embedded.RedisServer;
+import redis.embedded.RedisServerBuilder;
 import redis.embedded.util.OS;
+import redis.embedded.util.OsArchitecture;
 
 /**
  * redis test helper
@@ -31,12 +33,15 @@ public class RedisHelper {
         for (int i = 0; i < 3; i++) {
             int port = 10000 + new Random().nextInt(5000);
             try {
-                RedisServer redisServer = RedisServer.builder()
+                RedisServerBuilder redisServerBuilder = RedisServer.builder()
                         .redisExecProvider(getProvider())
                         .port(port)
-                        .setting("maxheap 16M")
-                        .setting("bind 127.0.0.1")
-                        .build();
+                        .setting("bind 127.0.0.1");
+                OsArchitecture osArch = OsArchitecture.detect();
+                if (osArch.os() == OS.WINDOWS) {
+                    redisServerBuilder.setting("maxheap 16M");
+                }
+                RedisServer redisServer = redisServerBuilder.build();
                 redisServer.start();
                 jedisConnectionFactory.setPort(port);
                 jedisConnectionFactory.setShardInfo(null);
