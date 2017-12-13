@@ -7,9 +7,12 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerRequest;
 import com.baidu.bce.mkt.framework.iac.client.model.CheckInstanceOwnerResponse;
@@ -18,7 +21,10 @@ import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.service.AuthorizationService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
+import com.baidu.bce.mkt.iac.common.test.RedisHelper;
 import com.baidu.bce.plat.webframework.exception.BceException;
+
+import redis.embedded.RedisServer;
 
 /**
  * authorization service test
@@ -27,6 +33,21 @@ import com.baidu.bce.plat.webframework.exception.BceException;
 public class AuthorizationServiceTest extends BaseCommonServiceTest {
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private JedisConnectionFactory jedisConnectionFactory;
+
+    private RedisServer redisServer;
+
+    @Before
+    public void setUp() {
+        redisServer = RedisHelper.startRedisServerWithRandomPort(jedisConnectionFactory);
+    }
+
+    @After
+    public void clean() {
+        redisServer.stop();
+    }
 
     @Test
     public void testAuthorizeNormalUserSuccess() {
@@ -109,6 +130,9 @@ public class AuthorizationServiceTest extends BaseCommonServiceTest {
         Assert.assertEquals("normal_vendor_1", userIdentity.getUserId());
         Assert.assertEquals("vendor111", userIdentity.getVendorId());
         Assert.assertEquals("VENDOR", userIdentity.getRole());
+        Assert.assertFalse(outputCapture.toString().contains("owner check success from redis"));
+        authorizationService.authorize(authorizeCommand);
+        Assert.assertTrue(outputCapture.toString().contains("owner check success from redis"));
     }
 
     @Test
