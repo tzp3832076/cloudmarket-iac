@@ -2,7 +2,6 @@
 
 package com.baidu.bce.mkt.iac.common.test.handler;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
