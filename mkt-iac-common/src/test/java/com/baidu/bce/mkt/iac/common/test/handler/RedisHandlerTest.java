@@ -31,12 +31,14 @@ public class RedisHandlerTest extends BaseCommonServiceTest {
     private RedisHandler redisHandler;
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
+    @Autowired
+    private RedisHelper redisHelper;
 
     private RedisServer redisServer;
 
     @Before
     public void setUp() {
-        redisServer = RedisHelper.startRedisServerWithRandomPort(jedisConnectionFactory);
+        redisServer = redisHelper.startRedisServerWithRandomPort(jedisConnectionFactory);
     }
 
     @After

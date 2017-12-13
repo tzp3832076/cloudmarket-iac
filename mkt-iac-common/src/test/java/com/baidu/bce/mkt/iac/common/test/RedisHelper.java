@@ -4,10 +4,15 @@ package com.baidu.bce.mkt.iac.common.test;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import redis.embedded.RedisExecProvider;
 import redis.embedded.RedisServer;
+import redis.embedded.util.OS;
 
 /**
  * redis test helper
@@ -15,12 +20,19 @@ import redis.embedded.RedisServer;
  * @author Wu Jinlin(wujinlin@baidu.com)
  */
 @Slf4j
+@Component
 public class RedisHelper {
-    public static RedisServer startRedisServerWithRandomPort(JedisConnectionFactory jedisConnectionFactory) {
+    @Value("${mkt.test.redis.linux.path:}")
+    private String linuxPath;
+    @Value("${mkt.test.redis.windows.path:}")
+    private String windowsPath;
+
+    public RedisServer startRedisServerWithRandomPort(JedisConnectionFactory jedisConnectionFactory) {
         for (int i = 0; i < 3; i++) {
             int port = 10000 + new Random().nextInt(5000);
             try {
                 RedisServer redisServer = RedisServer.builder()
+                        .redisExecProvider(getProvider())
                         .port(port)
                         .setting("maxheap 16M")
                         .setting("bind 127.0.0.1")
@@ -35,5 +47,16 @@ public class RedisHelper {
             }
         }
         return null;
+    }
+
+    private RedisExecProvider getProvider() {
+        RedisExecProvider customProvider = RedisExecProvider.defaultProvider();
+        if (StringUtils.isNotBlank(linuxPath)) {
+            customProvider = customProvider.override(OS.UNIX, linuxPath);
+        }
+        if (StringUtils.isNotBlank(windowsPath)) {
+            customProvider = customProvider.override(OS.WINDOWS, windowsPath);
+        }
+        return customProvider;
     }
 }
