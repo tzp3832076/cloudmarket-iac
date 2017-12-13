@@ -2,6 +2,7 @@
 
 package com.baidu.bce.mkt.iac.common.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
+import com.baidu.bce.mkt.iac.common.handler.RedisHandler;
 import com.baidu.bce.mkt.iac.common.handler.RemoteInstanceCheckHandler;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.RoleMapper;
 import com.baidu.bce.mkt.iac.common.mapper.RolePermissionMapper;
 import com.baidu.bce.mkt.iac.common.model.AuthorizeCommand;
 import com.baidu.bce.mkt.iac.common.model.CurrentForAuthUser;
+import com.baidu.bce.mkt.iac.common.model.OwnerInfoForRedis;
 import com.baidu.bce.mkt.iac.common.model.UserIdentity;
 import com.baidu.bce.mkt.iac.common.model.db.Account;
 import com.baidu.bce.mkt.iac.common.model.db.PermissionAction;
@@ -36,6 +39,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class AuthorizationService {
+    private static final long OWNER_INFO_EXPIRE_TIME = 3600 * 24;
+
     @Autowired
     private AccountMapper accountMapper;
     @Autowired
@@ -44,6 +49,8 @@ public class AuthorizationService {
     private RoleMapper roleMapper;
     @Autowired
     private RemoteInstanceCheckHandler remoteInstanceCheckHandler;
+    @Autowired
+    private RedisHandler redisHandler;
 
     private Map<String, LocalInstanceChecker> checkerMap;
 
@@ -123,15 +130,58 @@ public class AuthorizationService {
                 log.info("current user has privilege, check resource instance pass directly");
                 return;
             }
-            LocalInstanceChecker localInstanceChecker = checkerMap.get(resource);
-            boolean owner = localInstanceChecker == null
-                    ? remoteInstanceCheckHandler.check(userIdentity.getUserId(), userIdentity.getVendorId(),
-                            resource, instances) :
-                    localInstanceChecker.doCheck(userIdentity, instances);
+            Boolean result = checkResourceInstancesFromRedis(userIdentity, resource, instances);
+            boolean owner = false;
+            if (result == null) {
+                LocalInstanceChecker localInstanceChecker = checkerMap.get(resource);
+                owner = localInstanceChecker == null
+                        ? remoteInstanceCheckHandler.check(userIdentity.getUserId(), userIdentity.getVendorId(),
+                                resource, instances) :
+                        localInstanceChecker.doCheck(userIdentity, instances);
+                if (owner) {
+                    saveOwnerInfoToRedis(userIdentity, resource, instances);
+                }
+            } else {
+                owner = result;
+            }
             if (!owner) {
                 log.info("user is not owner of resource = {} and instances = {}", resource, instances);
                 throw MktIacExceptions.noPermission();
             }
         }
+    }
+
+    private Boolean checkResourceInstancesFromRedis(UserIdentity userIdentity, String resource,
+                                                    List<String> instances) {
+        List<String> keys = generateResourceInstanceKeys(resource, instances);
+        List<OwnerInfoForRedis> ownerList = redisHandler.multiGet(keys, OwnerInfoForRedis.class);
+        if (CollectionUtils.isEmpty(ownerList)) {
+            return null;
+        } else {
+            for (OwnerInfoForRedis ownerInfo : ownerList) {
+                if (ownerInfo == null) {
+                    log.info("check resource instances from redis return with null value, check skip");
+                    return null;
+                } else if (!ownerInfo.isOwnerEqualTo(userIdentity)) {
+                    log.info("owner info not equal from redis");
+                    return false;
+                }
+            }
+            log.info("owner check success from redis");
+            return true;
+        }
+    }
+
+    private void saveOwnerInfoToRedis(UserIdentity userIdentity, String resource, List<String> instances) {
+        List<String> keys = generateResourceInstanceKeys(resource, instances);
+        redisHandler.multiSet(keys, new OwnerInfoForRedis(userIdentity), OWNER_INFO_EXPIRE_TIME);
+    }
+
+    private List<String> generateResourceInstanceKeys(String resource, List<String> instances) {
+        List<String> keys = new ArrayList<>();
+        for (String instance : instances) {
+            keys.add(resource + "_" + instance);
+        }
+        return keys;
     }
 }
