@@ -2,7 +2,6 @@
 
 package com.baidu.bce.internalsdk.mkt.iac;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import com.baidu.bce.internalsdk.core.Entity;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
@@ -210,15 +210,10 @@ public class MktIacClient extends BaseClient {
                 .get(VendorContractResponse.class);
     }
 
-    public void addVendorContract(String vendorId, String contract, Timestamp beginTime, Timestamp endTime) {
+    public void addVendorContract(ContractRequest request) {
         createMktAuthorizedRequest()
-                .path("/v1/vendor/")
-                .path(vendorId)
-                .path("/contract")
-                .queryParam("contract", contract)
-                .queryParam("beginTime", beginTime)
-                .queryParam("endTime", endTime)
-                .post();
+                .path("/v1/vendor/contract")
+                .post(Entity.json(request));
     }
 
     public ContractVendorIdListResponse getContractVendorIds(List<String> vendorIds) {

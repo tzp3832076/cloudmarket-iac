@@ -42,4 +42,8 @@ public class MktIacExceptions {
     public static BceException inValidVendorStatus() {
         return new BceException("服务商状态不合法", 403, "InValidVendorStatus");
     }
+
+    public static BceException inValidContractTime() {
+        return new BceException("合同有效时间不合法", 403, "InValidContractTime");
+    }
 }

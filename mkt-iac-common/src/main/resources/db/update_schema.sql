@@ -46,5 +46,5 @@ INSERT INTO mkt_role_permission (role, resource, operation, action, create_time)
 
 # 12-19 合同表增加合同的有效起始时间
 ALTER TABLE mkt_vendor_contract
-ADD begin_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效起始时间',
-ADD end_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效结束时间';
+ADD begin_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效起始时间' AFTER contract_digest,
+ADD end_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效结束时间' AFTER begin_time;

@@ -4,7 +4,6 @@
 
 package com.baidu.bce.mkt.iac.controller;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baidu.bce.internalsdk.iam.model.AccountCrm;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
@@ -26,6 +25,7 @@ import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
@@ -111,14 +111,14 @@ public class VendorExtraController {
     }
 
     @ApiOperation(value = "添加协议号")
-    @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.POST)
-    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT,
-            operation = "addContract", instanceParameterName = "vendorId")
+    @RequestMapping(value = "/contract", method = RequestMethod.POST)
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "addContract")
     @UnknownExceptionResponse(message = "获取协议号失败")
-    public void addContract(@PathVariable("vendorId") String vendorId,
-                            @RequestParam("contract") String contract,
-                            @RequestParam("beginTime") Timestamp beginTime,
-                            @RequestParam("endTime") Timestamp endTime) {
-        service.addContract(vendorId, contract, beginTime, endTime);
+    public void addContract(@RequestBody ContractRequest request) {
+        if (!request.getBeginTime().before(request.getEndTime())) {
+            log.info("contract time is illegal");
+            throw MktIacExceptions.inValidContractTime();
+        }
+        service.addContract(request.getVendorId(), request.getContract(), request.getBeginTime(), request.getEndTime());
     }
 }

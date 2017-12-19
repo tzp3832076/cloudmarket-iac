@@ -24,6 +24,7 @@ import org.mockito.stubbing.Answer;
 import com.baidu.bce.internalsdk.iam.model.Token;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
@@ -32,6 +33,7 @@ import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.test.iam.CurrentUser;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
 import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
@@ -146,8 +148,15 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
                 return null;
             }
         }).when(contractAndDepositService).addContract(anyString(), any(), any(), any());
-        mktIacClient.addVendorContract("vendor_1", "test",
+        ContractRequest request = new ContractRequest("vendor_1", "test",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
+        try {
+            mktIacClient.addVendorContract(request);
+            Assert.fail();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), MktIacExceptions.inValidContractTime().getMessage());
+        }
+        request.setEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
     }
 
 }
