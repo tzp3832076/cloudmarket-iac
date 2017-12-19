@@ -19,19 +19,24 @@ public class VendorContract {
     private String vendorId;
     private String contractNum;
     private String contractDigest;
+    private Timestamp beginTime;
+    private Timestamp endTime;
     private Timestamp createTime;
     private Timestamp updateTime;
     private boolean isDelete;
 
-    public VendorContract(String vendorId, String contractNum, String contractDigest) {
-        this(vendorId, contractNum, contractDigest, false);
+    public VendorContract(String vendorId, String contractNum, String contractDigest,
+                          Timestamp beginTime, Timestamp endTime) {
+        this(vendorId, contractNum, contractDigest, beginTime, endTime, false);
     }
 
     public VendorContract(String vendorId, String contractNum, String contractDigest,
-                          boolean delete) {
+                          Timestamp beginTime, Timestamp endTime, boolean delete) {
         this.vendorId = vendorId;
         this.contractNum = contractNum;
         this.contractDigest = contractDigest;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
         this.isDelete = delete;
     }
 }

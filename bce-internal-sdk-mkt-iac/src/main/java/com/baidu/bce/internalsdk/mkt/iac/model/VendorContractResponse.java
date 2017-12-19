@@ -34,6 +34,8 @@ public class VendorContractResponse {
     public static class ContractInfo {
         private String contractNum;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
-        private Timestamp contractTime;
+        private Timestamp contractBeginTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
+        private Timestamp contractEndTime;
     }
 }

@@ -18,7 +18,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
  */
 public interface VendorContractMapper {
     String TABLE = "mkt_vendor_contract";
-    String INSERT_COLUMNS = " vendor_id, contract_num, contract_digest, create_time ";
+    String INSERT_COLUMNS = " vendor_id, contract_num, contract_digest, begin_time, end_time, create_time ";
     String SELECT_COLUMNS = " id, " + INSERT_COLUMNS + ", update_time ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
@@ -28,6 +28,8 @@ public interface VendorContractMapper {
                     + " @{vendorId},"
                     + " @{contractNum},"
                     + " @{contractDigest},"
+                    + " @{beginTime},"
+                    + " @{endTime},"
                     + " Now()"
                     + ")")
     int add(VendorContract vendorContract);

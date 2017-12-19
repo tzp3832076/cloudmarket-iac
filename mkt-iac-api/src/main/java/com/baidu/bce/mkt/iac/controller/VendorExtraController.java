@@ -4,6 +4,7 @@
 
 package com.baidu.bce.mkt.iac.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,6 @@ public class VendorExtraController {
     @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
             instanceParameterName = "vendorId")
-    @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "获取服务商合同号失败")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
@@ -115,7 +115,10 @@ public class VendorExtraController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT,
             operation = "addContract", instanceParameterName = "vendorId")
     @UnknownExceptionResponse(message = "获取协议号失败")
-    public void addContract(@PathVariable("vendorId") String vendorId, @RequestParam("contract") String contract) {
-        service.addContract(vendorId, contract);
+    public void addContract(@PathVariable("vendorId") String vendorId,
+                            @RequestParam("contract") String contract,
+                            @RequestParam("beginTime") Timestamp beginTime,
+                            @RequestParam("endTime") Timestamp endTime) {
+        service.addContract(vendorId, contract, beginTime, endTime);
     }
 }

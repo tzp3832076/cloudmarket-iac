@@ -36,3 +36,15 @@ ALTER TABLE mkt_vendor_info
 ADD headcount BIGINT(20) NOT NULL DEFAULT 0 COMMENT '雇员人数' after capital,
 ADD email VARCHAR(64) NOT NULL DEFAULT '' COMMENT '联系人邮箱' after contact_info,
 ADD service_illustration VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '服务说明' after email;
+
+INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
+('op', 'application', 'export', 'ALLOW', NOW()),
+('OP', 'application', 'readList', 'ALLOW', NOW()),
+('vendorContractAndDeposit','read','ALLOW','',NOW()),
+('vendorContractAndDeposit','getContractVendorIds','ALLOW','',NOW()),
+('vendorContractAndDeposit','addContract','ALLOW','',NOW());
+
+# 12-19 合同表增加合同的有效起始时间
+ALTER TABLE mkt_vendor_contract
+ADD begin_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效起始时间',
+ADD end_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效结束时间';

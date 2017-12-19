@@ -2,6 +2,7 @@
 
 package com.baidu.bce.internalsdk.mkt.iac;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -209,12 +210,14 @@ public class MktIacClient extends BaseClient {
                 .get(VendorContractResponse.class);
     }
 
-    public void addVendorContract(String vendorId, String contract) {
+    public void addVendorContract(String vendorId, String contract, Timestamp beginTime, Timestamp endTime) {
         createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path(vendorId)
                 .path("/contract")
                 .queryParam("contract", contract)
+                .queryParam("beginTime", beginTime)
+                .queryParam("endTime", endTime)
                 .post();
     }
 

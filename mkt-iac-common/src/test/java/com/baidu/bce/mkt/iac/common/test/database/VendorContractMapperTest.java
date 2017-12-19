@@ -3,6 +3,7 @@
  */
 package com.baidu.bce.mkt.iac.common.test.database;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,8 @@ public class VendorContractMapperTest extends BaseMapperTest {
 
     @Test
     public void add() throws Exception {
-        VendorContract contract = new VendorContract("test", "testNum", "test");
+        VendorContract contract = new VendorContract("test", "testNum", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         int res = vendorContractMapper.add(contract);
         Assert.assertEquals(1, res);
     }
@@ -54,7 +56,8 @@ public class VendorContractMapperTest extends BaseMapperTest {
     @Test
     public void delete() throws Exception {
         String vendorId = "test";
-        VendorContract contract = new VendorContract(vendorId, "testNum", "test");
+        VendorContract contract = new VendorContract(vendorId, "testNum", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         vendorContractMapper.add(contract);
         List<VendorContract> contracts = vendorContractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(contracts.size(), 1);

@@ -33,6 +33,8 @@ public class VendorExtraHepler {
             vendorContractList.add(new VendorContract(vendorId,
                     SecurityUtils.stripSqlAndXss(contract.getNumber()),
                     SecurityUtils.stripSqlAndXss(contract.getDigest()),
+                    contract.getBeginTime(),
+                    contract.getEndTime(),
                     contract.isDelete()));
         }
         return vendorContractList;
@@ -48,7 +50,7 @@ public class VendorExtraHepler {
         List<VendorContractResponse.ContractInfo> contractInfoNumList = new ArrayList<>();
         for (VendorContract contract : contracts) {
             contractInfoNumList.add(new VendorContractResponse.ContractInfo(
-                    contract.getContractNum(), contract.getCreateTime()));
+                    contract.getContractNum(), contract.getBeginTime(), contract.getEndTime()));
         }
         response.setContractInfoList(contractInfoNumList);
         return response;

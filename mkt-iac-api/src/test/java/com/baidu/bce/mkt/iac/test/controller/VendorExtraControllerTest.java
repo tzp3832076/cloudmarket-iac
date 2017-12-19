@@ -10,6 +10,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +72,8 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         }).when(contractAndDepositService).updateVendorDeposit(anyString(), any());
         ContractAndDepositSubmitRequest request = new ContractAndDepositSubmitRequest();
         List<ContractAndDepositSubmitRequest.Contract> contracts = new ArrayList<>();
-        contracts.add(new ContractAndDepositSubmitRequest.Contract("mum1", "test", true));
+        contracts.add(new ContractAndDepositSubmitRequest.Contract("mum1",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"), "test", true));
         request.setContractList(contracts);
         request.setDeposit(new BigDecimal(10000));
         mktIacClient.submitContractsAndDeposit("test", request);
@@ -81,7 +83,8 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     @CurrentUser(isServiceAccount = true)
     public void getVendorContracts() {
         List<VendorContract> contractList = new ArrayList<>();
-        contractList.add(new VendorContract("test", "test", "test"));
+        contractList.add(new VendorContract("test", "test", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
         VendorInfo vendorInfo = new VendorInfo();
         vendorInfo.setCompany("test");
@@ -94,7 +97,8 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorContractsAndDeposit() {
         List<VendorContract> contractList = new ArrayList<>();
-        contractList.add(new VendorContract("test", "test", "test"));
+        contractList.add(new VendorContract("test", "test", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
         VendorInfo vendorInfo = new VendorInfo();
         vendorInfo.setCompany("test");
@@ -141,8 +145,9 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
                 log.info("addContract success.");
                 return null;
             }
-        }).when(contractAndDepositService).addContract(anyString(), any());
-        mktIacClient.addVendorContract("vendor_1", "test");
+        }).when(contractAndDepositService).addContract(anyString(), any(), any(), any());
+        mktIacClient.addVendorContract("vendor_1", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
     }
 
 }

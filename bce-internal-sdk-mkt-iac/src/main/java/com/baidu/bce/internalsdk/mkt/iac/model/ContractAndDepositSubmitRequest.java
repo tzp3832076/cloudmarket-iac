@@ -5,6 +5,7 @@
 package com.baidu.bce.internalsdk.mkt.iac.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +32,8 @@ public class ContractAndDepositSubmitRequest {
     @AllArgsConstructor
     public static class Contract {
         private String number;
+        private Timestamp beginTime;
+        private Timestamp endTime;
         private String digest;
         private boolean delete;
     }

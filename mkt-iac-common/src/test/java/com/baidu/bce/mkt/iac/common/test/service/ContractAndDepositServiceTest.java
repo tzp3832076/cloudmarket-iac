@@ -7,6 +7,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +69,8 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
         String vendorId = "vendor_2";
         List<VendorContract> vendorContractList = contractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(vendorContractList.size(), 1);
-        vendorContractList.add(new VendorContract(vendorId, "test", "test"));
+        vendorContractList.add(new VendorContract(vendorId, "test", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         service.updateVendorContentList("vendor_1", vendorContractList);
         vendorContractList = contractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(vendorContractList.size(), 2);
@@ -78,23 +80,27 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     public void addContract() throws Exception {
         VendorContract contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNull(contract);
-        service.addContract(new VendorContract("test", "test", "test"));
+        service.addContract(new VendorContract("test", "test", "test",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNotNull(contract);
     }
 
     @Test
     public void testAddContract() throws Exception {
-        service.addContract("vendor_1", "test");
+        service.addContract("vendor_1", "test", Timestamp.valueOf("2017-02-20 00:00:00"),
+                Timestamp.valueOf("2017-02-20 00:00:00"));
         List<VendorContract> contracts = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(contracts);
         Assert.assertEquals(contracts.size(), 3);
-        service.addContract("vendor_1", "test2");
+        service.addContract("vendor_1", "test2",
+                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         contracts = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(contracts);
         Assert.assertEquals(contracts.size(), 4);
         try {
-            service.addContract("test", "test");
+            service.addContract("test", "test",
+                    Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
             Assert.fail();
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), MktIacExceptions.inValidVendorStatus().getMessage());
