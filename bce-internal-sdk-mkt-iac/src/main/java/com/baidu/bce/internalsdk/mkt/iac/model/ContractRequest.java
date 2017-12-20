@@ -5,6 +5,8 @@ package com.baidu.bce.internalsdk.mkt.iac.model;
 
 import java.sql.Timestamp;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.baidu.bce.internalsdk.core.BceConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,7 +25,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractRequest {
+    @NotBlank(message = "vendorId不能为空")
     private String vendorId;
+    @NotBlank(message = "合同号不能为空")
     private String contract;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
     private Timestamp beginTime;
