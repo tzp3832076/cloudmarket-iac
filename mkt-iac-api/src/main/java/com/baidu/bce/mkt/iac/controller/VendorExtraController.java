@@ -113,12 +113,13 @@ public class VendorExtraController {
     @ApiOperation(value = "添加协议号")
     @RequestMapping(value = "/contract", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "addContract")
-    @UnknownExceptionResponse(message = "获取协议号失败")
+    @UnknownExceptionResponse(message = "添加协议号失败")
     public void addContract(@RequestBody ContractRequest request) {
-        if (!request.getBeginTime().before(request.getEndTime())) {
+        if (!request.getContractBeginTime().before(request.getContractEndTime())) {
             log.info("contract time is illegal");
             throw MktIacExceptions.inValidContractTime();
         }
-        service.addContract(request.getVendorId(), request.getContract(), request.getBeginTime(), request.getEndTime());
+        service.addContract(request.getVendorId(), request.getContract(),
+                request.getContractBeginTime(), request.getContractEndTime());
     }
 }

@@ -30,7 +30,7 @@ public class ContractRequest {
     @NotBlank(message = "合同号不能为空")
     private String contract;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
-    private Timestamp beginTime;
+    private Timestamp contractBeginTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
-    private Timestamp endTime;
+    private Timestamp contractEndTime;
 }

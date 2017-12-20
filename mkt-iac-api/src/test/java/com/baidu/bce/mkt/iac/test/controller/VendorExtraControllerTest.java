@@ -156,7 +156,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), MktIacExceptions.inValidContractTime().getMessage());
         }
-        request.setEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
+        request.setContractEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
     }
 
 }
