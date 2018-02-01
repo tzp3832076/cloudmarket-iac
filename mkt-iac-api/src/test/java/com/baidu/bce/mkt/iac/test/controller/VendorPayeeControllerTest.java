@@ -1,20 +1,17 @@
 /*
  * Copyright 2017 Baidu Inc. All rights reserved.
  */
-package com.baidu.bce.mkt.iac.controller;
+package com.baidu.bce.mkt.iac.test.controller;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeSyncRequest;
 import com.baidu.bce.mkt.iac.common.model.db.VendorPayee;
-import com.baidu.bce.mkt.iac.common.service.VendorPayeeService;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isNotNull;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,8 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class VendorPayeeControllerTest extends ApiMockMvcTest {
 
-    @MockBean
-    private VendorPayeeService vendorPayeeService;
 
     @Test
     public void testSyncVendorPayeeInfo() {
