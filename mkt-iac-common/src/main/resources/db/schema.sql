@@ -130,3 +130,19 @@ CREATE TABLE mkt_vendor_contract (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '服务商协议号表';
 
 
+CREATE TABLE mkt_vendor_payee (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
+    vendor_id VARCHAR(36) NOT NULL COMMENT '服务商云市场ID',
+    company_location_province VARCHAR(64) NOT NULL COMMENT '服务商公司所在省份',
+    company_location_city VARCHAR(64) NOT NULL COMMENT '服务商公司所在城市',
+    bank_name VARCHAR(64) NOT NULL COMMENT '开户行名称',
+    branch_bank_name VARCHAR(64) NOT NULL COMMENT '开户支行名称',
+    bank_card_number VARCHAR(30) NOT NULL COMMENT '银行卡号',
+    bank_location_province VARCHAR(64) NOT NULL COMMENT '开户行所在省份',
+    bank_location_city VARCHAR(64) NOT NULL COMMENT '开户行所在城市',
+    valid TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否有效标记位',
+    create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+    update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_mkt_vendor_payee_vendor_id (vendor_id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '服务商收款人信息';

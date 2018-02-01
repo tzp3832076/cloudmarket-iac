@@ -21,6 +21,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeSyncRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
@@ -253,5 +254,22 @@ public class MktIacClient extends BaseClient {
                 .path(vendorId)
                 .path("/phoneAndEmail")
                 .get(VendorPhoneAndEmailResponse.class);
+    }
+
+    public void syncVendorPayee(VendorPayeeSyncRequest request) {
+        createAuthorizedRequest()
+                .path("/v1/vendor/")
+                .path("payee")
+                .keyOnlyQueryParam("sync")
+                .post(Entity.json(request));
+    }
+
+    public void doInvalidVendorPayee(String vendorId) {
+        createAuthorizedRequest()
+                .path("/v1/vendor/")
+                .path("payee/")
+                .path(vendorId)
+                .keyOnlyQueryParam("invalid")
+                .post();
     }
 }

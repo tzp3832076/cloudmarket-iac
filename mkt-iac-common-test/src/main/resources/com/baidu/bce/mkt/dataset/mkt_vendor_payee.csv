@@ -1,0 +1,4 @@
+vendor_id, company_location_province, company_location_city, bank_name, branch_bank_name, bank_card_number, bank_location_province, bank_location_city, valid, create_time, update_time
+vendor1, company_location_province, company_location_city, bank_name, branch_bank_name, bank_card_number,bank_location_province, bank_location_city, 1, 2018-01-31 00:00:05, 2018-01-31 00:00:06
+vendor2, company_location_province, company_location_city, bank_name, branch_bank_name, bank_card_number,bank_location_province, bank_location_city, 0, 2018-01-31 00:00:05, 2018-01-31 00:00:06
+vendor3, company_location_province, company_location_city, bank_name, branch_bank_name, bank_card_number,bank_location_province, bank_location_city, 1, 2018-01-31 00:00:05, 2018-01-31 00:00:06

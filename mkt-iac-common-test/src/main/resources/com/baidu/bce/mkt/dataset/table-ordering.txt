@@ -3,6 +3,7 @@ mkt_permission
 mkt_role
 mkt_role_permission
 mkt_vendor_info
+mkt_vendor_payee
 mkt_vendor_shop_draft
 mkt_vendor_deposit
 mkt_vendor_contract
