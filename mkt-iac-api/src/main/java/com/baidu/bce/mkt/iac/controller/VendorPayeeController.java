@@ -50,7 +50,7 @@ public class VendorPayeeController {
 
     @RequestMapping(value = "/{vendorId}", method = RequestMethod.GET)
     @UnknownExceptionResponse(message = "获取收款人信息失败")
-    public VendorPayeeResponse getPayee(@PathVariable String vendorId){
+    public VendorPayeeResponse getPayee(@PathVariable String vendorId) {
 
         VendorPayee vendorPayee = vendorPayeeService.getVendorPayee(vendorId);
 
@@ -60,6 +60,5 @@ public class VendorPayeeController {
 
         return null;
     }
-
 
 }
