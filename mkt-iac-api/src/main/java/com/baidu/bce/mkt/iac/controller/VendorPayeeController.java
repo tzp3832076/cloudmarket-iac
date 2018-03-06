@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeSyncRequest;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.iac.common.model.db.VendorPayee;
@@ -40,12 +41,25 @@ public class VendorPayeeController {
         vendorPayeeService.syncPayeeInfoToDb(vendorPayee);
     }
 
-
     @RequestMapping(value = "/{vendorId}", method = RequestMethod.POST, params = {"invalid"})
     @ApiOperation(value = "服务商重新提交审核是调用，将收款人信息置为不可用")
     @UnknownExceptionResponse(message = "服务商收款人信息同步失败")
     public void doInvalid(@PathVariable("vendorId") String vendorId) {
         vendorPayeeService.doInvalid(vendorId);
     }
+
+    @RequestMapping(value = "/{vendorId}", method = RequestMethod.GET)
+    @UnknownExceptionResponse(message = "获取收款人信息失败")
+    public VendorPayeeResponse getPayee(@PathVariable String vendorId){
+
+        VendorPayee vendorPayee = vendorPayeeService.getVendorPayee(vendorId);
+
+        if (vendorPayee != null) {
+            return controllerHelper.toVendorPayeeResponse(vendorPayee);
+        }
+
+        return null;
+    }
+
 
 }

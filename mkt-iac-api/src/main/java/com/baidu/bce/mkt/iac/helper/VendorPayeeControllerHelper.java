@@ -3,6 +3,7 @@
  */
 package com.baidu.bce.mkt.iac.helper;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeSyncRequest;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.db.VendorPayee;
@@ -26,5 +27,19 @@ public class VendorPayeeControllerHelper {
         vendorPayee.setBankLocationProvince(request.getBankLocation().getProvince());
         vendorPayee.setValid(true);
         return vendorPayee;
+    }
+
+    public VendorPayeeResponse toVendorPayeeResponse(VendorPayee vendorPayee) {
+        VendorPayeeResponse response = new VendorPayeeResponse();
+        response.setBankCardNumber(vendorPayee.getBankCardNumber());
+        response.setBankLocationCity(vendorPayee.getBankLocationCity());
+        response.setBankLocationProvince(vendorPayee.getBankLocationProvince());
+        response.setBankName(vendorPayee.getBankName());
+        response.setBranchBankName(vendorPayee.getBranchBankName());
+        response.setCompanyLocationCity(vendorPayee.getCompanyLocationCity());
+        response.setCompanyLocationProvince(vendorPayee.getCompanyLocationProvince());
+        response.setVendorId(vendorPayee.getVendorId());
+        response.setValid(vendorPayee.isValid());
+        return response;
     }
 }
