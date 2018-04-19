@@ -41,6 +41,7 @@ public class NoticeHelper {
                                                        application.getServiceCategory(),
                                                        application.getHotline(),
                                                        application.getMarket(),
-                                                       application.getContactInfo());
+                                                       application.getContactInfo(),
+                                                       application.getBusiness());
     }
 }

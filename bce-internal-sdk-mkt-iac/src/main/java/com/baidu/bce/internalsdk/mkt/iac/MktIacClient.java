@@ -20,6 +20,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponseV2;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorPayeeSyncRequest;
@@ -172,6 +173,17 @@ public class MktIacClient extends BaseClient {
         RequestUtils.safeAddQueryParam(request, "companyName", company);
         RequestUtils.safeAddQueryParam(request, "bceUserId", bceUserId);
         return request.get(VendorListResponse.class);
+    }
+
+    public VendorListResponseV2 getVendorListV2(String company, String bceUserId, String business, int pageNo,
+                                                int pageSize) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/vendor").path("/api_vendor_list")
+                                             .queryParam("pageNo", pageNo)
+                                             .queryParam("pageSize", pageSize);
+        RequestUtils.safeAddQueryParam(request, "business", business);
+        RequestUtils.safeAddQueryParam(request, "companyName", company);
+        RequestUtils.safeAddQueryParam(request, "bceUserId", bceUserId);
+        return request.get(VendorListResponseV2.class);
     }
 
     public VendorListResponse getSearchVendor(String company) {

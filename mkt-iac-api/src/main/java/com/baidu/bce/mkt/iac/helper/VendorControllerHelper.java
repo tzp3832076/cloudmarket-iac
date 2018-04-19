@@ -27,6 +27,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponseV2;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorSearchMapResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
@@ -249,6 +250,27 @@ public class VendorControllerHelper {
         }
         vendorListResponse.setVendorBaseInfoList(vendorBaseInfoList);
         return vendorListResponse;
+    }
+
+    public VendorListResponseV2 toVendorListResponseV2(VendorListModel listModel) {
+        VendorListResponseV2 vendorListResponseV2 = new VendorListResponseV2();
+
+        if (listModel == null || CollectionUtils.isEmpty(listModel.getVendorInfoList())) {
+            vendorListResponseV2.setTotalCount(0);
+            vendorListResponseV2.setVendorBaseInfoList(new ArrayList<>());
+            return vendorListResponseV2;
+        }
+
+        vendorListResponseV2.setTotalCount(listModel.getTotalCount());
+        List<VendorListResponseV2.VendorBaseInfo> vendorBaseInfoList = new ArrayList<>();
+        for (VendorInfo vendorInfo : listModel.getVendorInfoList()) {
+            vendorBaseInfoList.add(new VendorListResponseV2.VendorBaseInfo(
+                                                                                vendorInfo.getCompany(), vendorInfo.getBceUserId(),
+                                                                                vendorInfo.getBusiness(), vendorInfo.getVendorId(),
+                                                                                vendorInfo.getCreateTime()));
+        }
+        vendorListResponseV2.setVendorBaseInfoList(vendorBaseInfoList);
+        return vendorListResponseV2;
     }
 
     public VendorSearchMapResponse toVendorSearchMapResponse(List<VendorInfo> vendorInfos) {

@@ -241,7 +241,12 @@ public class VendorService {
 
     public VendorListModel getVendorList(String bceUserId, String companyName,
                                          int start, int limit, VendorStatus vendorStatus) {
-        VendorListFilter filter = new VendorListFilter(bceUserId, companyName, vendorStatus);
+        return getVendorListV2(bceUserId, companyName, start, limit, null, vendorStatus);
+    }
+
+    public VendorListModel getVendorListV2(String bceUserId, String companyName,
+                                         int start, int limit, String business, VendorStatus vendorStatus) {
+        VendorListFilter filter = new VendorListFilter(bceUserId, companyName, business, vendorStatus);
         int totalCount = vendorInfoMapper.getVendorCount(filter);
         VendorListModel vendorListModel = new VendorListModel();
         if (totalCount > 0) {

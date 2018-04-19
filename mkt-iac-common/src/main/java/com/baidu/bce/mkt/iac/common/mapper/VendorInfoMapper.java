@@ -23,7 +23,8 @@ public interface VendorInfoMapper {
     String TABLE = "mkt_vendor_info";
     String INSERT_COLUMNS = " vendor_id, bce_user_id, status, company, website, "
                                     + "capital, address, telephone, service_category, hotline, "
-                                    + "other_market, contact_info, wallet_id, headcount, email, service_illustration,"
+                                    + "other_market, contact_info, wallet_id, headcount, email, "
+                                    + "business, service_illustration, "
                                     + "create_time ";
     String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time, agreement_status ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
@@ -36,6 +37,9 @@ public interface VendorInfoMapper {
                                         + " #end "
                                         + " #if ($_parameter.filter.companyName)"
                                         + " AND company like @{filter.companyName} "
+                                        + " #end "
+                                        + " #if ($_parameter.filter.business)"
+                                        + " AND business = @{filter.business} "
                                         + " #end "
                                         + " #if ($_parameter.filter.status)"
                                         + " AND status = @{filter.status} "
@@ -58,6 +62,7 @@ public interface VendorInfoMapper {
                     + " @{walletId},"
                     + " @{headcount},"
                     + " @{email},"
+                    + " @{business},"
                     + " @{serviceIllustration},"
                     + " NOW() "
                     + " )")

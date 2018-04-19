@@ -23,6 +23,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponseV2;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorOverviewResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorShopResponse;
@@ -180,6 +181,25 @@ public class VendorController {
         VendorListModel vendorListModel = vendorService.getVendorList(bceUserId, companyName,
                 start, limit, VendorStatus.HOSTED);
         return helper.toVendorListResponse(vendorListModel);
+    }
+
+    @ApiOperation(value = "osp上服务商apistore服务商信息获取接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/api_vendor_list")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read")
+    @UnknownExceptionResponse(message = "服务商list页面获取失败")
+    public VendorListResponseV2 getVendorListV2(@RequestParam(value = "companyName", required = false)
+                                             String companyName,
+                                                @RequestParam(value = "business", required = false)
+                                             String business,
+                                                @RequestParam(value = "bceUserId", required = false)
+                                             String bceUserId,
+                                                @Min(1) @RequestParam int pageNo,
+                                                @Min(1) @RequestParam int pageSize) {
+        int start = (pageNo - 1) * pageSize;
+        int limit = pageSize;
+        VendorListModel vendorListModel = vendorService.getVendorListV2(bceUserId, companyName,
+                start, limit, business, VendorStatus.HOSTED);
+        return helper.toVendorListResponseV2(vendorListModel);
     }
 
     @ApiOperation(value = "oss上获取服务商信息获取接口")

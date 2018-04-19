@@ -17,6 +17,7 @@ import lombok.Data;
 public class VendorListFilter {
     private String bceUserId;
     private String companyName;
+    private String business;
     private VendorStatus status;
 
     public VendorListFilter(String bceUserId, String companyName, VendorStatus status) {
@@ -27,5 +28,10 @@ public class VendorListFilter {
             this.companyName = "%" + companyName + "%";
         }
         this.status = status;
+    }
+
+    public VendorListFilter(String bceUserId, String companyName, String business, VendorStatus status) {
+        this(bceUserId, companyName, status);
+        this.business = business;
     }
 }

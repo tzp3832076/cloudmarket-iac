@@ -29,7 +29,7 @@
 
     <properties>
         <mkt-iac-version>version</mkt-iac-version>
-        <bce-internal-sdk-mkt-audit>1.0.81.1</bce-internal-sdk-mkt-audit>
+        <bce-internal-sdk-mkt-audit>1.0.130.1</bce-internal-sdk-mkt-audit>
         <bce-internal-sdk-qualify>1.0.1.1</bce-internal-sdk-qualify>
         <bce-internal-sdk-mkt-version>1.0-649</bce-internal-sdk-mkt-version>
         <bce-internal-sdk-mkt-version>1.0-1240</bce-internal-sdk-mkt-version>

@@ -21,6 +21,7 @@ public class VendorInfo {
     private String vendorId;
     private String bceUserId;
     private VendorStatus status;
+    private String business;
     private String company;
     private String website;
     private int capital;
@@ -37,7 +38,6 @@ public class VendorInfo {
     private Timestamp createTime;
     private Timestamp updateTime;
     private ProcessStatus agreementStatus;
-
 
     public VendorInfo(String vendorId, String bceUserId, VendorStatus status, String company,
                       String website, int capital, int headcount, String address, String telephone, String email,
@@ -59,5 +59,15 @@ public class VendorInfo {
         this.otherMarket = otherMarket;
         this.contactInfo = contactInfo;
         this.walletId = "";
+        this.business = "EMPTY";
+    }
+
+    public VendorInfo(String vendorId, String bceUserId, VendorStatus status, String company,
+                      String website, int capital, int headcount, String address, String telephone, String email,
+                      String serviceIllustration, String serviceCategory,
+                      String hotline, String otherMarket, String contactInfo, String business) {
+        this(vendorId, bceUserId, status, company, website, capital, headcount, address, telephone, email,
+                serviceIllustration, serviceCategory, hotline, otherMarket, contactInfo);
+        this.business = business;
     }
 }

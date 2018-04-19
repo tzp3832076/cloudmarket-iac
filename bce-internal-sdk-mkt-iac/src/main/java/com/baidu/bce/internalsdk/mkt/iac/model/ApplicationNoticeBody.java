@@ -33,5 +33,6 @@ public class ApplicationNoticeBody {
     private String hotline;
     private String market;
     private String auditId;
+    private String business;
     private String vendorId;
 }
