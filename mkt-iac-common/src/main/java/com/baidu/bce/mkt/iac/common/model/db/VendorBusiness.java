@@ -16,7 +16,7 @@ public enum VendorBusiness {
     OP("运维管理"),
     API("API"),
     Other("其它"),
-    EMPTY("未定义");
+    Undefined("未定义");
 
     @Getter
     private String vendorBusinessDes;

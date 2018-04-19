@@ -38,7 +38,7 @@ ADD email VARCHAR(64) NOT NULL DEFAULT '' COMMENT '联系人邮箱' after contac
 ADD service_illustration VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '服务说明' after email;
 
 
-ALTER TABLE mkt_vendor_info ADD COLUMN business VARCHAR(32) NOT NULL DEFAULT 'EMPTY' COMMENT '涉及领域';
+ALTER TABLE mkt_vendor_info ADD COLUMN business VARCHAR(32) NOT NULL DEFAULT 'Undefined' COMMENT '涉及领域';
 
 INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('OP', 'application', 'export', 'ALLOW', NOW()),
