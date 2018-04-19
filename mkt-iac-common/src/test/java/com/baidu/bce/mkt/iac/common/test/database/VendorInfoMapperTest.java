@@ -117,13 +117,13 @@ public class VendorInfoMapperTest extends BaseMapperTest {
 
     @Test
     public void getVendorList2() {
-        VendorListFilter filter = new VendorListFilter(null, null, "BigData", VendorStatus.PROCESSING);
+        VendorListFilter filter = new VendorListFilter(null, null, "BIG_DATA", VendorStatus.PROCESSING);
         List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
         Assert.assertEquals(1, vendorInfos.size());
-        filter = new VendorListFilter(null, null, "BigData", VendorStatus.FROZEN);
+        filter = new VendorListFilter(null, null, "BIG_DATA", VendorStatus.FROZEN);
         vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
         Assert.assertEquals(0, vendorInfos.size());
-        filter = new VendorListFilter(null, "_2", "BigData", null);
+        filter = new VendorListFilter(null, "_2", "BIG_DATA", null);
         vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
         Assert.assertEquals(0, vendorInfos.size());
         filter = new VendorListFilter("bce_user_1", null, "API", null);
@@ -149,10 +149,10 @@ public class VendorInfoMapperTest extends BaseMapperTest {
 
     @Test
     public void getVendorCount2() {
-        VendorListFilter filter = new VendorListFilter(null, null, "BigData", VendorStatus.FROZEN);
+        VendorListFilter filter = new VendorListFilter(null, null, "BIG_DATA", VendorStatus.FROZEN);
         int res = vendorInfoMapper.getVendorCount(filter);
         Assert.assertEquals(0, res);
-        filter = new VendorListFilter(null, null, "BigData", VendorStatus.PROCESSING);
+        filter = new VendorListFilter(null, null, "BIG_DATA", VendorStatus.PROCESSING);
         res = vendorInfoMapper.getVendorCount(filter);
         Assert.assertEquals(1, res);
         filter = new VendorListFilter(null, "_2", "API", null);
