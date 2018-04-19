@@ -142,11 +142,11 @@ public class VendorServiceTest extends BaseCommonServiceTest {
 
     @Test
     public void getVendorListV2Test() {
-        VendorListModel vendorInfos = vendorService.getVendorListV2("", "", 0, 0, "BigData", null);
+        VendorListModel vendorInfos = vendorService.getVendorListV2("", "", 0, 0, "BIG_DATA", null);
         Assert.assertNotNull(vendorInfos.getVendorInfoList());
         Assert.assertFalse(vendorInfos.getVendorInfoList().isEmpty());
         log.info("getAllSearchVendor {}", vendorInfos);
-        vendorInfos = vendorService.getVendorListV2("", "", 0, 100, "BigData", null);
+        vendorInfos = vendorService.getVendorListV2("", "", 0, 100, "BIG_DATA", null);
         Assert.assertEquals(1, vendorInfos.getTotalCount());
     }
 

@@ -41,7 +41,7 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         VendorInfo vendorInfo = new VendorInfo("test", "test", VendorStatus.FROZEN,
                                                       "test", "website", 1000, 100, "address",
                                                       "tel", "test@baidu.com", "test", "test-test",
-                                                      "hotline", "othermarket", "contact_info", "BigData");
+                                                      "hotline", "othermarket", "contact_info", "BIG_DATA");
         int res = vendorInfoMapper.add(vendorInfo);
         VendorInfo vendorInfo1 = vendorInfoMapper.getVendorInfoByVendorId("test");
         Assert.assertEquals(vendorInfo.getCompany(), vendorInfo1.getCompany());

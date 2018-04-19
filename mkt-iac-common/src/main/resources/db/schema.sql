@@ -68,7 +68,7 @@ CREATE TABLE mkt_vendor_info (
     other_market VARCHAR(256) NOT NULL COMMENT '已加入提前的云市场',
     contact_info VARCHAR(512) NOT NULL COMMENT '服务商联系人信息 json',
     email VARCHAR(64) NOT NULL DEFAULT '' COMMENT '联系人邮箱',
-    business VARCHAR(32) NOT NULL DEFAULT 'Undefined' COMMENT '涉及领域',
+    business VARCHAR(32) NOT NULL DEFAULT 'UNDEFINED' COMMENT '涉及领域',
     service_illustration VARCHAR(1024) NOT NULL DEFAULT '' COMMENT '服务说明',
     wallet_id VARCHAR(64) NOT NULL COMMENT '百度钱包ID',
     agreement_status VARCHAR(32) NOT NULL DEFAULT 'TODO' COMMENT '电子协议签署状态 TODO|DONE',

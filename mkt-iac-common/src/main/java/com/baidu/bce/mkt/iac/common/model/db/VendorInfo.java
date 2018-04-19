@@ -59,7 +59,7 @@ public class VendorInfo {
         this.otherMarket = otherMarket;
         this.contactInfo = contactInfo;
         this.walletId = "";
-        this.business = "EMPTY";
+        this.business = "UNDEFINED";
     }
 
     public VendorInfo(String vendorId, String bceUserId, VendorStatus status, String company,
