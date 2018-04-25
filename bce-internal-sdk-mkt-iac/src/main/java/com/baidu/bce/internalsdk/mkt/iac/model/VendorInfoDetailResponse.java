@@ -33,6 +33,7 @@ public class VendorInfoDetailResponse {
         private String bizContactEmail;
         private int companyCapital;
         private String emerContact;
+        private String business;
         private String companyEmail;
         private String emerContactPhone;
         private String companySite;

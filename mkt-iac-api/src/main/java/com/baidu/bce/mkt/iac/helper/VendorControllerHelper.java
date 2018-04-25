@@ -116,6 +116,7 @@ public class VendorControllerHelper {
             response.setData(detail);
             return response;
         }
+        detail.setBusiness(vendorInfo.getBusiness());
         detail.setCompanyName(vendorInfo.getCompany());
         detail.setCompanyCapital(vendorInfo.getCapital());
         detail.setServiceHotline(vendorInfo.getHotline());
