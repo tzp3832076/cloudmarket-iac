@@ -116,7 +116,11 @@ public class VendorControllerHelper {
             response.setData(detail);
             return response;
         }
-        detail.setBusiness(vendorInfo.getBusiness());
+        if(!vendorInfo.getBusiness().equals("UNDEFINED")) {
+            detail.setBusiness(vendorInfo.getBusiness());
+        } else {
+            detail.setBusiness("");
+        }
         detail.setCompanyName(vendorInfo.getCompany());
         detail.setCompanyCapital(vendorInfo.getCapital());
         detail.setServiceHotline(vendorInfo.getHotline());
