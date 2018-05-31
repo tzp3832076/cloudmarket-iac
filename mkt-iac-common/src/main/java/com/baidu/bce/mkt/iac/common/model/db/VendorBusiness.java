@@ -15,6 +15,8 @@ public enum VendorBusiness {
     SAAS("SaaS服务"),
     OP("运维管理"),
     API("API"),
+    AI("AI"),
+    BLOCK_CHAIN("区块链"),
     OTHER("其它"),
     UNDEFINED("未定义");
 
