@@ -18,6 +18,9 @@ public class VendorPayeeResponse {
     // 服务商id
     private String vendorId;
 
+    // 公司名称
+    private String companyName;
+
     // 服务商公司所在省份
     private String companyLocationProvince;
 
@@ -38,6 +41,9 @@ public class VendorPayeeResponse {
 
     // 开户行所在城市
     private String bankLocationCity;
+
+    // 纳税标示
+    private String taxFlag;
 
     // 有效标记位
     private boolean valid;

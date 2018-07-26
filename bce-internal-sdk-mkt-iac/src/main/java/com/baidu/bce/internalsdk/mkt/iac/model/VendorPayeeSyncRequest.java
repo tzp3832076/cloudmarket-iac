@@ -22,6 +22,7 @@ public class VendorPayeeSyncRequest {
     private String branchBankName;
     private String bankCardNumber;
     private Location bankLocation;
+    private String taxFlag;
 
     @Data
     public static class Location {
@@ -38,3 +39,5 @@ public class VendorPayeeSyncRequest {
         }
     }
 }
+
+

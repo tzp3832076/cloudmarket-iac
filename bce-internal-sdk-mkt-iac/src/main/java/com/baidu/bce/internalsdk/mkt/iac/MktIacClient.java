@@ -293,4 +293,16 @@ public class MktIacClient extends BaseClient {
                 .path(vendorId)
                 .get(VendorPayeeResponse.class);
     }
+
+    public void updateVendorTaxFlag(String vendorId, String taxFlag) {
+
+        VendorPayeeSyncRequest request = new VendorPayeeSyncRequest();
+        request.setVendorId(vendorId);
+        request.setTaxFlag(taxFlag);
+        createAuthorizedRequest()
+                .path("/v1/vendor/")
+                .path("payee/")
+                .keyOnlyQueryParam("taxFlag")
+                .put(Entity.json(request));
+    }
 }

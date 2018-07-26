@@ -25,6 +25,7 @@ public class VendorPayeeControllerHelper {
         vendorPayee.setCompanyLocationProvince(request.getCompanyLocation().getProvince());
         vendorPayee.setBankLocationCity(request.getBankLocation().getCity());
         vendorPayee.setBankLocationProvince(request.getBankLocation().getProvince());
+        vendorPayee.setTaxFlag(request.getTaxFlag());
         vendorPayee.setValid(true);
         return vendorPayee;
     }
@@ -39,7 +40,9 @@ public class VendorPayeeControllerHelper {
         response.setCompanyLocationCity(vendorPayee.getCompanyLocationCity());
         response.setCompanyLocationProvince(vendorPayee.getCompanyLocationProvince());
         response.setVendorId(vendorPayee.getVendorId());
+        response.setTaxFlag(vendorPayee.getTaxFlag());
         response.setValid(vendorPayee.isValid());
+
         return response;
     }
 }

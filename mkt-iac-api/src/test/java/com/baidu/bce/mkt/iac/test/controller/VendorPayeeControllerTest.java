@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class VendorPayeeControllerTest extends ApiMockMvcTest {
 
-
     @Test
     public void testSyncVendorPayeeInfo() {
         String vendorId = "vendorID";
@@ -63,14 +62,27 @@ public class VendorPayeeControllerTest extends ApiMockMvcTest {
 
     @Test
     public void testDoInvalid() {
-        String vendorId= "HAHAHAHA";
+        String vendorId = "HAHAHAHA";
         doAnswer(invocationOnMock -> {
             Assert.assertEquals(vendorId, invocationOnMock.getArguments()[0]);
-            return (Void)null;
+            return (Void) null;
         }).when(vendorPayeeService).doInvalid(anyString());
         mktIacClient.doInvalidVendorPayee(vendorId);
         verify(vendorPayeeService, times(1)).doInvalid(any());
 
+    }
+
+    @Test
+    public void testUpdateTaxFalg() {
+        String vendorId = "HAHAHAHA";
+        String taxFalg = "bbbb";
+        doAnswer(invocationOnMock -> {
+            Assert.assertEquals(vendorId, invocationOnMock.getArguments()[0]);
+            Assert.assertEquals(taxFalg, invocationOnMock.getArguments()[1]);
+            return (Void) null;
+        }).when(vendorPayeeService).doInvalid(anyString());
+        mktIacClient.updateVendorTaxFlag(vendorId, taxFalg);
+        verify(vendorPayeeService, times(1)).updateTaxFlag(anyString(), any());
     }
 
 }

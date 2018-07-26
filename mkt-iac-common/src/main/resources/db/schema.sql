@@ -141,6 +141,7 @@ CREATE TABLE mkt_vendor_payee (
     bank_card_number VARCHAR(30) NOT NULL COMMENT '银行卡号',
     bank_location_province VARCHAR(64) NOT NULL COMMENT '开户行所在省份',
     bank_location_city VARCHAR(64) NOT NULL COMMENT '开户行所在城市',
+    tax_flag VARCHAR(40) NOT NULL DEFAULT 'SPECIAL' COMMENT '发票类型',
     valid TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否有效标记位',
     create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
     update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

@@ -44,8 +44,15 @@ public class VendorPayeeService {
     }
 
 
+    public void updateTaxFlag(String taxFlag, String vendorId) {
+        vendorPayeeMapper.updateTaxFlag(taxFlag, vendorId);
+    }
+
 
     public VendorPayee getVendorPayee(String vendorId) {
         return vendorPayeeMapper.getVendorPayee(vendorId);
     }
+
+
+
 }

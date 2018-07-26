@@ -40,6 +40,9 @@ public class VendorPayee {
     // 有效标记位
     private boolean valid;
 
+    // 纳税标识
+    private String taxFlag;
+
     private Timestamp createTime;
 
     private Timestamp updateTime;

@@ -22,7 +22,7 @@ public interface VendorPayeeMapper {
             " vendor_id, company_location_province, company_location_city, bank_name, branch_bank_name, "
                     + "bank_card_number, bank_location_province, bank_location_city, valid, create_time";
 
-    String SELECT_COLUMNS = INSERT_COLUMNS + ", update_time";
+    String SELECT_COLUMNS = INSERT_COLUMNS + ", tax_flag, update_time";
 
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
 
@@ -56,6 +56,10 @@ public interface VendorPayeeMapper {
     @Update(UPDATE_SQL_PREFIX
             + " SET valid = @{valid} WHERE vendor_id = @{vendorId}")
     int updateValidFlag(@Param("valid") boolean valid, @Param("vendorId") String vendorId);
+
+    @Update(UPDATE_SQL_PREFIX
+            + " SET tax_flag =  @{taxFlag} WHERE vendor_id = @{vendorId}")
+    int updateTaxFlag(@Param("taxFlag") String taxFlag, @Param("vendorId") String  vendorId);
 
     @Update(UPDATE_SQL_PREFIX
             + " SET "

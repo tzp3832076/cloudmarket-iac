@@ -11,7 +11,6 @@ import com.baidu.bae.commons.test.InitDatabase;
 import com.baidu.bce.mkt.iac.common.mapper.VendorPayeeMapper;
 import com.baidu.bce.mkt.iac.common.test.utils.getPayeePrototype
 import com.baidu.bce.mkt.iac.common.test.utils.objEquals
-import javax.validation.constraints.AssertFalse
 
 @InitDatabase(tables = ["mkt_vendor_payee"])
 class VendorPayeeMapperTest() : BaseMapperTest() {
@@ -57,5 +56,14 @@ class VendorPayeeMapperTest() : BaseMapperTest() {
         vendorPayee  = vendorPayeeMapper.getVendorPayee("vendor2")
         Assert.assertTrue(objEquals(prototype, vendorPayee, emptyList()))
 
+    }
+
+    @Test
+    fun testUpdateTaxFlag()  {
+        var vendorPayee = vendorPayeeMapper.getVendorPayee("vendor2")
+        Assert.assertEquals("SPECIAL", vendorPayee.taxFlag)
+        vendorPayeeMapper.updateTaxFlag("NORMAL",  "vendor2")
+        vendorPayee = vendorPayeeMapper.getVendorPayee("vendor2")
+        Assert.assertEquals("NORMAL",  vendorPayee.taxFlag)
     }
 }

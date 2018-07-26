@@ -43,11 +43,15 @@ ALTER TABLE mkt_vendor_info ADD COLUMN business VARCHAR(32) NOT NULL DEFAULT 'UN
 INSERT INTO mkt_role_permission (role, resource, operation, action, create_time) VALUES
 ('OP', 'application', 'export', 'ALLOW', NOW()),
 ('OP', 'application', 'readList', 'ALLOW', NOW()),
-('OP',''vendorContractAndDeposit','read','ALLOW','',NOW()),
+('OP','vendorContractAndDeposit','read','ALLOW','',NOW()),
 ('OP','vendorContractAndDeposit','getContractVendorIds','ALLOW','',NOW()),
 ('OP','vendorContractAndDeposit','addContract','ALLOW','',NOW());
 
-# 12-19 合同表增加合同的有效起始时间
+-- 12-19 合同表增加合同的有效起始时间
 ALTER TABLE mkt_vendor_contract
 ADD begin_time TIMESTAMP NOT NULL DEFAULT '1970-01-02 00:00:00' COMMENT '有效起始时间' AFTER contract_digest,
 ADD end_time TIMESTAMP NOT NULL DEFAULT '1970-01-02 00:00:00' COMMENT '有效结束时间' AFTER begin_time;
+
+-- 2018-07-26
+ALTER TABLE mkt_vendor_payee
+  ADD COLUMN  tax_flag VARCHAR(40) NOT NULL DEFAULT 'SPECIAL' COMMENT '纳税标识' AFTER bank_location_city;

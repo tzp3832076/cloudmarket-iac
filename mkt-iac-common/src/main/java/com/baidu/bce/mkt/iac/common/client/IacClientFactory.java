@@ -73,5 +73,6 @@ public class IacClientFactory implements InitializingBean {
                                                          configProperties.getMktServiceSk());
         mktClient = new MktClient(configProperties.getMktServiceAk(),
                                          configProperties.getMktServiceSk(), MktRequestSource.api);
+
     }
 }

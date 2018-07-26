@@ -41,8 +41,16 @@ public class VendorPayeeController {
         vendorPayeeService.syncPayeeInfoToDb(vendorPayee);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, params = {"taxFlag"})
+    @ApiOperation(value = "服务商发票类型信息同")
+    @UnknownExceptionResponse(message = "服务商收款人信息同步失败")
+    public void syncVendorTaxFlag(@RequestBody VendorPayeeSyncRequest request) {
+        vendorPayeeService.updateTaxFlag(request.getTaxFlag(), request.getVendorId());
+    }
+
+
     @RequestMapping(value = "/{vendorId}", method = RequestMethod.POST, params = {"invalid"})
-    @ApiOperation(value = "服务商重新提交审核是调用，将收款人信息置为不可用")
+    @ApiOperation(value = "服务商重新提交审核时调用，将收款人信息置为不可用")
     @UnknownExceptionResponse(message = "服务商收款人信息同步失败")
     public void doInvalid(@PathVariable("vendorId") String vendorId) {
         vendorPayeeService.doInvalid(vendorId);

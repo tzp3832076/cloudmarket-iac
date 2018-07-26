@@ -22,6 +22,7 @@ fun getPayeePrototype(): VendorPayee {
     vendorPayee.isValid = true
     vendorPayee.companyLocationProvince = "gz"
     vendorPayee.companyLocationCity = "sz"
+    vendorPayee.taxFlag = "SPECIAL"
     return vendorPayee
 }
 
