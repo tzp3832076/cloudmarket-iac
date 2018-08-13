@@ -65,6 +65,10 @@ public class VendorControllerHelper {
     private CategoryHandler categoryHandler;
 
     public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
+        // 取消百度钱包后兼容旧代码
+        if(StringUtils.isBlank(request.getBaiduWalletAccount())) {
+            request.setBaiduWalletAccount("EMPTY");
+        }
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setBaiduQiaos(request.getBaiduQiaos());
         shopDraft.setCompanyDescription(request.getCompanyDescription());
