@@ -67,12 +67,6 @@ public class VendorControllerHelper {
     public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setBaiduQiaos(request.getBaiduQiaos());
-        // 取消百度钱包后兼容旧代码
-        if (StringUtils.isBlank(request.getBaiduWalletAccount())) {
-            shopDraft.setBaiduWalletAccount("EMPTY");
-        } else {
-            shopDraft.setBaiduWalletAccount(request.getBaiduWalletAccount());
-        }
         shopDraft.setCompanyDescription(request.getCompanyDescription());
         shopDraft.setServiceAvailTime(request.getServiceAvailTime());
         shopDraft.setServiceEmail(request.getServiceEmail());
@@ -307,6 +301,10 @@ public class VendorControllerHelper {
     }
 
     private Map<String, String> getEmptyFieldMap(ShopDraftSaveRequest request) {
+        // 取消百度钱包后兼容旧代码
+        if (StringUtils.isBlank(request.getBaiduWalletAccount())) {
+            request.setBaiduWalletAccount("EMPTY");
+        }
         Map<String, String> fieldMap = new HashMap<>();
         Field[] fields = request.getClass().getDeclaredFields(); // 获取属性名称数组
         for (int i = 0; i < fields.length; i++) {
