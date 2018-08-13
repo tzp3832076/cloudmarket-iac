@@ -67,7 +67,12 @@ public class VendorControllerHelper {
     public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
         shopDraft.setBaiduQiaos(request.getBaiduQiaos());
-        shopDraft.setBaiduWalletAccount(request.getBaiduWalletAccount());
+        // 取消百度钱包后兼容旧代码
+        if (StringUtils.isBlank(request.getBaiduWalletAccount())) {
+            shopDraft.setBaiduWalletAccount("EMPTY");
+        } else {
+            shopDraft.setBaiduWalletAccount(request.getBaiduWalletAccount());
+        }
         shopDraft.setCompanyDescription(request.getCompanyDescription());
         shopDraft.setServiceAvailTime(request.getServiceAvailTime());
         shopDraft.setServiceEmail(request.getServiceEmail());
@@ -326,7 +331,7 @@ public class VendorControllerHelper {
                     fieldMap.put("baiduQiaos", IacConstants.INFO_EMPTY);
                 }
                 if (!support.getLink().startsWith(IacConstants.SUPPORT_URL_PRE)) {
-                    fieldMap.put("baiduQiaos", "客服信息需要为夜莺平台：" + IacConstants.SUPPORT_URL_PRE);
+                    fieldMap.put("baiduQiaos", "客服信息需要为商桥平台：" + IacConstants.SUPPORT_URL_PRE);
                 }
             }
         }
