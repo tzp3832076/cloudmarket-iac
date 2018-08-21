@@ -18,8 +18,7 @@ import net.sf.cglib.core.ReflectUtils;
 @Slf4j
 public class MBeanUtils {
 
-
-    public static <T>void applyProperties(T prototype, T modifies, Class<T> type) {
+    public static <T> void applyProperties(T prototype, T modifies, Class<T> type) {
         PropertyDescriptor[] getters = ReflectUtils.getBeanGetters(type);
         PropertyDescriptor[] setters = ReflectUtils.getBeanSetters(type);
         Map<String, PropertyDescriptor> setterMap = new HashMap<>();
@@ -32,15 +31,13 @@ public class MBeanUtils {
                 if (propertyVal != null && setterMap.containsKey(getter.getName())) {
                     setterMap.get(getter.getName()).getWriteMethod().invoke(prototype, propertyVal);
                 }
-            } catch (Exception e)  {
-                log.error("{}",e);
+            } catch (Exception e) {
+                log.error("{}", e);
                 throw new BceException("更新失败");
             }
 
         }
     }
-
-
 
     public static void applyProperties(Object target, Object source) {
         PropertyDescriptor[] getters = ReflectUtils.getBeanGetters(source.getClass());
@@ -55,13 +52,11 @@ public class MBeanUtils {
                 if (propertyVal != null && setterMap.containsKey(getter.getName())) {
                     setterMap.get(getter.getName()).getWriteMethod().invoke(target, propertyVal);
                 }
-            } catch (Exception e)  {
-                log.error("{}",e);
-                throw new BceException("更新失败" );
+            } catch (Exception e) {
+                log.error("{}", e);
+                throw new BceException("更新失败");
             }
         }
     }
-
-
 
 }

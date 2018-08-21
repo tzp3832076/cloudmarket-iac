@@ -29,7 +29,6 @@ public class MBeanUtilsTest {
 
     }
 
-
     @Test
     public void testApplyPropertyCase2() {
 
@@ -44,20 +43,17 @@ public class MBeanUtilsTest {
 
     }
 
-
-
     @Data
     public static class Foo {
         String field1;
         String field2;
-        Long Field3;
+        Long field3;
     }
-
 
     @Data
     public static class Foo1 {
         String field1;
         String field2;
-        Long Field3;
+        Long field3;
     }
 }

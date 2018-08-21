@@ -3,8 +3,6 @@
  */
 package com.baidu.bce.mkt.iac.common.service;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,23 +28,23 @@ public class AiVendorInfoService {
 
     private static final String AI_PREFIX = "AI_";
 
-    public String newVendor(AiVendorInfo  vendorInfo) {
-        String vendorId = AI_PREFIX +IdUtils.generateUUID();
+    public String newVendor(AiVendorInfo vendorInfo) {
+        String vendorId = AI_PREFIX + IdUtils.generateUUID();
         vendorInfo.setVendorId(vendorId);
 
         int result = aiVendorInfoMapper.save(vendorInfo);
 
-        if ( result != 1) {
+        if (result != 1) {
             throw new BceException("保存服务商信息失败");
         }
 
         return vendorId;
     }
 
-    public void updateVendorInfo(AiVendorInfo  vendorInfo) {
+    public void updateVendorInfo(AiVendorInfo vendorInfo) {
 
         AiVendorInfo newVendorInfo = aiVendorInfoMapper.getByVendorId(vendorInfo.getVendorId());
-        if (newVendorInfo ==  null) {
+        if (newVendorInfo == null) {
             log.warn("no vendor info found for vendorId : {}", vendorInfo.getVendorId());
             return;
         }
@@ -60,6 +58,5 @@ public class AiVendorInfoService {
     public AiVendorInfo getByVendorId(String vendorId) {
         return aiVendorInfoMapper.getByVendorId(vendorId);
     }
-
 
 }

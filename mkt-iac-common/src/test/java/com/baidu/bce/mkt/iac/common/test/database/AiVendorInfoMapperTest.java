@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @InitDatabase(tables = "mkt_ai_vendor_info")
 @Slf4j
-public class AiVendorInfoMapperTest extends BaseMapperTest{
+public class AiVendorInfoMapperTest extends BaseMapperTest {
 
     @Autowired
     private AiVendorInfoMapper aiVendorInfoMapper;
 
     @Test
     public void testSave() {
-        AiVendorInfo  aiVendorInfo = TestDataGenerator.generateAiVendorInfo();
+        AiVendorInfo aiVendorInfo = TestDataGenerator.generateAiVendorInfo();
         aiVendorInfoMapper.save(aiVendorInfo);
 
         AiVendorInfo aiVendorInfo1 = aiVendorInfoMapper.getByVendorId(aiVendorInfo.getVendorId());
@@ -38,8 +38,6 @@ public class AiVendorInfoMapperTest extends BaseMapperTest{
 
         Assert.assertEquals(1, affects);
 
-
     }
-
 
 }
