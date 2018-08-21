@@ -7,12 +7,15 @@ import java.util.List;
 
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorInfoRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorInfoResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.GetShowMenuResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.IdResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
@@ -270,7 +273,7 @@ public class MktIacClient extends BaseClient {
     }
 
     public void syncVendorPayee(VendorPayeeSyncRequest request) {
-        createAuthorizedRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path("payee")
                 .keyOnlyQueryParam("sync")
@@ -278,7 +281,7 @@ public class MktIacClient extends BaseClient {
     }
 
     public void doInvalidVendorPayee(String vendorId) {
-        createAuthorizedRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path("payee/")
                 .path(vendorId)
@@ -287,7 +290,7 @@ public class MktIacClient extends BaseClient {
     }
 
     public VendorPayeeResponse getVendorPayee(String vendorId) {
-        return createAuthorizedRequest()
+        return createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path("payee/")
                 .path(vendorId)
@@ -299,10 +302,29 @@ public class MktIacClient extends BaseClient {
         VendorPayeeSyncRequest request = new VendorPayeeSyncRequest();
         request.setVendorId(vendorId);
         request.setTaxFlag(taxFlag);
-        createAuthorizedRequest()
+        createMktAuthorizedRequest()
                 .path("/v1/vendor/")
                 .path("payee/")
                 .keyOnlyQueryParam("taxFlag")
+                .put(Entity.json(request));
+    }
+
+    public IdResponse addAiVendorInfo(AiVendorInfoRequest request) {
+        return createMktAuthorizedRequest()
+                .path("/v1/ai/vendor")
+                .post(Entity.json(request), IdResponse.class);
+    }
+
+    public AiVendorInfoResponse getAiVendorInfo(String vendorId) {
+        return createMktAuthorizedRequest()
+                .path("/v1/ai/vendor/")
+                .path(vendorId)
+                .get(AiVendorInfoResponse.class);
+    }
+
+    public void updateAiVendorInfo(AiVendorInfoRequest request) {
+        createAuthorizedRequest()
+                .path("/v1/ai/vendor/")
                 .put(Entity.json(request));
     }
 }
