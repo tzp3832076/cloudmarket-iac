@@ -79,7 +79,7 @@ public interface AiVendorInfoMapper {
     @Select(SELECT_SQL_PREFIX + "WHERE company = @{company}")
     AiVendorInfo getByCompanyName(@Param("company") String company);
 
-    @Select(SELECT_SQL_PREFIX + "WHERE user_type = @{userType} AND user_id = @{user_id}")
+    @Select(SELECT_SQL_PREFIX + "WHERE user_type = @{userType} AND user_id = @{userId}")
     AiVendorInfo getByUserTypeAndUserId(@Param("userType") String userType,
                                         @Param("userId") String userId);
 

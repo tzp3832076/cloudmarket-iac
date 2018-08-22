@@ -34,7 +34,7 @@ public class AiVendorInfoMapperTest extends BaseMapperTest {
 
         aiVendorInfo1.setWebsite("www.baidu.com");
 
-        int affects = aiVendorInfoMapper.update(aiVendorInfo);
+        int affects = aiVendorInfoMapper.update(aiVendorInfo1);
 
         Assert.assertEquals(1, affects);
 
