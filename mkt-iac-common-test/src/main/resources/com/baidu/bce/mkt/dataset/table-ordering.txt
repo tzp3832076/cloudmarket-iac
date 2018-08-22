@@ -8,3 +8,4 @@ mkt_vendor_shop_draft
 mkt_vendor_deposit
 mkt_vendor_contract
 mkt_vendor_shop
+mkt_ai_vendor_info

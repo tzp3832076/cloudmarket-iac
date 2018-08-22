@@ -148,3 +148,29 @@ CREATE TABLE mkt_vendor_payee (
     PRIMARY KEY (id),
     UNIQUE KEY uk_mkt_vendor_payee_vendor_id (vendor_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT '服务商收款人信息';
+
+
+CREATE TABLE mkt_ai_vendor_info  (
+  id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
+  vendor_id VARCHAR(40) NOT NULL COMMENT 'AI服务商ID',
+  user_id VARCHAR(40) NOT NULL COMMENT '用户ID',
+  user_type VARCHAR(10) NOT NULL COMMENT '用户类型',
+  company VARCHAR(256) NOT NULL COMMENT '公司名称',
+  website VARCHAR(256) NOT NULL COMMENT '公司网站',
+  capital BIGINT(20) NOT NULL COMMENT '注册资本',
+  headcount BIGINT(20) NOT NULL DEFAULT 0 COMMENT '雇员人数',
+  enterprise_email VARCHAR(256) NOT NULL DEFAULT '' COMMENT '企业邮箱',
+  business_contact VARCHAR(256) NOT NULL DEFAULT '' COMMENT  '商务联系人',
+  mobile VARCHAR(32) NOT NULL DEFAULT '' COMMENT '手机',
+  email VARCHAR(256) NOT NULL DEFAULT '' COMMENT '邮箱',
+  emergency_contact VARCHAR(32) NOT NULL DEFAULT '' COMMENT '紧急联系人',
+  telephone VARCHAR(32) NOT NULL DEFAULT '' COMMENT '电话',
+  service_type VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务类别',
+  application_area VARCHAR(64) NOT NULL DEFAULT '' COMMENT '应用领域',
+  business_introduction VARCHAR(512) NOT NULL DEFAULT '' COMMENT '公司介绍',
+  create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_ai_vendor_info_vendor_id (vendor_id),
+  UNIQUE KEY uk_ai_vendor_info_company (company)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT 'AI服务商信息';
