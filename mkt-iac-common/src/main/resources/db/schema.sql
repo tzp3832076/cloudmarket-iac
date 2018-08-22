@@ -172,5 +172,6 @@ CREATE TABLE mkt_ai_vendor_info  (
   update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (id),
   UNIQUE KEY uk_ai_vendor_info_vendor_id (vendor_id),
-  UNIQUE KEY uk_ai_vendor_info_company (company)
+  UNIQUE KEY uk_ai_vendor_info_user_type_user_id(user_type, user_id),
+  INDEX idx_ai_vendor_info_company(company)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT 'AI服务商信息';

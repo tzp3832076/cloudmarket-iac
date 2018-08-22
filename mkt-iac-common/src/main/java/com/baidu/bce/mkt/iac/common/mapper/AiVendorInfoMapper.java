@@ -25,7 +25,6 @@ public interface AiVendorInfoMapper {
             + "enterprise_email, business_contact, emergency_contact, mobile, telephone, email, service_type,"
             + "application_area, business_introduction, create_time";
 
-
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
 
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
@@ -54,7 +53,6 @@ public interface AiVendorInfoMapper {
             + ")")
     int save(AiVendorInfo aiVendorInfo);
 
-
     @Update(UPDATE_SQL_PREFIX
             + " SET "
             + " vendor_id = @{vendorId},"
@@ -75,10 +73,14 @@ public interface AiVendorInfoMapper {
             + " WHERE vendor_id = @{vendorId} AND update_time = @{updateTime}")
     int update(AiVendorInfo aiVendorInfo);
 
-
-
-
     @Select(SELECT_SQL_PREFIX + " WHERE vendor_id = @{vendorId}")
     AiVendorInfo getByVendorId(@Param("vendorId") String vendorId);
+
+    @Select(SELECT_SQL_PREFIX + "WHERE company = @{company}")
+    AiVendorInfo getByCompanyName(@Param("company") String company);
+
+    @Select(SELECT_SQL_PREFIX + "WHERE user_type = @{userType} AND user_id = @{user_id}")
+    AiVendorInfo getByUserTypeAndUserId(@Param("userType") String userType,
+                                        @Param("userId") String userId);
 
 }
