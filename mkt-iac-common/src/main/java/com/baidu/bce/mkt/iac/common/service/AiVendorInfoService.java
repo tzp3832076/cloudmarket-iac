@@ -29,6 +29,15 @@ public class AiVendorInfoService {
     private static final String AI_PREFIX = "AI_";
 
     public String newVendor(AiVendorInfo vendorInfo) {
+
+        if (aiVendorInfoMapper.getByCompanyName(vendorInfo.getCompany()) == null) {
+            throw new BceException("服务商已经存在");
+        }
+
+        if (aiVendorInfoMapper.getByUserTypeAndUserId(vendorInfo.getUserType(), vendorInfo.getUserId()) == null) {
+            throw new BceException("用户已经入驻");
+        }
+
         String vendorId = AI_PREFIX + IdUtils.generateUUID();
         vendorInfo.setVendorId(vendorId);
 
