@@ -66,7 +66,7 @@ public class VendorControllerHelper {
 
     public VendorShopAuditContent.ShopDraft getShopDraftContent(ShopDraftSaveRequest request) {
         VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
-        shopDraft.setBaiduQiaos(request.getBaiduQiaos());
+        shopDraft.setBaiduQiaos(getBaiduQiaos(request));
         shopDraft.setCompanyDescription(request.getCompanyDescription());
         shopDraft.setServiceAvailTime(request.getServiceAvailTime());
         shopDraft.setServiceEmail(request.getServiceEmail());
@@ -371,5 +371,18 @@ public class VendorControllerHelper {
     private List<String> getCategoryName(String serviceCategory) {
         Map<String, String> nameMap = categoryHandler.getCategoryNameMap(serviceCategory);
         return nameMap.entrySet().stream().map(x -> x.getKey() + ":" + x.getValue()).collect(Collectors.toList());
+    }
+
+    private List<OnlineSupport> getBaiduQiaos(ShopDraftSaveRequest request) {
+        List<OnlineSupport> res = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(request.getBaiduQiaos())) {
+            for (OnlineSupport onlineSupport : request.getBaiduQiaos()) {
+                String name = onlineSupport.getName();
+                String link = onlineSupport.getLink().replaceAll("&amp;", "&");
+                OnlineSupport os = new OnlineSupport(name, link);
+                res.add(os);
+            }
+        }
+        return res;
     }
 }

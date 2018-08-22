@@ -269,4 +269,5 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         Assert.assertEquals(vendorInfo.getAgreementStatus(), ProcessStatus.DONE);
     }
 
+
 }
