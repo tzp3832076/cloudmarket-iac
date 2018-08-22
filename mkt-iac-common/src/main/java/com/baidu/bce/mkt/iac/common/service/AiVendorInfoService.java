@@ -30,11 +30,11 @@ public class AiVendorInfoService {
 
     public String newVendor(AiVendorInfo vendorInfo) {
 
-        if (aiVendorInfoMapper.getByCompanyName(vendorInfo.getCompany()) == null) {
+        if (aiVendorInfoMapper.getByCompanyName(vendorInfo.getCompany()) != null) {
             throw new BceException("服务商已经存在");
         }
 
-        if (aiVendorInfoMapper.getByUserTypeAndUserId(vendorInfo.getUserType(), vendorInfo.getUserId()) == null) {
+        if (aiVendorInfoMapper.getByUserTypeAndUserId(vendorInfo.getUserType(), vendorInfo.getUserId()) != null) {
             throw new BceException("用户已经入驻");
         }
 
