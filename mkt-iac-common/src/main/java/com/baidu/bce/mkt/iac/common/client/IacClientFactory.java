@@ -77,7 +77,7 @@ public class IacClientFactory implements InitializingBean {
                                                          configProperties.getMktServiceSk());
         mktClient = new MktClient(configProperties.getMktServiceAk(),
                                          configProperties.getMktServiceSk(), MktRequestSource.api);
-        crmSensitiveClient= new CrmSensitiveClient(EndpointManager.getEndpoint("CRM"),
+        crmSensitiveClient = new CrmSensitiveClient(EndpointManager.getEndpoint("CRM"),
                 configProperties.getMktServiceAk(),
                 configProperties.getMktServiceSk());
 
