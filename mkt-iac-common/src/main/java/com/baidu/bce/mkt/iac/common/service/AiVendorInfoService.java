@@ -51,6 +51,7 @@ public class AiVendorInfoService {
     }
 
 
+
     public void updateVendorInfo(AiVendorInfo vendorInfo) {
 
         AiVendorInfo newVendorInfo = aiVendorInfoMapper.getByVendorId(vendorInfo.getVendorId());
