@@ -55,13 +55,10 @@ public class AiVendorInfoServiceTest extends BaseCommonServiceTest {
         try {
             aiVendorInfoService.updateVendorInfo(aiVendorInfo1);
             Assert.fail();
-        }catch (BceException e) {
+        } catch (BceException e) {
             Assert.assertEquals("服务商不存在", e.getMessage());
         }
 
-
     }
-
-
 
 }
