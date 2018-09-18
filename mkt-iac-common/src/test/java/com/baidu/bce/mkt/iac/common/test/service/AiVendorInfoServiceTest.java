@@ -12,6 +12,7 @@ import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
 import com.baidu.bce.mkt.iac.common.service.AiVendorInfoService;
 import com.baidu.bce.mkt.iac.common.test.BaseCommonServiceTest;
 import com.baidu.bce.mkt.iac.common.test.TestDataGenerator;
+import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,16 @@ public class AiVendorInfoServiceTest extends BaseCommonServiceTest {
         AiVendorInfo aiVendorInfo2 = aiVendorInfoMapper.getByVendorId(aiVendorInfo.getVendorId());
         Assert.assertNotNull(aiVendorInfo2);
         log.info("{}", aiVendorInfo2);
+
+        aiVendorInfo1.setVendorId("123123123123");
+        try {
+            aiVendorInfoService.updateVendorInfo(aiVendorInfo1);
+            Assert.fail();
+        }catch (BceException e) {
+            Assert.assertEquals("服务商不存在", e.getMessage());
+        }
+
+
     }
 
 
