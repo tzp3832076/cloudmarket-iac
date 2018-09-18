@@ -14,6 +14,8 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
+import com.baidu.bce.mkt.framework.iac.client.model.response.SensitiveListResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
@@ -53,6 +55,17 @@ public class VendorExtraHepler {
                     contract.getContractNum(), contract.getBeginTime(), contract.getEndTime()));
         }
         response.setContractInfoList(contractInfoNumList);
+        return response;
+    }
+
+    public VendorPhoneAndEmailResponse toVendorPhoneAndEmailResponse(SensitiveListResponse sensitiveListResponse) {
+        VendorPhoneAndEmailResponse response = new VendorPhoneAndEmailResponse();
+        List<SensitiveListResponse.CustomerResponse> customerResponses = sensitiveListResponse.getCustomerResponses();
+        if (!CollectionUtils.isEmpty(customerResponses)) {
+            SensitiveListResponse.CustomerResponse customerResponse = customerResponses.get(0);
+            response.setEmail(customerResponse.getEmail());
+            response.setPhone(customerResponse.getMobilePhone());
+        }
         return response;
     }
 
