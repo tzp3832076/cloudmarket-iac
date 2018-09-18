@@ -50,6 +50,7 @@ public class AiVendorInfoService {
         return vendorId;
     }
 
+
     public void updateVendorInfo(AiVendorInfo vendorInfo) {
 
         AiVendorInfo newVendorInfo = aiVendorInfoMapper.getByVendorId(vendorInfo.getVendorId());
