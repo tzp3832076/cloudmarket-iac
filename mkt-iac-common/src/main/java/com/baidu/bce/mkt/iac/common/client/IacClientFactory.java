@@ -31,6 +31,7 @@ public class IacClientFactory implements InitializingBean {
     private QualifyClient qualifyClient;
     private MktInternalClient mktInternalClient;
     private MktClient mktClient;
+    private CrmSensitiveClient crmSensitiveClient;
 
     public AuthClient createAuthClient(String system) {
         return new AuthClient(EndpointManager.getEndpoint(system),
@@ -60,6 +61,8 @@ public class IacClientFactory implements InitializingBean {
     public MktClient createMktClient() {
         return mktClient;
     }
+
+    public CrmSensitiveClient createCrmSensitiveClient() { return crmSensitiveClient; }
 
     @Override
     public void afterPropertiesSet() throws Exception {
