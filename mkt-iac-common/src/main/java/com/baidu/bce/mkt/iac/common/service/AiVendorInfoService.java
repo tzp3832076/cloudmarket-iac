@@ -55,7 +55,7 @@ public class AiVendorInfoService {
         AiVendorInfo newVendorInfo = aiVendorInfoMapper.getByVendorId(vendorInfo.getVendorId());
         if (newVendorInfo == null) {
             log.warn("no vendor info found for vendorId : {}", vendorInfo.getVendorId());
-            return;
+            throw new BceException("服务商不存在");
         }
         MBeanUtils.applyProperties(newVendorInfo, vendorInfo, AiVendorInfo.class);
         int updated = aiVendorInfoMapper.update(newVendorInfo);
