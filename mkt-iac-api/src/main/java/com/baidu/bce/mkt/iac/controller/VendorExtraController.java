@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baidu.bce.internalsdk.iam.model.AccountCrm;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
@@ -25,7 +24,6 @@ import com.baidu.bce.mkt.framework.crm.CrmService;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
-import com.baidu.bce.mkt.framework.iac.client.model.response.SensitiveListResponse;
 import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
@@ -89,8 +87,8 @@ public class VendorExtraController {
     public VendorPhoneAndEmailResponse getPhoneAndEmail(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
-        VendorPhoneAndEmailResponse response
-                = helper.toVendorPhoneAndEmailResponse(iacClientFactory.createCrmSensitiveClient()
+        VendorPhoneAndEmailResponse response =
+                helper.toVendorPhoneAndEmailResponse(iacClientFactory.createCrmSensitiveClient()
                         .listSensitiveByAccountIds(Arrays.asList(vendorInfo.getBceUserId())));
         return response;
     }
