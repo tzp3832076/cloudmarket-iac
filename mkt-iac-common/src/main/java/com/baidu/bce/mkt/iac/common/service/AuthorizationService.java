@@ -151,6 +151,7 @@ public class AuthorizationService {
         }
     }
 
+
     private Boolean checkResourceInstancesFromRedis(UserIdentity userIdentity, String resource,
                                                     List<String> instances) {
         List<String> keys = generateResourceInstanceKeys(resource, instances);
