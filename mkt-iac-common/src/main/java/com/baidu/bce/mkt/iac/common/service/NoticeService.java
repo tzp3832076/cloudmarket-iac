@@ -69,7 +69,10 @@ public class NoticeService {
     @Transactional
     public void auditNoticeVendorShop(String status, String vendorId) {
         VendorShopDraft vendorShopDraft = shopDraftMapper.getShopDraftByVendorId(vendorId);
-        if (InfoStatus.PASS.name().equals(status) && vendorShopDraft != null) {
+        if (vendorShopDraft == null) {
+            throw MktIacExceptions.noVendorShopInfo();
+        }
+        if (InfoStatus.PASS.name().equals(status)) {
             VendorShopAuditContent.ShopDraft content = JsonUtils.fromJson(vendorShopDraft.getContent(),
                     VendorShopAuditContent.ShopDraft.class);
             if (content == null) {
