@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.baidu.bce.internalsdk.mkt.iac.model.OnlineSupport;
 import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
 import com.baidu.bce.mkt.framework.utils.IdUtils;
+import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.mapper.AccountMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.mapper.VendorShopDraftMapper;
@@ -118,6 +119,14 @@ public class NoticeServiceTest extends BaseCommonServiceTest {
         VendorShop vendorShop = vendorShopMapper.getVendorShopByVendorId(vendorId);
         Assert.assertNotNull(vendorShop);
         log.info("auditNoticeVendorShop {}", vendorShop);
+
+        try {
+            noticeService.auditNoticeVendorShop(InfoStatus.PASS.name(), "asdfsdfsdf");
+            Assert.fail();
+        } catch (BceException e) {
+            Assert.assertEquals(MktIacExceptions.noVendorShopInfo().getMessage(), e.getMessage());
+        }
+
     }
 
 }
