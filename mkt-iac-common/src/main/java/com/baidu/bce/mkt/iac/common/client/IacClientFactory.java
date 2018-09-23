@@ -23,6 +23,7 @@ import endpoint.EndpointManager;
  */
 @Component
 public class IacClientFactory implements InitializingBean {
+
     @Autowired
     private SDKEndpointConfiguration sdkEndpointConfiguration;
     @Autowired
@@ -76,6 +77,9 @@ public class IacClientFactory implements InitializingBean {
                                                          configProperties.getMktServiceSk());
         mktClient = new MktClient(configProperties.getMktServiceAk(),
                                          configProperties.getMktServiceSk(), MktRequestSource.api);
+        crmSensitiveClient = new CrmSensitiveClient(EndpointManager.getEndpoint("CRM"),
+                configProperties.getMktServiceAk(),
+                configProperties.getMktServiceSk());
 
     }
 }

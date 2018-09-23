@@ -4,6 +4,7 @@
 
 package com.baidu.bce.mkt.iac.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baidu.bce.internalsdk.iam.model.AccountCrm;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
@@ -24,6 +24,7 @@ import com.baidu.bce.mkt.framework.crm.CrmService;
 import com.baidu.bce.mkt.framework.exception.UnknownExceptionResponse;
 import com.baidu.bce.mkt.framework.iac.annotation.CheckAuth;
 import com.baidu.bce.mkt.framework.iac.annotation.VendorId;
+import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
 import com.baidu.bce.mkt.iac.common.constant.IacConstants;
 import com.baidu.bce.mkt.iac.common.exception.MktIacExceptions;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
@@ -50,8 +51,9 @@ import lombok.extern.slf4j.Slf4j;
 public class VendorExtraController {
     private final ContractAndDepositService service;
     private final VendorService vendorService;
-    private final VendorExtraHepler hepler;
+    private final VendorExtraHepler helper;
     private final CrmService crmService;
+    private final IacClientFactory iacClientFactory;
 
     @ApiOperation(value = "合同list和保证金更新接口 -- osp调用")
     @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
@@ -61,7 +63,7 @@ public class VendorExtraController {
     public void contractAndDepositSubmit(@PathVariable("vendorId") String vendorId,
                                          @RequestBody ContractAndDepositSubmitRequest request) {
         service.updateDepositAndContractList(vendorId, request.getDeposit(),
-                hepler.toVendorContractList(vendorId, request.getContractList()));
+                helper.toVendorContractList(vendorId, request.getContractList()));
     }
 
     @ApiOperation(value = "获取服务商合同信息和保证金信息")
@@ -74,7 +76,7 @@ public class VendorExtraController {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
         VendorDeposit deposit = service.getVendorDeposit(vendorId);
-        return hepler.toContractAndDepositResponse(vendorInfo, vendorContractList, deposit);
+        return helper.toContractAndDepositResponse(vendorInfo, vendorContractList, deposit);
     }
 
     @ApiOperation(value = "获取服务商电话和邮箱供发送短信和邮件")
@@ -85,8 +87,10 @@ public class VendorExtraController {
     public VendorPhoneAndEmailResponse getPhoneAndEmail(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
-        AccountCrm accountCrm = crmService.getAccountInfo(vendorInfo.getBceUserId());
-        return new VendorPhoneAndEmailResponse(vendorId, accountCrm.getMobilePhone(), vendorShop.getEmail());
+        VendorPhoneAndEmailResponse response =
+                helper.toVendorPhoneAndEmailResponse(iacClientFactory.createCrmSensitiveClient()
+                        .listSensitiveByAccountIds(Arrays.asList(vendorInfo.getBceUserId())));
+        return response;
     }
 
     @ApiOperation(value = "获取服务商&合同号list")
@@ -98,7 +102,7 @@ public class VendorExtraController {
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         List<VendorContract> vendorContractList = service.getVendorContractList(vendorId);
-        return hepler.toVendorContractResponse(vendorInfo, vendorContractList);
+        return helper.toVendorContractResponse(vendorInfo, vendorContractList);
     }
 
     @ApiOperation(value = "获取已经填写协议号的服务商Ids")
@@ -107,7 +111,7 @@ public class VendorExtraController {
     @UnknownExceptionResponse(message = "获取服务商Ids失败")
     public ContractVendorIdListResponse getContractVendorIds(@VendorId(required = false) List<String> vendorIds) {
         List<String> contractIds = service.getContractedVendorIdList(vendorIds);
-        return hepler.toVendorContractListResponse(contractIds);
+        return helper.toVendorContractListResponse(contractIds);
     }
 
     @ApiOperation(value = "添加协议号")
