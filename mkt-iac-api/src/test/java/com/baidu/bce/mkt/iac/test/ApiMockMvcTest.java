@@ -14,6 +14,7 @@ import com.baidu.bce.mkt.framework.iac.service.CheckAuthService;
 import com.baidu.bce.mkt.framework.test.iam.IamRule;
 import com.baidu.bce.mkt.framework.test.mvc.BaseMockMvcTest;
 import com.baidu.bce.mkt.framework.test.mvc.MockEndpoint;
+import com.baidu.bce.mkt.iac.common.client.IacClientFactory;
 import com.baidu.bce.mkt.iac.common.handler.CategoryHandler;
 import com.baidu.bce.mkt.iac.common.service.AccountService;
 import com.baidu.bce.mkt.iac.common.service.AiVendorInfoService;
@@ -51,6 +52,8 @@ public abstract class ApiMockMvcTest extends BaseMockMvcTest {
     protected VendorPayeeService vendorPayeeService;
     @MockBean(name = "aiVendorInfoService")
     protected AiVendorInfoService  aiVendorInfoService;
+    @MockBean(name = "iacClientFactory")
+    protected IacClientFactory iacClientFactory;
 
     @Rule
     public IamRule iamRule = new IamRule();
