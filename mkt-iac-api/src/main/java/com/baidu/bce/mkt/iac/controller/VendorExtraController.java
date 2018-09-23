@@ -53,7 +53,6 @@ public class VendorExtraController {
     private final VendorExtraHepler hepler;
     private final CrmService crmService;
 
-
     @ApiOperation(value = "合同list和保证金更新接口 -- osp调用")
     @RequestMapping(value = "/{vendorId}/contractAndDeposit", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "update",
