@@ -88,7 +88,7 @@ public class VendorExtraController {
         VendorInfo vendorInfo = vendorService.getValidVendorInfo(vendorId);
         VendorShop vendorShop = vendorService.getVendorShopByVendorId(vendorId);
         VendorPhoneAndEmailResponse response =
-                helper.toVendorPhoneAndEmailResponse(iacClientFactory.createCrmSensitiveClient()
+                helper.toVendorPhoneAndEmailResponse(vendorShop, iacClientFactory.createCrmSensitiveClient()
                         .listSensitiveByAccountIds(Arrays.asList(vendorInfo.getBceUserId())));
         return response;
     }

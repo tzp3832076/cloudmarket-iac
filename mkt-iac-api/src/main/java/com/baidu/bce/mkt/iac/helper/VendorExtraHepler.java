@@ -21,6 +21,7 @@ import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.VendorDeposit;
 import com.baidu.bce.mkt.iac.common.model.db.VendorInfo;
+import com.baidu.bce.mkt.iac.common.model.db.VendorShop;
 
 /**
  * Created on 2017/3/1 by sunfangyuan@baidu.com .
@@ -58,12 +59,13 @@ public class VendorExtraHepler {
         return response;
     }
 
-    public VendorPhoneAndEmailResponse toVendorPhoneAndEmailResponse(SensitiveListResponse sensitiveListResponse) {
+    public VendorPhoneAndEmailResponse toVendorPhoneAndEmailResponse(VendorShop vendorShop,
+                                                                     SensitiveListResponse sensitiveListResponse) {
         VendorPhoneAndEmailResponse response = new VendorPhoneAndEmailResponse();
+        response.setEmail(vendorShop.getEmail());
         List<SensitiveListResponse.CustomerResponse> customerResponses = sensitiveListResponse.getCustomerResponses();
         if (!CollectionUtils.isEmpty(customerResponses)) {
             SensitiveListResponse.CustomerResponse customerResponse = customerResponses.get(0);
-            response.setEmail(customerResponse.getEmail());
             response.setPhone(customerResponse.getMobilePhone());
         }
         return response;
