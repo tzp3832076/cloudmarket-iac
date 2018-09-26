@@ -166,7 +166,7 @@ CREATE TABLE mkt_ai_vendor_info  (
   emergency_contact VARCHAR(32) NOT NULL DEFAULT '' COMMENT '紧急联系人',
   telephone VARCHAR(32) NOT NULL DEFAULT '' COMMENT '电话',
   service_type VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务类别',
-  application_area VARCHAR(64) NOT NULL DEFAULT '' COMMENT '应用领域',
+  application_area VARCHAR(512) NOT NULL DEFAULT '' COMMENT '应用领域',
   business_introduction VARCHAR(512) NOT NULL DEFAULT '' COMMENT '公司介绍',
   create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

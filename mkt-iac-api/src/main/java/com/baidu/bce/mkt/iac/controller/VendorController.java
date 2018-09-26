@@ -21,6 +21,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoBriefResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponseV2;
@@ -41,6 +42,7 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 import com.baidu.bce.mkt.iac.common.service.VendorService;
 import com.baidu.bce.mkt.iac.helper.ParamProperties;
 import com.baidu.bce.mkt.iac.helper.VendorControllerHelper;
+import com.baidu.bce.plat.webframework.exception.BceException;
 import com.baidu.bce.plat.webframework.iam.config.access.annotation.BceAuth;
 import com.baidu.bce.plat.webframework.iam.model.BceRole;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -115,6 +117,24 @@ public class VendorController {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         return helper.toVendorInfoDetailResponse(vendorInfo, paramProperties.getVendorInfoMap());
     }
+
+
+    @ApiOperation(value = "服务商基本信息获取接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/vendorInfoBrief/{vendorId}")
+    @BceAuth(role = {BceRole.SERVICE})
+    @UnknownExceptionResponse(message = "服务商基本信息获取失败")
+    public VendorInfoBriefResponse getVendorInfoForService(@PathVariable String vendorId) {
+        VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
+        if (vendorInfo == null) {
+            throw new BceException("服务商不存在", 404);
+        }
+        VendorInfoBriefResponse response = new VendorInfoBriefResponse();
+        response.setBceUserId(vendorInfo.getBceUserId());
+        response.setVendorId(vendorInfo.getVendorId());
+        response.setVendorName(vendorInfo.getCompany());
+        return response;
+    }
+
 
     @ApiOperation(value = "服务商概览页面接口")
     @RequestMapping(method = RequestMethod.GET, value = "/overview")
@@ -248,6 +268,8 @@ public class VendorController {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId(vendorId);
         return helper.toShopInfoResponse(vendorShop, vendorInfo);
     }
+
+
 
 }
 

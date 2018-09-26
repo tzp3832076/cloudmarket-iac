@@ -21,6 +21,7 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ShopDraftSaveRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorAmountResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorBaseContactResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoBriefResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorInfoDetailResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorListResponseV2;
@@ -326,5 +327,12 @@ public class MktIacClient extends BaseClient {
         createAuthorizedRequest()
                 .path("/v1/ai/vendor/")
                 .put(Entity.json(request));
+    }
+
+    public VendorInfoBriefResponse getVendorInfoBrief(String vendorId) {
+        return createAuthorizedRequest()
+                .path("/v1/vendor/vendorInfoBrief/")
+                .path(vendorId)
+                .get(VendorInfoBriefResponse.class);
     }
 }
