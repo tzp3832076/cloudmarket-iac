@@ -16,6 +16,7 @@ public enum VendorBusiness {
     OP("运维管理"),
     API("API"),
     AI("AI"),
+    ROBOT("机器人"),
     BLOCK_CHAIN("区块链"),
     OTHER("其它"),
     UNDEFINED("未定义");
