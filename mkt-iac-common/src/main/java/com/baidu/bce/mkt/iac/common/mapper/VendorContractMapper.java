@@ -18,7 +18,8 @@ import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
  */
 public interface VendorContractMapper {
     String TABLE = "mkt_vendor_contract";
-    String INSERT_COLUMNS = " vendor_id, contract_num, contract_digest, begin_time, end_time, create_time ";
+    String INSERT_COLUMNS = " vendor_id, contract_num, customer_num, contract_digest, begin_time, end_time, "
+            + "create_time ";
     String SELECT_COLUMNS = " id, " + INSERT_COLUMNS + ", update_time ";
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
@@ -27,6 +28,7 @@ public interface VendorContractMapper {
     @Insert(INSERT_SQL_PREFIX + "("
                     + " @{vendorId},"
                     + " @{contractNum},"
+                    + " @{customerNum},"
                     + " @{contractDigest},"
                     + " @{beginTime},"
                     + " @{endTime},"
@@ -37,7 +39,6 @@ public interface VendorContractMapper {
     @Select(SELECT_SQL_PREFIX + " WHERE vendor_id = @{vendorId} AND is_delete = 0 "
             + "ORDER BY create_time DESC")
     List<VendorContract> getVendorContractListById(@Param("vendorId") String vendorId);
-
 
     @Select(SELECT_SQL_PREFIX + " #where()"
             + "  #in( $_parameter.vendorIds $vendorId \"vendor_id\")"
@@ -50,7 +51,6 @@ public interface VendorContractMapper {
                     + " AND contract_num = @{contractNum}")
     VendorContract getVendorContract(@Param("vendorId") String vendorId,
                                      @Param("contractNum") String contractNum);
-
 
     @Update(UPDATE_SQL_PREFIX + " SET is_delete = 1 WHERE id = @{id}")
     int delete(@Param("id") int id);

@@ -26,7 +26,7 @@ public class VendorContractMapperTest extends BaseMapperTest {
 
     @Test
     public void add() throws Exception {
-        VendorContract contract = new VendorContract("test", "testNum", "test",
+        VendorContract contract = new VendorContract("test", "testNum", "testCustomerNum", "test",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         int res = vendorContractMapper.add(contract);
         Assert.assertEquals(1, res);
@@ -56,7 +56,7 @@ public class VendorContractMapperTest extends BaseMapperTest {
     @Test
     public void delete() throws Exception {
         String vendorId = "test";
-        VendorContract contract = new VendorContract(vendorId, "testNum", "test",
+        VendorContract contract = new VendorContract(vendorId, "testNum", "testCustomerNum", "test",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         vendorContractMapper.add(contract);
         List<VendorContract> contracts = vendorContractMapper.getVendorContractListById(vendorId);

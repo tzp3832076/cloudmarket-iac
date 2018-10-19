@@ -120,6 +120,7 @@ CREATE TABLE mkt_vendor_contract (
     id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     vendor_id VARCHAR(36) NOT NULL COMMENT '服务商云市场ID',
     contract_num VARCHAR(128) NOT NULL DEFAULT '' COMMENT '协议号',
+    customer_num VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'CMS客户编号',
     contract_digest VARCHAR(256) NOT NULL DEFAULT '' COMMENT '协议内容摘要',
     begin_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效起始时间',
     end_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效结束时间',

@@ -69,7 +69,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
         String vendorId = "vendor_2";
         List<VendorContract> vendorContractList = contractMapper.getVendorContractListById(vendorId);
         Assert.assertEquals(vendorContractList.size(), 1);
-        vendorContractList.add(new VendorContract(vendorId, "test", "test",
+        vendorContractList.add(new VendorContract(vendorId, "test", "testCustomerNum", "test",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         service.updateVendorContentList("vendor_1", vendorContractList);
         vendorContractList = contractMapper.getVendorContractListById(vendorId);
@@ -80,7 +80,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     public void addContract() throws Exception {
         VendorContract contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNull(contract);
-        service.addContract(new VendorContract("test", "test", "test",
+        service.addContract(new VendorContract("test", "test", "testCustomerNum", "test",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNotNull(contract);
