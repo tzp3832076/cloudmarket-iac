@@ -28,7 +28,6 @@ import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.MktToken;
 import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
-import com.baidu.bce.internalsdk.mkt.iac.model.VendorPhoneAndEmailResponse;
 import com.baidu.bce.mkt.framework.iac.model.AuthorizedToken;
 import com.baidu.bce.mkt.framework.iac.model.ReceivedAuthorizedToken;
 import com.baidu.bce.mkt.framework.test.iam.CurrentUser;

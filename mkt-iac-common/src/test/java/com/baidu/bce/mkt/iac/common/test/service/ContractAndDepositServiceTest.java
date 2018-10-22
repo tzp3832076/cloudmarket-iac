@@ -38,7 +38,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     private VendorContractMapper contractMapper;
 
     @Test
-    public void updateVendorDepositTest() throws Exception {
+    public void testUpdateVendorDeposit() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -52,13 +52,13 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getVendorDepositTest() throws Exception {
+    public void testGetVendorDeposit() throws Exception {
         VendorDeposit deposit = service.getVendorDeposit("vendor_1");
         Assert.assertNotNull(deposit);
     }
 
     @Test
-    public void updateVendorContentListTest() throws Exception {
+    public void testUpdateVendorContentList() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -77,7 +77,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void addContractTest() throws Exception {
+    public void testAddContract() throws Exception {
         VendorContract contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNull(contract);
         service.addContract(new VendorContract("test", "test", "testCustomerNum", "test",
@@ -87,7 +87,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void addContractTest2() throws Exception {
+    public void testAddContract2() throws Exception {
         service.addContract("vendor_1", "test", "testCustomerNum", Timestamp.valueOf("2017-02-20 00:00:00"),
                 Timestamp.valueOf("2017-02-20 00:00:00"));
         List<VendorContract> contracts = service.getVendorContractList("vendor_1");
@@ -108,7 +108,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getContractListTest() {
+    public void testGetContractList() {
         List<VendorContract> vendorContractList = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(vendorContractList);
         vendorContractList = service.getVendorContractList("vendor_XX");
@@ -117,7 +117,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getVendorContractListTest() {
+    public void testGetVendorContractList() {
         List<VendorContract> vendorContractList = service.getVendorContractList(Arrays.asList("vendor_1", "vendor_2"));
         Assert.assertNotNull(vendorContractList);
         Assert.assertEquals(vendorContractList.size(), 3);
@@ -127,7 +127,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getDistinctVendorContractListTest() {
+    public void testGetDistinctVendorContractList() {
         List<String> vendorContractList = service.getContractedVendorIdList(Arrays.asList("vendor_1", "vendor_2"));
         Assert.assertNotNull(vendorContractList);
         Assert.assertEquals(vendorContractList.size(), 2);
