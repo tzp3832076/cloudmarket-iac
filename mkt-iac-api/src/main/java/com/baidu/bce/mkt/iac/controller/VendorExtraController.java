@@ -105,19 +105,19 @@ public class VendorExtraController {
         return helper.toVendorContractResponse(vendorInfo, vendorContractList);
     }
 
-    @ApiOperation(value = "获取已经填写协议号的服务商Ids")
+    @ApiOperation(value = "获取已经填写合同的服务商ID列表")
     @RequestMapping(value = "/contract", method = RequestMethod.GET)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "getContractVendorIds")
-    @UnknownExceptionResponse(message = "获取服务商Ids失败")
+    @UnknownExceptionResponse(message = "获取已经填写合同的服务商ID列表失败")
     public ContractVendorIdListResponse getContractVendorIds(@VendorId(required = false) List<String> vendorIds) {
         List<String> contractIds = service.getContractedVendorIdList(vendorIds);
         return helper.toVendorContractListResponse(contractIds);
     }
 
-    @ApiOperation(value = "添加协议号")
+    @ApiOperation(value = "添加合同")
     @RequestMapping(value = "/contract", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "addContract")
-    @UnknownExceptionResponse(message = "添加协议号失败")
+    @UnknownExceptionResponse(message = "添加合同失败")
     public void addContract(@RequestBody ContractRequest request) {
         if (!request.getContractBeginTime().before(request.getContractEndTime())) {
             log.info("contract time is illegal");
