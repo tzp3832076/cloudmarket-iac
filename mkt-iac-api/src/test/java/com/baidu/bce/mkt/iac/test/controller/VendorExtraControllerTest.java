@@ -85,7 +85,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     @CurrentUser(isServiceAccount = true)
     public void getVendorContracts() {
         List<VendorContract> contractList = new ArrayList<>();
-        contractList.add(new VendorContract("test", "test", "test",
+        contractList.add(new VendorContract("test", "test", "test", "",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
         VendorInfo vendorInfo = new VendorInfo();
@@ -99,7 +99,7 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
     @Test
     public void getVendorContractsAndDeposit() {
         List<VendorContract> contractList = new ArrayList<>();
-        contractList.add(new VendorContract("test", "test", "test",
+        contractList.add(new VendorContract("test", "test", "test", "",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00")));
         when(contractAndDepositService.getVendorContractList(anyString())).thenReturn(contractList);
         VendorInfo vendorInfo = new VendorInfo();
