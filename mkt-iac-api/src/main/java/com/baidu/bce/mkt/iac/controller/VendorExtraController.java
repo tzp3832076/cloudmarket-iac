@@ -123,7 +123,7 @@ public class VendorExtraController {
             log.info("contract time is illegal");
             throw MktIacExceptions.inValidContractTime();
         }
-        service.addContract(request.getVendorId(), request.getContract(),
+        service.addContract(request.getVendorId(), request.getContract(), request.getCustomer(),
                 request.getContractBeginTime(), request.getContractEndTime());
     }
 }

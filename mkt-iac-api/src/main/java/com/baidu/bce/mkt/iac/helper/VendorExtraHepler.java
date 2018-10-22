@@ -34,7 +34,7 @@ public class VendorExtraHepler {
         List<VendorContract> vendorContractList = new ArrayList<>();
         for (ContractAndDepositSubmitRequest.Contract contract : contractList) {
             vendorContractList.add(new VendorContract(vendorId,
-                    SecurityUtils.stripSqlAndXss(contract.getNumber()),
+                    SecurityUtils.stripSqlAndXss(contract.getNumber()), "",
                     SecurityUtils.stripSqlAndXss(contract.getDigest()),
                     contract.getBeginTime(),
                     contract.getEndTime(),

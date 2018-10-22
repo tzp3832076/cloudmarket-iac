@@ -38,7 +38,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     private VendorContractMapper contractMapper;
 
     @Test
-    public void updateVendorDeposit() throws Exception {
+    public void updateVendorDepositTest() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -52,13 +52,13 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getVendorDeposit() throws Exception {
+    public void getVendorDepositTest() throws Exception {
         VendorDeposit deposit = service.getVendorDeposit("vendor_1");
         Assert.assertNotNull(deposit);
     }
 
     @Test
-    public void updateVendorContentList() throws Exception {
+    public void updateVendorContentListTest() throws Exception {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -77,7 +77,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void addContract() throws Exception {
+    public void addContractTest() throws Exception {
         VendorContract contract = contractMapper.getVendorContract("test", "test");
         Assert.assertNull(contract);
         service.addContract(new VendorContract("test", "test", "testCustomerNum", "test",
@@ -87,19 +87,19 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void testAddContract() throws Exception {
-        service.addContract("vendor_1", "test", Timestamp.valueOf("2017-02-20 00:00:00"),
+    public void addContractTest2() throws Exception {
+        service.addContract("vendor_1", "test", "testCustomerNum", Timestamp.valueOf("2017-02-20 00:00:00"),
                 Timestamp.valueOf("2017-02-20 00:00:00"));
         List<VendorContract> contracts = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(contracts);
         Assert.assertEquals(contracts.size(), 3);
-        service.addContract("vendor_1", "test2",
+        service.addContract("vendor_1", "test2", "testCustomerNum",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         contracts = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(contracts);
         Assert.assertEquals(contracts.size(), 4);
         try {
-            service.addContract("test", "test",
+            service.addContract("test", "test", "testCustomerNum",
                     Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
             Assert.fail();
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void getContractList() {
+    public void getContractListTest() {
         List<VendorContract> vendorContractList = service.getVendorContractList("vendor_1");
         Assert.assertNotNull(vendorContractList);
         vendorContractList = service.getVendorContractList("vendor_XX");
@@ -117,7 +117,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void testGetVendorContractLis() {
+    public void getVendorContractListTest() {
         List<VendorContract> vendorContractList = service.getVendorContractList(Arrays.asList("vendor_1", "vendor_2"));
         Assert.assertNotNull(vendorContractList);
         Assert.assertEquals(vendorContractList.size(), 3);
@@ -127,7 +127,7 @@ public class ContractAndDepositServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
-    public void testGetDistinctVendorContractList() {
+    public void getDistinctVendorContractListTest() {
         List<String> vendorContractList = service.getContractedVendorIdList(Arrays.asList("vendor_1", "vendor_2"));
         Assert.assertNotNull(vendorContractList);
         Assert.assertEquals(vendorContractList.size(), 2);

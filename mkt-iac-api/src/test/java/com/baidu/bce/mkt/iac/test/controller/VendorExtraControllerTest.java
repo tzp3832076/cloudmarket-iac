@@ -147,8 +147,8 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
                 log.info("addContract success.");
                 return null;
             }
-        }).when(contractAndDepositService).addContract(anyString(), any(), any(), any());
-        ContractRequest request = new ContractRequest("vendor_1", "test",
+        }).when(contractAndDepositService).addContract(anyString(), anyString(), anyString(), any(), any());
+        ContractRequest request = new ContractRequest("vendor_1", "test", "testCustomerNum",
                 Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
         try {
             mktIacClient.addVendorContract(request);
@@ -158,5 +158,4 @@ public class VendorExtraControllerTest extends ApiMockMvcTest {
         }
         request.setContractEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
     }
-
 }

@@ -102,8 +102,8 @@ public class ContractAndDepositService {
 
     // 添加协议号时校验服务商的是否通过审核
     @Transactional
-    public void addContract(String vendorId, String contract, Timestamp beginTime, Timestamp endTime) {
-        VendorContract vendorContract = new VendorContract(vendorId, contract, "", "", beginTime, endTime);
+    public void addContract(String vendorId, String contract, String customer, Timestamp beginTime, Timestamp endTime) {
+        VendorContract vendorContract = new VendorContract(vendorId, contract, customer, "", beginTime, endTime);
         VendorInfo vendorInfo = vendorInfoMapper.getVendorInfoByVendorId(vendorId);
         if (ObjectUtils.isEmpty(vendorInfo)) {
             log.warn("vendor is not valid vendor,vendorId:{}", vendorId);

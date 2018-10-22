@@ -29,6 +29,8 @@ public class ContractRequest {
     private String vendorId;
     @NotBlank(message = "合同号不能为空")
     private String contract;
+    @NotBlank(message = "客户编号不能为空")
+    private String customer;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
     private Timestamp contractBeginTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = BceConstant.DATETIME_FORMAT, timezone = "UTC")
