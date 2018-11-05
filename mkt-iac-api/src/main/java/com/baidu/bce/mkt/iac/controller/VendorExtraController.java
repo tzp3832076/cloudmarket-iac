@@ -95,8 +95,6 @@ public class VendorExtraController {
 
     @ApiOperation(value = "获取服务商&合同号list")
     @RequestMapping(value = "/{vendorId}/contract", method = RequestMethod.GET)
-//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "read",
-//            instanceParameterName = "vendorId")
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "获取服务商合同号失败")
     public VendorContractResponse getVendorContracts(@PathVariable("vendorId") String vendorId) {

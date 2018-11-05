@@ -38,8 +38,6 @@ public class NoticeController {
 
     @ApiOperation(value = "入驻审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.POST, value = "/audit", params = "type=application")
-//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "update",
-//            instanceParameterName = "vendorId")
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "入驻审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,
@@ -51,8 +49,6 @@ public class NoticeController {
 
     @ApiOperation(value = "vendorShop审核信息通过的通知接收")
     @RequestMapping(method = RequestMethod.PUT, value = "/audit", params = "type=vendorShop")
-//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_SHOP, operation = "update",
-//            instanceParameterName = "vendorId")
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "vendorShop审核信息同步失败")
     public void auditNotice(@RequestParam("vendorId") String vendorId,

@@ -147,8 +147,6 @@ public class VendorController {
 
     @ApiOperation(value = "服务商总控状况的同步接口 --AUDIT系统 调用")
     @RequestMapping(method = RequestMethod.PUT, value = "/{vendorId}", params = "status")
-//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
-//            instanceParameterName = "vendorId")
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "服务商状态更新失败")
     public void updateVendorStatus(@PathVariable("vendorId") String vendorId,
@@ -159,8 +157,6 @@ public class VendorController {
     @ApiOperation(value = "服务商店铺信息线上接口 -- 给审核系统用于获取Email 通过提交人用户ID")
     @RequestMapping(method = RequestMethod.GET, value = "/{bceUserId}/baseContact",
             params = "type=BCE_ID")
-//    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read",
-//            instanceParameterName = "bceUserId")
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "服务商店铺联系方式获取失败")
     public VendorBaseContactResponse getVendorBaseContactByBceId(@PathVariable("bceUserId") String bceUserId) {
@@ -203,7 +199,7 @@ public class VendorController {
         return helper.toVendorListResponse(vendorListModel);
     }
 
-    @ApiOperation(value = "osp上服务商apistore服务商信息获取接口")
+    @ApiOperation(value = "osp上服务商信息获取接口v2")
     @RequestMapping(method = RequestMethod.GET, value = "/api_vendor_list")
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "read")
     @UnknownExceptionResponse(message = "服务商list页面获取失败")
