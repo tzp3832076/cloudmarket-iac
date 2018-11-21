@@ -83,6 +83,7 @@ public class ContractAndDepositService {
     }
 
     public List<VendorContract> getVendorContractList(String vendorId) {
+        log.debug("test");
         return contractMapper.getVendorContractListById(vendorId);
     }
 
