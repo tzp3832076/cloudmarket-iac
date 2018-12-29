@@ -13,6 +13,9 @@ public class IacConstants {
     public static final String INFO_EMPTY = "信息为空";
     public static final String FORMAT_ERROR = "格式有误";
 
+    public static final String AI_VENDOR_APPLICATION_AREA = "AI市场";
+    public static final String AI_VENDOR_STATUS = "已通过";
+
     public static final String RESOURCE_VENDOR_OVERVIEW = "vendorOverview";
     public static final String RESOURCE_VENDOR_INFO = "vendorInfo";
     public static final String RESOURCE_VENDOR_SHOP = "vendorShop";

@@ -176,3 +176,18 @@ CREATE TABLE mkt_ai_vendor_info  (
   UNIQUE KEY uk_ai_vendor_info_user_type_user_id(user_type, user_id),
   INDEX idx_ai_vendor_info_company(company)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT 'AI服务商信息';
+
+CREATE TABLE mkt_ai_vendor_contract (
+ id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+ vendor_id VARCHAR(36) NOT NULL COMMENT 'ai服务商云市场ID',
+ contract_num VARCHAR(128) NOT NULL DEFAULT '' COMMENT '协议号',
+ customer_num VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'CMS客户编号',
+ contract_digest VARCHAR(256) NOT NULL DEFAULT '' COMMENT '协议内容摘要',
+ begin_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效起始时间',
+ end_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '有效结束时间',
+ create_time TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+ update_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+ is_delete TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否删除 1删除 0未删除',
+ PRIMARY KEY (id),
+ UNIQUE KEY uk_ai_vendor_contarct_vendor_id (vendor_id, contract_num)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT 'ai服务商协议号表';

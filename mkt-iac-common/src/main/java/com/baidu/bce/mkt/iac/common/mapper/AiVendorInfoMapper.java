@@ -3,12 +3,15 @@
  */
 package com.baidu.bce.mkt.iac.common.mapper;
 
+import com.baidu.bce.mkt.iac.common.model.AiVendorListFilter;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
+
+import java.util.List;
 
 /**
  * Created by chenxiang05@baidu.com on 2018/8/6.
@@ -27,9 +30,17 @@ public interface AiVendorInfoMapper {
 
     String SELECT_SQL_PREFIX = "SELECT " + SELECT_COLUMNS + " FROM " + TABLE + " ";
 
+    String COUNT_SQL_PREFIX = "SELECT count(1) FROM " + TABLE + " ";
+
     String INSERT_SQL_PREFIX = "INSERT INTO " + TABLE + " (" + INSERT_COLUMNS + ") VALUES ";
 
     String UPDATE_SQL_PREFIX = "UPDATE " + TABLE + " ";
+
+    String DYNAMIC_SEARCH_SQL = " #where()"
+            + " #if ($_parameter.filter.companyName)"
+            + " AND company like @{filter.companyName} "
+            + " #end "
+            + " #end ";
 
     @Insert(INSERT_SQL_PREFIX
             + "("
@@ -83,4 +94,13 @@ public interface AiVendorInfoMapper {
     AiVendorInfo getByUserTypeAndUserId(@Param("userType") String userType,
                                         @Param("userId") String userId);
 
+
+    @Select(COUNT_SQL_PREFIX + DYNAMIC_SEARCH_SQL)
+    int getAiVendorCount(@Param("filter") AiVendorListFilter filter);
+
+    @Select(SELECT_SQL_PREFIX + DYNAMIC_SEARCH_SQL + " ORDER BY create_time "
+            + "  #if ($_parameter.filter.start >= 0 && $_parameter.filter.limit > 0)"
+            + "    LIMIT @{filter.start}, @{filter.limit}"
+            + "  #end")
+    List<AiVendorInfo> getAiVendorList(@Param("filter") AiVendorListFilter filter);
 }

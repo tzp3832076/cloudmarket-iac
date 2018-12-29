@@ -3,6 +3,8 @@
  */
 package com.baidu.bce.mkt.iac.common.service;
 
+import com.baidu.bce.mkt.iac.common.model.AiVendorListFilter;
+import com.baidu.bce.mkt.iac.common.model.AiVendorListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * Created by chenxiang05@baidu.com on 2018/8/16.
@@ -68,6 +72,20 @@ public class AiVendorInfoService {
 
     public AiVendorInfo getByVendorId(String vendorId) {
         return aiVendorInfoMapper.getByVendorId(vendorId);
+    }
+
+    public AiVendorListModel getApplicantList(String keyword, String order, String orderBy,
+                                              int pageNo, int pageSize) {
+        AiVendorListFilter filter = new AiVendorListFilter(keyword, order, orderBy, pageNo, pageSize);
+        int totalCount = aiVendorInfoMapper.getAiVendorCount(filter);
+        AiVendorListModel aiVendorListModel = new AiVendorListModel();
+
+        if (totalCount > 0) {
+            List<AiVendorInfo> aiVendorInfos = aiVendorInfoMapper.getAiVendorList(filter);
+            aiVendorListModel.setTotalCount(totalCount);
+            aiVendorListModel.setAiVendorInfo(aiVendorInfos);
+        }
+        return aiVendorListModel;
     }
 
 }

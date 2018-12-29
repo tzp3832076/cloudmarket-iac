@@ -3,6 +3,7 @@
  */
 package com.baidu.bce.mkt.iac.common.test.database;
 
+import com.baidu.bce.mkt.iac.common.model.AiVendorListFilter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
 import com.baidu.bce.mkt.iac.common.test.TestDataGenerator;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * Created by chenxiang05@baidu.com on 2018/8/15.
@@ -38,6 +41,33 @@ public class AiVendorInfoMapperTest extends BaseMapperTest {
 
         Assert.assertEquals(1, affects);
 
+    }
+
+    @Test
+    public void testAiVendorCount() {
+        AiVendorListFilter filter = new AiVendorListFilter(null, null);
+        int res = aiVendorInfoMapper.getAiVendorCount(filter);
+        Assert.assertEquals(2, res);
+
+        filter = new AiVendorListFilter(null, "公司");
+        res = aiVendorInfoMapper.getAiVendorCount(filter);
+        Assert.assertEquals(2, res);
+
+        filter = new AiVendorListFilter(null, "股份");
+        res = aiVendorInfoMapper.getAiVendorCount(filter);
+        Assert.assertEquals(1, res);
+    }
+
+    @Test
+    public void testAiVendorList() {
+        AiVendorListFilter filter = new AiVendorListFilter(null, null);
+        List<AiVendorInfo> aiVendorList = aiVendorInfoMapper.getAiVendorList(filter);
+        Assert.assertEquals(2, aiVendorList.size());
+
+        filter = new AiVendorListFilter(null, "股份");
+        aiVendorList = aiVendorInfoMapper.getAiVendorList(filter);
+        log.info("aiVendorList: {}", aiVendorList);
+        Assert.assertEquals(1, aiVendorList.size());
     }
 
 }

@@ -3,13 +3,21 @@
  */
 package com.baidu.bce.mkt.iac.test.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorListResponse;
+import com.baidu.bce.mkt.iac.common.model.AiVendorListModel;
 import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorInfoRequest;
 import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
 import com.baidu.bce.mkt.iac.test.ApiMockMvcTest;
@@ -53,6 +61,25 @@ public class AiVendorInfoControllerTest extends ApiMockMvcTest {
 
         verify(aiVendorInfoService, times(1)).newVendor(any());
 
+    }
+
+    @Test
+    public void testAiVendorList() {
+        AiVendorListModel listModel = new AiVendorListModel();
+        listModel.setTotalCount(10);
+
+        List<AiVendorInfo> aiVendorInfoList = new ArrayList<>();
+        AiVendorInfo aiVendorInfo = new AiVendorInfo();
+        aiVendorInfo.setVendorId("vendor_1");
+        aiVendorInfo.setUserId("user_id_1");
+        aiVendorInfo.setCompany("test");
+        aiVendorInfoList.add(aiVendorInfo);
+
+        listModel.setAiVendorInfo(aiVendorInfoList);
+        when(aiVendorInfoService.getApplicantList(anyString(), anyString(), anyString(), anyInt(), anyInt()))
+                .thenReturn(listModel);
+        AiVendorListResponse response = mktIacClient.getAiVendorList(null, 0, 10);
+        log.info("getVendorList {}", response);
     }
 
 }

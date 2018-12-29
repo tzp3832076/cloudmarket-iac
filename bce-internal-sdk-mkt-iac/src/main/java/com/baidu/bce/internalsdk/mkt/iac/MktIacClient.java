@@ -7,9 +7,13 @@ import java.util.List;
 
 import com.baidu.bce.internalsdk.core.BceInternalRequest;
 import com.baidu.bce.internalsdk.core.Entity;
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorInfoRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorInfoResponse;
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorListRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.AuditNoticeRequest;
+import com.baidu.bce.internalsdk.mkt.iac.model.ContractAiVendorIdListResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAndDepositSubmitRequest;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractRequest;
@@ -167,6 +171,50 @@ public class MktIacClient extends BaseClient {
                 .path("/amountStatistics")
                 .get(VendorAmountResponse.class);
 
+    }
+
+    // 添加ai服务商合同协议
+    public void addAiVendorContract(ContractRequest request) {
+        createMktAuthorizedRequest()
+                .path("/v1/ai/vendor/contract")
+                .post(Entity.json(request));
+    }
+
+    // 回显ai服务商合同协议
+    public AiVendorContractResponse getAiVendorContract(String vendorId) {
+        return createMktAuthorizedRequest()
+                .path("/v1/ai/vendor/")
+                .path(vendorId)
+                .path("/contract")
+                .get(AiVendorContractResponse.class);
+    }
+
+    // 查看ai服务商是否存在合同协议信息
+    public ContractAiVendorIdListResponse getContractAiVendorIds(List<String> vendorIds) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/ai/vendor")
+                .path("/contract");
+        addHeaderTargetVendor(request, vendorIds);
+        return request.get(ContractAiVendorIdListResponse.class);
+    }
+
+    // ai服务商管理信息列表页
+    public AiVendorListResponse getAiVendorInfoList(AiVendorListRequest request) {
+        BceInternalRequest bceInternalRequest = createMktAuthorizedRequest()
+                .path("/v1/ai/vendor/api_vendor_list")
+                .queryParam("keyword", request.getKeyword())
+                .queryParam("order", request.getOrder())
+                .queryParam("orderBy", request.getOrderBy())
+                .queryParam("pageNo", request.getPageNo())
+                .queryParam("pageSize", request.getPageSize());
+        return bceInternalRequest.get(AiVendorListResponse.class);
+    }
+
+    public AiVendorListResponse getAiVendorList(String company, int pageNo, int pageSize) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/ai/vendor").path("/list")
+                .queryParam("pageNo", pageNo)
+                .queryParam("pageSize", pageSize);
+        RequestUtils.safeAddQueryParam(request, "companyName", company);
+        return request.get(AiVendorListResponse.class);
     }
 
     public VendorListResponse getVendorList(String company, String bceUserId, int pageNo,

@@ -3,6 +3,7 @@
  */
 package com.baidu.bce.mkt.iac.common.test.service;
 
+import com.baidu.bce.mkt.iac.common.model.AiVendorListModel;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,19 @@ public class AiVendorInfoServiceTest extends BaseCommonServiceTest {
             Assert.assertEquals("服务商不存在", e.getMessage());
         }
 
+    }
+
+    @Test
+    public void testAiVendorList() {
+        AiVendorListModel listModel = aiVendorInfoService.getApplicantList("股份", null,
+                null, 0, 10);
+        Assert.assertEquals(1, listModel.getTotalCount());
+        Assert.assertEquals("vendor_2", listModel.getAiVendorInfo().get(0).getVendorId());
+
+        listModel = aiVendorInfoService.getApplicantList(null, "desc", "createTime",
+                0, 10);
+        log.info("listmodel: {}", listModel);
+        Assert.assertEquals(2, listModel.getTotalCount());
     }
 
 }

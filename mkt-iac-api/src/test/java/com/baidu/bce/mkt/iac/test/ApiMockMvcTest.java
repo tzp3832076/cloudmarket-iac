@@ -2,6 +2,7 @@
 
 package com.baidu.bce.mkt.iac.test;
 
+import com.baidu.bce.mkt.iac.common.service.AiVendorExtraService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -54,6 +55,8 @@ public abstract class ApiMockMvcTest extends BaseMockMvcTest {
     protected AiVendorInfoService  aiVendorInfoService;
     @MockBean(name = "iacClientFactory")
     protected IacClientFactory iacClientFactory;
+    @MockBean(name = "aiVendorExtraService")
+    protected AiVendorExtraService aiVendorExtraService;
 
     @Rule
     public IamRule iamRule = new IamRule();
