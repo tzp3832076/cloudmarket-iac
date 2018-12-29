@@ -18,7 +18,7 @@ import com.baidu.bce.mkt.iac.common.model.db.AiVendorContract;
  */
 
 @InitDatabase(tables = "mkt_ai_vendor_contract")
-public class AiVendorContractMapperTest extends BaseMapperTest{
+public class AiVendorContractMapperTest extends BaseMapperTest {
 
     @Autowired
     private AiVendorContractMapper aiVendorContractMapper;

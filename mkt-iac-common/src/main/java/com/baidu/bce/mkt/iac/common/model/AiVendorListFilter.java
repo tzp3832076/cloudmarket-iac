@@ -5,10 +5,8 @@ package com.baidu.bce.mkt.iac.common.model;
 import com.baidu.bce.mkt.framework.utils.OrderByUtils;
 import com.baidu.bce.mkt.framework.utils.SecurityUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.baidu.bce.mkt.iac.common.model.db.VendorStatus;
 
 import lombok.Data;
-import scala.xml.Null;
 
 /**
  * ai vendor list filter

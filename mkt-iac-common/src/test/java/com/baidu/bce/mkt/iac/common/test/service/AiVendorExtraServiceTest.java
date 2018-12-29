@@ -23,8 +23,9 @@ public class AiVendorExtraServiceTest extends BaseCommonServiceTest {
     private AiVendorExtraService aiVendorExtraService;
 
     @Test
-    public void testAiVendorContractList()  throws Exception{
-        aiVendorExtraService.addContract("vendor_3", "123", "23", null, null);
+    public void testAiVendorContractList()  throws Exception {
+        aiVendorExtraService.addContract("vendor_3", "123", "23",
+                null, null);
         List<AiVendorContract> contractList = aiVendorExtraService.getAiVendorContractList("vendor_3");
         System.err.println(contractList);
         Assert.assertEquals(1, contractList.size());

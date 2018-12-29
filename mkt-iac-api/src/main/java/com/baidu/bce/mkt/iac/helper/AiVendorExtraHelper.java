@@ -2,11 +2,9 @@ package com.baidu.bce.mkt.iac.helper;
 
 import com.baidu.bce.internalsdk.mkt.iac.model.AiVendorContractResponse;
 import com.baidu.bce.internalsdk.mkt.iac.model.ContractAiVendorIdListResponse;
-import com.baidu.bce.internalsdk.mkt.iac.model.VendorContractResponse;
 import com.baidu.bce.mkt.framework.mvc.ControllerHelper;
 import com.baidu.bce.mkt.iac.common.model.db.AiVendorContract;
 import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
-import com.baidu.bce.mkt.iac.common.model.db.VendorContract;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

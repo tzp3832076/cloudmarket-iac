@@ -81,7 +81,8 @@ public class AiVendorInfoController {
                                                 @Min(1) @RequestParam int pageNo,
                                                 @Min(1) @RequestParam int pageSize) {
 
-        AiVendorListModel applicantList = aiVendorInfoService.getApplicantList(keyword, order, orderBy, pageNo, pageSize);
+        AiVendorListModel applicantList = aiVendorInfoService.getApplicantList(keyword, order,
+                orderBy, pageNo, pageSize);
         return controllerHelper.toAiVendorListResponse(applicantList, order, orderBy, pageNo, pageSize);
     }
 
@@ -93,7 +94,8 @@ public class AiVendorInfoController {
                                                      String companyName,
                                              @Min(1) @RequestParam int pageNo,
                                              @Min(1) @RequestParam int pageSize) {
-        AiVendorListModel vendorListModel = aiVendorInfoService.getApplicantList(companyName, null, null, pageNo, pageSize);
+        AiVendorListModel vendorListModel = aiVendorInfoService.getApplicantList(companyName, null,
+                null, pageNo, pageSize);
         return controllerHelper.toAiVendorListResponse(vendorListModel, null, null, pageNo, pageSize);
     }
 
