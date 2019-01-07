@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AiVendorExtraService {
 
-    @Autowired
     private final AiVendorContractMapper contractMapper;
 
 
@@ -48,8 +47,10 @@ public class AiVendorExtraService {
 
     // 添加ai服务商协议合同信息
     @Transactional
-    public void addContract(String vendorId, String contractNum, String customer, Timestamp beginTime, Timestamp endTime) {
-        AiVendorContract contract = new AiVendorContract(vendorId, contractNum, customer, "", beginTime, endTime);
+    public void addContract(String vendorId, String contractNum, String customer,
+                            Timestamp beginTime, Timestamp endTime) {
+        AiVendorContract contract = new AiVendorContract(vendorId, contractNum, customer,
+                "", beginTime, endTime);
         AiVendorContract vendorContract = contractMapper.getAiVendorContract(
                 contract.getVendorId(), contract.getContractNum());
         if (vendorContract == null) {

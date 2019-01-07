@@ -41,11 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AiVendorExtraController {
 
-    @Autowired
-    private final AiVendorExtraService vendorExtraService;
-    @Autowired
-    private final AiVendorInfoService vendorInfoService;
-    @Autowired
+    private final AiVendorExtraService aiVendorExtraService;
+    private final AiVendorInfoService aiVendorInfoService;
     private final AiVendorExtraHelper helper;
 
     @ApiOperation(value = "获取Ai服务商&合同号list")
@@ -53,8 +50,8 @@ public class AiVendorExtraController {
     @BceAuth(role = {BceRole.SERVICE})
     @UnknownExceptionResponse(message = "获取Ai服务商合同号失败")
     public AiVendorContractResponse getAiVendorContracts(@PathVariable("vendorId") String vendorId) {
-        AiVendorInfo vendorInfo = vendorInfoService.getByVendorId(vendorId);
-        List<AiVendorContract> vendorContractList = vendorExtraService.getAiVendorContractList(vendorId);
+        AiVendorInfo vendorInfo = aiVendorInfoService.getByVendorId(vendorId);
+        List<AiVendorContract> vendorContractList = aiVendorExtraService.getAiVendorContractList(vendorId);
         return helper.toVendorContractResponse(vendorInfo, vendorContractList);
     }
 
@@ -63,20 +60,22 @@ public class AiVendorExtraController {
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "getContractVendorIds")
     @UnknownExceptionResponse(message = "获取已经填写合同协议的ai服务商ID列表失败")
     public ContractAiVendorIdListResponse getContractAiVendorIds(@VendorId(required = false) List<String> vendorIds) {
-        List<String> contractIds = vendorExtraService.getContractedAiVendorIdList(vendorIds);
+        List<String> contractIds = aiVendorExtraService.getContractedAiVendorIdList(vendorIds);
         return helper.toAiVendorContractListResponse(contractIds);
     }
 
-    @ApiOperation(value = "添加合同")
+    @ApiOperation(value = "添加合同协议")
     @RequestMapping(value = "/contract", method = RequestMethod.POST)
     @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_CONTRACT_DEPOSIT, operation = "addContract")
     @UnknownExceptionResponse(message = "添加合同失败")
     public void addContract(@RequestBody ContractRequest request) {
+
         if (!request.getContractBeginTime().before(request.getContractEndTime())) {
             log.info("contract time is illegal");
             throw MktIacExceptions.inValidContractTime();
+
         }
-        vendorExtraService.addContract(request.getVendorId(), request.getContract(), request.getCustomer(),
+        aiVendorExtraService.addContract(request.getVendorId(), request.getContract(), request.getCustomer(),
                 request.getContractBeginTime(), request.getContractEndTime());
     }
 }

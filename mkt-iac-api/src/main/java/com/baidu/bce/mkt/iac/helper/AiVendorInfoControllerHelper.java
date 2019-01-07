@@ -57,6 +57,7 @@ public class AiVendorInfoControllerHelper {
                         IacConstants.AI_VENDOR_APPLICATION_AREA, IacConstants.AI_VENDOR_STATUS,
                         false)).collect(Collectors.toList());
 
+        response.setAiVendorInfoListModel(result);
         response.setResult(result);
         response.setOrder(order);
         response.setOrderBy(orderBy);

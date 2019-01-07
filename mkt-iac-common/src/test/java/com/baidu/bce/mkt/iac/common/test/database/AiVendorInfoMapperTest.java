@@ -68,6 +68,10 @@ public class AiVendorInfoMapperTest extends BaseMapperTest {
         aiVendorList = aiVendorInfoMapper.getAiVendorList(filter);
         log.info("aiVendorList: {}", aiVendorList);
         Assert.assertEquals(1, aiVendorList.size());
+
+        filter = new AiVendorListFilter("股份", null, null, 0, 10);
+        aiVendorList = aiVendorInfoMapper.getAiVendorList(filter);
+        log.info("aiVendorList: {}", aiVendorList);
     }
 
 }

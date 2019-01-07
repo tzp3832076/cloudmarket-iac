@@ -65,13 +65,13 @@ public class AiVendorExtraControllerTest extends ApiMockMvcTest {
             }
         }).when(aiVendorExtraService).addContract(anyString(), anyString(), anyString(), any(), any());
         ContractRequest request = new ContractRequest("vendor_1", "test", "testCustomerNum",
-                Timestamp.valueOf("2017-02-20 00:00:00"), Timestamp.valueOf("2017-02-20 00:00:00"));
+                Timestamp.valueOf("2017-02-20 00:00:01"), Timestamp.valueOf("2017-02-20 00:00:01"));
         try {
             mktIacClient.addAiVendorContract(request);
             Assert.fail();
         } catch (Exception e) {
             Assert.assertEquals(e.getMessage(), MktIacExceptions.inValidContractTime().getMessage());
         }
-        request.setContractEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
+//        request.setContractEndTime(Timestamp.valueOf("2017-12-20 00:00:00"));
     }
 }

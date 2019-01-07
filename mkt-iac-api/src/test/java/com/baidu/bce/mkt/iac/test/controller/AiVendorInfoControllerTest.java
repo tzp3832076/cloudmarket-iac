@@ -66,19 +66,19 @@ public class AiVendorInfoControllerTest extends ApiMockMvcTest {
     @Test
     public void testAiVendorList() {
         AiVendorListModel listModel = new AiVendorListModel();
-        listModel.setTotalCount(10);
+        listModel.setTotalCount(1);
 
         List<AiVendorInfo> aiVendorInfoList = new ArrayList<>();
         AiVendorInfo aiVendorInfo = new AiVendorInfo();
         aiVendorInfo.setVendorId("vendor_1");
         aiVendorInfo.setUserId("user_id_1");
-        aiVendorInfo.setCompany("test");
+        aiVendorInfo.setCompany("test1");
         aiVendorInfoList.add(aiVendorInfo);
 
         listModel.setAiVendorInfo(aiVendorInfoList);
         when(aiVendorInfoService.getApplicantList(anyString(), anyString(), anyString(), anyInt(), anyInt()))
                 .thenReturn(listModel);
-        AiVendorListResponse response = mktIacClient.getAiVendorList(null, 0, 10);
+        AiVendorListResponse response = mktIacClient.getAiVendorList("test1", 1, 10);
         log.info("getVendorList {}", response);
     }
 
