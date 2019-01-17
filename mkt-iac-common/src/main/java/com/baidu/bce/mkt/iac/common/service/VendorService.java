@@ -158,10 +158,12 @@ public class VendorService {
         contentAndStatus.setStatus(shopDraft == null ? InfoStatus.EDIT : shopDraft.getStatus());
 
         if (InfoStatus.REJECT.name().equals(contentAndStatus.getStatus().name())) {
-            AuditResultResponse auditResult = iacClientFactory.createAuditClient()
-                                                    .getAuditResult(shopDraft.getAuditId());
-            if (auditResult != null) {
-                contentAndStatus.setRejectReason(auditResult.getOpinion());
+            if (shopDraft != null) {
+                AuditResultResponse auditResult = iacClientFactory.createAuditClient()
+                        .getAuditResult(shopDraft.getAuditId());
+                if (auditResult != null) {
+                    contentAndStatus.setRejectReason(auditResult.getOpinion());
+                }
             }
         }
 
