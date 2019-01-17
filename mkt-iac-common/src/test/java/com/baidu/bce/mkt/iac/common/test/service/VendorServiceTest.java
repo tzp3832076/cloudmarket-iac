@@ -128,8 +128,8 @@ public class VendorServiceTest extends BaseCommonServiceTest {
         resultResponse.setOpinion(IdUtils.generateUUID());
         when(auditClient.getAuditResult(anyString())).thenReturn(resultResponse);
 
-        VendorShopDraft vendor_3 = vendorService.getVendorShopDraft("vendor_3");
-        vendor_3.setContent(JsonUtils.toJson(shopDraft));
+        VendorShopDraft vendorShopDraft = vendorService.getVendorShopDraft("vendor_3");
+        vendorShopDraft.setContent(JsonUtils.toJson(shopDraft));
 
         ShopDraftContentAndStatus contentAndStatus = vendorService.getShopDraftContentAndStatus("vendor_3");
         Assert.assertEquals(contentAndStatus.getStatus(), InfoStatus.REJECT);
