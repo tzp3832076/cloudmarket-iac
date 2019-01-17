@@ -108,6 +108,10 @@ public class VendorControllerHelper {
         detail.setServiceAvailTime(content.getServiceAvailTime());
         detail.setBaiduQiaos(content.getBaiduQiaos());
         response.setData(detail);
+        // 审核未通过需要显示驳回原因
+        if (StringUtils.isNotBlank(contentAndStatus.getRejectReason())) {
+            response.setRejectReason(contentAndStatus.getRejectReason());
+        }
         return response;
     }
 

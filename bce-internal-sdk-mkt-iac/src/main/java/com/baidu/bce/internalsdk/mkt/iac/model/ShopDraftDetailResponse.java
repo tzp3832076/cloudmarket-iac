@@ -20,6 +20,7 @@ import lombok.Data;
 public class ShopDraftDetailResponse {
     private ShopDraftDetail data;
     private ParamMapModel map;
+    private String rejectReason;
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)

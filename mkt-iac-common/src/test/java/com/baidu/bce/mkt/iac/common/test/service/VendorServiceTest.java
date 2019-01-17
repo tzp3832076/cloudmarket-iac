@@ -20,6 +20,9 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.baidu.bce.mkt.audit.internal.sdk.model.response.AuditResultResponse;
+import com.baidu.bce.mkt.framework.utils.IdUtils;
+import com.baidu.bce.mkt.framework.utils.JsonUtils;
 import com.baidu.bce.internalsdk.qualify.model.EnterpriseInfoResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.internalsdk.qualify.model.finance.RealNameTypeForFinance;
@@ -117,6 +120,23 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     }
 
     @Test
+    public void getVendorShopDraftContent2() {
+
+        VendorShopAuditContent.ShopDraft shopDraft = new VendorShopAuditContent.ShopDraft();
+
+        AuditResultResponse resultResponse = new AuditResultResponse();
+        resultResponse.setOpinion(IdUtils.generateUUID());
+        when(auditClient.getAuditResult(anyString())).thenReturn(resultResponse);
+
+        VendorShopDraft vendor_3 = vendorService.getVendorShopDraft("vendor_3");
+        vendor_3.setContent(JsonUtils.toJson(shopDraft));
+
+        ShopDraftContentAndStatus contentAndStatus = vendorService.getShopDraftContentAndStatus("vendor_3");
+        Assert.assertEquals(contentAndStatus.getStatus(), InfoStatus.REJECT);
+        Assert.assertEquals(contentAndStatus.getRejectReason(), resultResponse.getOpinion());
+    }
+
+    @Test
     public void getVendorInfo() {
         VendorInfo vendorInfo = vendorService.getVendorInfoByVendorId("vendor_1");
         Assert.assertNotNull(vendorInfo);
@@ -207,7 +227,7 @@ public class VendorServiceTest extends BaseCommonServiceTest {
     public void statisticsVendorAmount() {
         Map<VendorStatus, Integer> countMap = vendorService.statisticsVendorAmount();
         Assert.assertEquals(countMap.get(VendorStatus.HOSTED).intValue(), 0);
-        Assert.assertEquals(countMap.get(VendorStatus.PROCESSING).intValue(), 2);
+        Assert.assertEquals(countMap.get(VendorStatus.PROCESSING).intValue(), 3);
     }
 
     @Test

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.baidu.bce.mkt.audit.internal.sdk.model.response.AuditResultResponse;
 import com.baidu.bce.internalsdk.qualify.model.finance.AuditStatus;
 import com.baidu.bce.mkt.audit.internal.sdk.model.request.SubmitAuditRequest;
 import com.baidu.bce.mkt.audit.internal.sdk.model.response.SubmitAuditResponse;
@@ -155,6 +156,15 @@ public class VendorService {
         content.setBceAccount(vendorInfo.getBceUserId());
         contentAndStatus.setContent(content);
         contentAndStatus.setStatus(shopDraft == null ? InfoStatus.EDIT : shopDraft.getStatus());
+
+        if (InfoStatus.REJECT.name().equals(contentAndStatus.getStatus().name())) {
+            AuditResultResponse auditResult = iacClientFactory.createAuditClient()
+                                                    .getAuditResult(shopDraft.getAuditId());
+            if (auditResult != null) {
+                contentAndStatus.setRejectReason(auditResult.getOpinion());
+            }
+        }
+
         return contentAndStatus;
     }
 

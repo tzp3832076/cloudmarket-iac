@@ -13,6 +13,7 @@ import lombok.Data;
  */
 @Data
 public class ShopDraftContentAndStatus {
+    private String rejectReason;
     private InfoStatus status;
     private VendorShopAuditContent.ShopDraft content;
 }
