@@ -93,7 +93,7 @@ public class VendorInfoMapperTest extends BaseMapperTest {
     @Test
     public void getVendorCountByStatus() {
         int res = vendorInfoMapper.getVendorCountByStatus(VendorStatus.PROCESSING);
-        Assert.assertEquals(res, 2);
+        Assert.assertEquals(res, 3);
         res = vendorInfoMapper.getVendorCountByStatus(VendorStatus.HOSTED);
         Assert.assertEquals(res, 0);
 
@@ -103,7 +103,7 @@ public class VendorInfoMapperTest extends BaseMapperTest {
     public void getVendorList() {
         VendorListFilter filter = new VendorListFilter(null, null, VendorStatus.PROCESSING);
         List<VendorInfo> vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
-        Assert.assertEquals(2, vendorInfos.size());
+        Assert.assertEquals(3, vendorInfos.size());
         filter = new VendorListFilter(null, null, VendorStatus.FROZEN);
         vendorInfos = vendorInfoMapper.getVendorList(filter, 0, 10);
         Assert.assertEquals(0, vendorInfos.size());
@@ -138,7 +138,7 @@ public class VendorInfoMapperTest extends BaseMapperTest {
         Assert.assertEquals(0, res);
         filter = new VendorListFilter(null, null, VendorStatus.PROCESSING);
         res = vendorInfoMapper.getVendorCount(filter);
-        Assert.assertEquals(2, res);
+        Assert.assertEquals(3, res);
         filter = new VendorListFilter(null, "_2", null);
         res = vendorInfoMapper.getVendorCount(filter);
         Assert.assertEquals(1, res);
