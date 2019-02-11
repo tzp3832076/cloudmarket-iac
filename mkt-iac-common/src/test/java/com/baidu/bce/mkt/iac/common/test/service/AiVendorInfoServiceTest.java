@@ -17,6 +17,9 @@ import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by chenxiang05@baidu.com on 2018/8/21.
  */
@@ -73,6 +76,18 @@ public class AiVendorInfoServiceTest extends BaseCommonServiceTest {
                 0, 10);
         log.info("listmodel: {}", listModel);
         Assert.assertEquals(2, listModel.getTotalCount());
+    }
+
+    @Test
+    public void testVendorListByIds() {
+        List<String> vendorIds = new ArrayList<>();
+        AiVendorListModel vendorListByIds = aiVendorInfoService.getVendorListByIds(vendorIds);
+        Assert.assertEquals(0, vendorListByIds.getTotalCount());
+
+        vendorIds.add("vendor_2");
+        vendorListByIds = aiVendorInfoService.getVendorListByIds(vendorIds);
+        Assert.assertEquals(1, vendorListByIds.getTotalCount());
+        Assert.assertEquals("vendor_2", vendorListByIds.getAiVendorInfo().get(0).getVendorId());
     }
 
 }

@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 /**
  * Created by chenxiang05@baidu.com on 2018/8/21.
@@ -99,4 +100,12 @@ public class AiVendorInfoController {
         return controllerHelper.toAiVendorListResponse(vendorListModel, null, null, pageNo, pageSize);
     }
 
+    @ApiOperation(value = "通过ai服务商ID列表获取服务信息接口")
+    @RequestMapping(method = RequestMethod.GET, value = "/listByIds")
+    @UnknownExceptionResponse(message = "AI服务商信息获取失败")
+    @CheckAuth(resource = IacConstants.RESOURCE_VENDOR_INFO, operation = "readListByIds")
+    public AiVendorListResponse getVendorListByIds(@RequestParam List<String> vendorIds) {
+        AiVendorListModel vendorListModel = aiVendorInfoService.getVendorListByIds(vendorIds);
+        return controllerHelper.toAiVendorListResponse(vendorListModel, null, null, 0, 10);
+    }
 }
