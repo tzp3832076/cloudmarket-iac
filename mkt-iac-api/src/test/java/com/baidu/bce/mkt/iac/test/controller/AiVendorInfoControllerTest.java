@@ -6,7 +6,6 @@ package com.baidu.bce.mkt.iac.test.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.mockito.Matchers.any;
@@ -81,30 +80,6 @@ public class AiVendorInfoControllerTest extends ApiMockMvcTest {
                 .thenReturn(listModel);
         AiVendorListResponse response = mktIacClient.getAiVendorList("test1", 1, 10);
         log.info("getVendorList {}", response);
-    }
-
-    @Test
-    public void testVendorListByIds() {
-        AiVendorListModel listModel = new AiVendorListModel();
-        listModel.setTotalCount(1);
-
-        List<AiVendorInfo> aiVendorInfoList = new ArrayList<>();
-        AiVendorInfo aiVendorInfo = new AiVendorInfo();
-        aiVendorInfo.setVendorId("vendor_1");
-        aiVendorInfo.setUserId("user_id_1");
-        aiVendorInfo.setCompany("test1");
-        aiVendorInfoList.add(aiVendorInfo);
-
-        listModel.setAiVendorInfo(aiVendorInfoList);
-        when(aiVendorInfoService.getVendorListByIds(any()))
-                .thenReturn(listModel);
-
-        List<String> vendorIds = new ArrayList<>();
-        vendorIds.add("vendor_1");
-        AiVendorListResponse aiVendorListByIds = mktIacClient.getAiVendorListByIds(vendorIds);
-
-        Assert.assertEquals(1, aiVendorListByIds.getTotalCount());
-        log.info("aiVendorListByIds {} ", aiVendorListByIds.getAiVendorInfoListModel());
     }
 
 }

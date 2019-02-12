@@ -3,15 +3,11 @@
  */
 package com.baidu.bce.mkt.iac.common.service;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.baidu.bce.mkt.iac.common.model.AiVendorListFilter;
 import com.baidu.bce.mkt.iac.common.model.AiVendorListModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.baidu.bce.mkt.framework.utils.IdUtils;
 import com.baidu.bce.mkt.iac.common.mapper.AiVendorInfoMapper;
 import com.baidu.bce.mkt.iac.common.model.db.AiVendorInfo;
@@ -20,6 +16,8 @@ import com.baidu.bce.plat.webframework.exception.BceException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * Created by chenxiang05@baidu.com on 2018/8/16.
@@ -74,14 +72,6 @@ public class AiVendorInfoService {
 
     public AiVendorInfo getByVendorId(String vendorId) {
         return aiVendorInfoMapper.getByVendorId(vendorId);
-    }
-
-    public AiVendorListModel getVendorListByIds(List<String> vendorIds) {
-        if (CollectionUtils.isEmpty(vendorIds)) {
-            return new AiVendorListModel(new ArrayList<>(), 0);
-        }
-        List<AiVendorInfo> vendorInfos = aiVendorInfoMapper.getVendorListByIds(vendorIds);
-        return new AiVendorListModel(vendorInfos, vendorInfos.size());
     }
 
     public AiVendorListModel getApplicantList(String keyword, String order, String orderBy,
