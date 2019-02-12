@@ -103,4 +103,11 @@ public interface AiVendorInfoMapper {
             + "    LIMIT @{filter.start}, @{filter.limit}"
             + "  #end")
     List<AiVendorInfo> getAiVendorList(@Param("filter") AiVendorListFilter filter);
+
+    @Select(SELECT_SQL_PREFIX + " #where()"
+            + "  #in( $_parameter.vendorIds $vendorId \"vendor_id\")"
+            + "   @{vendorId}"
+            + "  #end"
+            + " #end")
+    List<AiVendorInfo> getVendorListByIds(@Param("vendorIds") List<String> vendorIds);
 }

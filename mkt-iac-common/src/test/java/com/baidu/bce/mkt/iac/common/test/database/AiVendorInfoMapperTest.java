@@ -15,6 +15,7 @@ import com.baidu.bce.mkt.iac.common.test.TestDataGenerator;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,4 +74,17 @@ public class AiVendorInfoMapperTest extends BaseMapperTest {
         aiVendorList = aiVendorInfoMapper.getAiVendorList(filter);
         log.info("aiVendorList: {}", aiVendorList);
     }
+
+    @Test
+    public void testVendorListByIds() {
+        List<String> vendorIds = new ArrayList<>();
+        List<AiVendorInfo> vendorListByIds = aiVendorInfoMapper.getVendorListByIds(vendorIds);
+        Assert.assertEquals(2, vendorListByIds.size());
+
+        vendorIds.add("vendor_2");
+        vendorListByIds = aiVendorInfoMapper.getVendorListByIds(vendorIds);
+        Assert.assertEquals(1, vendorListByIds.size());
+        Assert.assertEquals("海蓝股份有限公司", vendorListByIds.get(0).getCompany());
+    }
+
 }

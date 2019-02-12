@@ -252,6 +252,13 @@ public class MktIacClient extends BaseClient {
         return request.get(VendorListResponse.class);
     }
 
+    public AiVendorListResponse getAiVendorListByIds(List<String> vendorIds) {
+        BceInternalRequest request = createMktAuthorizedRequest().path("/v1/ai/vendor")
+                .path("/listByIds");
+        request.queryParam("vendorIds", vendorIds);
+        return request.get(AiVendorListResponse.class);
+    }
+
     public void updateVendorStatus(String vendorId, String status) {
         createMktAuthorizedRequest().path("/v1/vendor/")
                 .path(vendorId)
